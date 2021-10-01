@@ -1,4 +1,4 @@
-# Ludum Dare 49: Theme is "..."
+# Ludum Dare 49: Theme is "Unstable"
 
 ## Introduction
 It's a game for Ludum dare 49, GameJam.
