@@ -32,6 +32,7 @@ end
 
 function love.draw() -- DRAWING {{{2
 	love.graphics.print("Hello World!", 400, 300)
+	love.graphics.rectangle("fill",780,600, 100,100,20,40,1)
 	love.graphics.print(tostring(is_odd(w)), 0, 0)
 end
 
