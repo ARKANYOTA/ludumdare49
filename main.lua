@@ -7,6 +7,9 @@ function is_odd(n) -- {{{1
 	return n%100==1
 end
 
+function is_even(n)
+	return n%2==0
+end
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
 	x, y, w, h = 20, 20, 60, 20
