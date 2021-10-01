@@ -7,7 +7,7 @@ It's a game for Ludum dare 49, GameJam.
 - ARKANYOTA
 - Yolwoocle
 - Maxim-Costa
-- ...
+- Notgoyome 
 
 ## Todo list/Features(Bugs)
 - [ ] ...
