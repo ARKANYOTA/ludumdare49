@@ -1,9 +1,8 @@
 #!/usr/bin/env -S love ./
 -- Permet de l'executer avec ./main.lua
 -- vim: fdm=marker
-
 require "scripts/entities"
-
+--Camera = require "lib.CameraMgr"
 
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
