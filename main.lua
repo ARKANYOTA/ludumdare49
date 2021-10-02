@@ -2,55 +2,13 @@
 -- Permet de l'executer avec ./main.lua
 -- vim: fdm=marker
 
--- FUNCTIONS {{{1
---Player {{{2
-function player_create() -- {{{3
-	p = {
-		x=200,
-		y=200,
-		sprite = love.graphics.newImage("assets/player01.png"),
-		speed = 8,
-		scale_x = 1,
-		scale_y = 1
-		}
-end
-
-function bombe_create()
-    b = {
-	x=0,
-	y=0,
-	sprite = love.graphics.newImage("assets/bomb.png")
-
-    }
-end
-
-
-
-function player_movement() --{{{3
-	if love.keyboard.isDown("q") or love.keyboard.isDown("left") then 
-		p.x = p.x - p.speed
-	end
-
-	if love.keyboard.isDown("d") or love.keyboard.isDown("right") then 
-		p.x = p.x + p.speed
-	end
-
-	if love.keyboard.isDown("z") or love.keyboard.isDown("up") then 
-		p.y = p.y - p.speed
-	end
-
-	if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
-		 p.y = p.y + p.speed
-	end
-end
-
-
+require "scripts/entities"
 
 
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
 	player_create()
-	bombe_create()
+	bomb_create()
 	menu = 'ingame'
 	ingame_timer = 0
 	global_timer = 0
@@ -62,7 +20,7 @@ function love.update(dt) -- UPDATE {{{2
 	timer = timer + dt
 	if menu == 'ingame' then
 		global_timer = global_timer + 1
-		player_movement()
+		player_movement(dt)
 	end
 end
 
