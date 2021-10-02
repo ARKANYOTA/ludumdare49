@@ -13,27 +13,31 @@ function player_create()
 		x=0,
 		y=0,
 		sprite = love.graphics.newImage("assets/player.sprite/player01.png"),
-		speed = 8
+		speed = 8,
+		scale_x = 1,
+		scale_y = 1
 		}
 end
 
 function player_movement()
-	if love.keyboard.isDown("left") then 
+	if love.keyboard.isDown("q") then 
 		p.x = p.x - p.speed
 	end
 
-	if love.keyboard.isDown("right") then 
+	if love.keyboard.isDown("d") then 
 		p.x = p.x + p.speed
 	end
 
-	if love.keyboard.isDown("up") then 
+	if love.keyboard.isDown("z") then 
 		p.y = p.y - p.speed
 	end
 
-	if love.keyboard.isDown("down") then
+	if love.keyboard.isDown("s") then
 		 p.y = p.y + p.speed
 	end
 end
+
+
 
 
 -- EVENTS{{{1
@@ -72,33 +76,9 @@ function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
 		love.graphics.print("Hello World!", 400, 300)
 		love.graphics.rectangle("fill",600, 100,100,20,40,1)
-		love.graphics.draw(p.sprite,p.x,p.y,0,0.5,0.5)
+		love.graphics.draw(p.sprite,p.x,p.y,0,p.scale_x,0.5)
 	end
 	if debug then
 		love.graphics.print(tostring(timer), 40, 0)
 	end
 end	
-
-
------------------
---Player function 
------------------
-
-
-function player_movement()
-	if love.keyboard.isDown("left") then 
-		p.x = p.x - p.speed
-	end
-
-	if love.keyboard.isDown("right") then 
-		p.x = p.x + p.speed
-	end
-
-	if love.keyboard.isDown("up") then 
-		p.y = p.y - p.speed
-	end
-
-	if love.keyboard.isDown("down") then
-		 p.y = p.y + p.speed
-	end
-end
