@@ -172,6 +172,7 @@ function start_game()
 	ingame_timer = 0
 	menu = 'ingame'
 end
+
 function start_menu(m)
 	love.mouse.setVisible(true)
 	for i, v in ipairs(buttons) do buttons[i] = nil end
