@@ -9,23 +9,28 @@ function player_create() -- {{{3
 		x=200,
 		y=200,
 		sprite = love.graphics.newImage("assets/player01.png"),
-		speed = 1,
+		speed = 8,
 		scale_x = 1,
-		scale_y = 1
+		scale_y = 1,
+
 		}
+		p.w = p.sprite:getWidth( )
+		p.h = p.sprite:getHeight()
 end
 -- Bombe
 function bomb_create()
     b = {
 	x=100,
 	y=100,
-	sprite = love.graphics.newImage("assets/bomb.png")
+	sprite = love.graphics.newImage("assets/bomb.png"),
 
     }
+	b.w = b.sprite:getWidth( )
+	b.h = b.sprite:getHeight( )
 end
 
-function collision(x1,y1,x2,y2)
-	if x1 == x2 and y1 == y2 then
+function collision(x1,y1,w1,h1,x2,y2,w2,h2)
+	if x1+w1 > x2 and x1 < x2+w2 then
 		return 8
 	else
 		return 2
@@ -69,7 +74,7 @@ function love.update(dt) -- UPDATE {{{2
 	if menu == 'ingame' then
 		global_timer = global_timer + 1
 		player_movement()
-		coll = collision(p.x,p.y,b.x,b.y)
+		coll = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
 	end
 end
 
@@ -92,7 +97,8 @@ function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
 		love.graphics.print(p.x.."/"..p.y, p.x, p.y-50, 0,2,2) -- coordonnées player
 		love.graphics.print(b.x.."/"..b.y, b.x+50, b.y, 0,2,2) -- coordonnées bomb
-		love.graphics.print(coll, 0, 0, 0,2,2)
+		love.graphics.print(coll,16,16)
+
 		love.graphics.print(string.format("%.3f",timer), 0, 50, 0,2,2) -- arrondi a 3 décimale apres ,
 		love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		
