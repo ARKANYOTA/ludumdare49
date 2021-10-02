@@ -17,11 +17,18 @@ function block_create() --{{{2
     
 end
 
-function block_draw()--{{{2
-    love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
- -- coll_table[y][x]
-end
+function ennemy_create()
+    ennemy = {
+        x = 0,
+        y=0,
+        sprite = love.graphics.newImage("assets/ennemy01.png"),
+        speed = 2,
+        scale_x = 0.25,
+        scale_y = 0.25
 
+
+    }
+end
 
 function bomb_create()--{{{2
     b = {
@@ -84,6 +91,10 @@ function player_create() -- {{{2
 end
 
 
+function block_draw()--{{{2
+    love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
+ -- coll_table[y][x]
+end
 
 function player_update()
     local dt = love.timer.getDelta()
@@ -187,4 +198,22 @@ end
 
 function draw_bomb()
     love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), 0, b.scale_x, b.scale_y)
+end
+
+function draw_ennemy()
+    love.graphics.draw(ennemy.sprite,ennemy.x,ennemy.y,0,ennemy.scale_x,ennemy.scale_y)
+end
+
+function move_toward(target_x,target_y,x,y,speed)
+    diff_x = target_x-x
+    vartemp = diff_x
+    diff_y = target_y-y
+    if diff_x > 0 then x = x + speed
+    elseif diff_x < 0 then x = x - speed end
+    if diff_y < 0 then y = y - speed
+    elseif diff_y > 0 then y = y + speed end
+end
+
+function ennemy_update()
+    move_toward(p.x,p.y,ennemy.x,ennemy.y,ennemy.speed)
 end

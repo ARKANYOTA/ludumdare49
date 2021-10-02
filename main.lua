@@ -37,6 +37,7 @@ function love.load() -- LOAD {{{2
 	CM.setCoords(ww/2, wh/2)
 	button_width = ww * (1/3)
 	margin = 16
+	vartemp = 0
 
 	-- Proper font scaling 
     font = love.graphics.newFont(15, "none", 3)
@@ -70,6 +71,7 @@ function love.update(dt) -- UPDATE {{{2
 		coll_table[(bl.y/bl.h)+1][(bl.x/bl.w)+1] = 1 
 		global_timer = global_timer + 1
 		player_update()
+		ennemy_update()
 		CMwh = CMwh+1
 		CM.setTarget(ww/2, wh/2+CMwh)
 	end
@@ -111,7 +113,7 @@ function love.draw() -- DRAWING {{{2
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		draw_player()
 		draw_bomb()
-
+		draw_ennemy()
 		block_draw()
 		player_cursor()
 
@@ -198,8 +200,7 @@ function draw_debug()
 		love.graphics.print("collision bomb/player: "..tostring(coll_check),0, 120)
 		love.graphics.print(math.floor(testx/bl.w)+1,0,134)
 		love.graphics.print(math.floor(testy/bl.h)+1,0,148)
-		--love.graphics.print(math.floor((testx+p.w)/bl.h)+1,0,148)
-		--love.graphics.print(math.floor((testy+p.h)/bl.h)+1,0,148)
+		love.graphics.print(math.floor(vartemp,0,148))
 		
 	end
 	love.graphics.print("debug: is_on ; menu: "..menu,0,0)
@@ -212,7 +213,7 @@ function start_game()
 	player_create()
 	bomb_create()
 	block_create()
-	
+	ennemy_create()
 	ingame_timer = 0
 	menu = 'ingame'
 end
