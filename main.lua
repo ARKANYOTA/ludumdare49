@@ -27,9 +27,19 @@ function draw_collision(x,y,w,h) -- {{{2
 	love.graphics.rectangle("line",x,y,w,h) -- vertical left
 end
 
+function has_value(tab, val)
+    for index, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+    return false
+end
+
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
 	-- UI
+	menus = {'menu', 'gameover', 'pause'}
 	buttons = {}
 	ww = love.graphics.getWidth()
 	wh = love.graphics.getHeight()
@@ -53,10 +63,8 @@ function love.load() -- LOAD {{{2
 	-- Particles
 	particles = {}
 	coll_check = false
-
 	-- Map
 	map = make_blank_map(30, 30)
-
 	-- Debug
 end
 
@@ -64,7 +72,7 @@ function love.update(dt) -- UPDATE {{{2
 	CM.update(dt)
 	global_timer = global_timer + dt
 	
-	if menu == 'menu' then
+	if has_value(menus,menu) then
 		update_buttons()
 	end
 	
@@ -88,12 +96,13 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 	if key == "f6" then print_table(coll_table) end
 	if menu == "ingame" then -- ingame {{{3
 	end
-	if menu == "menu" then -- menu {{{3
+	if has_value(menus,menu) then -- menu {{{3
 
 	end
 	if debug then
 		if key=="g" then start_game() end
 		if key=="m" then start_menu("menu") end
+		if key=="o" then start_menu("gameover") end
 	end
 end
 
@@ -124,7 +133,7 @@ function love.draw() -- DRAWING {{{2
 		--CM.debug()
 		draw_debug()			
 	end
-	if menu == "menu" then -- menu {{{3
+	if has_value(menus,menu) then -- menu {{{3
 		draw_menu()
 	end
 end	
@@ -238,5 +247,10 @@ function start_menu(m)
 		table.insert(buttons, newButton("Info", function() print("Info") end))
 		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
 	end
+	if menu =='gameover' then
+		table.insert(buttons, newButton("Restart", start_game))
+		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
+		--table.insert(buttons, newButton("principal", start_game))
+		table.insert(buttons, newButton("Rage quit", function() love.event.quit(0) end))
+	end
 end
- 
