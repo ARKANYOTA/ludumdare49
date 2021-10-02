@@ -3,12 +3,8 @@
 -- vim: fdm=marker
 
 -- FUNCTIONS {{{1
--- is_odd, is_even {{{2
-function is_odd(n) return n%2==1 end
-function is_even(n) return n%2==0 end
-
---Player
-function player_create()
+--Player {{{2
+function player_create() -- {{{3
 	p = {
 		x=0,
 		y=0,
@@ -17,7 +13,7 @@ function player_create()
 		}
 end
 
-function player_movement()
+function player_movement() --{{{3
 	if love.keyboard.isDown("left") then 
 		p.x = p.x - p.speed
 	end
@@ -44,7 +40,6 @@ function love.load() -- LOAD {{{2
 	player_create()
 	debug = false
 end
-
 
 function love.update(dt) -- UPDATE {{{2
 	player_movement()
@@ -78,27 +73,3 @@ function love.draw() -- DRAWING {{{2
 		love.graphics.print(tostring(timer), 40, 0)
 	end
 end	
-
-
------------------
---Player function 
------------------
-
-
-function player_movement()
-	if love.keyboard.isDown("left") then 
-		p.x = p.x - p.speed
-	end
-
-	if love.keyboard.isDown("right") then 
-		p.x = p.x + p.speed
-	end
-
-	if love.keyboard.isDown("up") then 
-		p.y = p.y - p.speed
-	end
-
-	if love.keyboard.isDown("down") then
-		 p.y = p.y + p.speed
-	end
-end
