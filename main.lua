@@ -58,13 +58,18 @@ end
 
 function love.update(dt) -- UPDATE {{{2
 	global_timer = global_timer + dt
+	
+	if menu == 'menu' then
+		update_buttons()
+	end
+	
 	if menu == 'ingame' then
 		global_timer = global_timer + 1
 		player_movement(dt)
 		coll_check = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
 		player_get_bomb()
-		update_buttons()
 	end
+
 end
 
 function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
@@ -90,6 +95,7 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 end
 
 function love.draw() -- DRAWING {{{2
+	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'ingame' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		player_draw()
@@ -104,13 +110,17 @@ function love.draw() -- DRAWING {{{2
 		draw_menu()
 	end
 	if debug then -- {{{3
-		love.graphics.setColor(255, 255, 255, 1.0)
 		draw_debug()			
 	end
 end	
 
-function update_buttons()	
+function update_buttons()
+	local margin = 16
+	local total_height = (BUTTON_HEIGHT + margin) * #buttons
+	local cursor_y = 0
 	for i, button in ipairs(buttons) do
+		local bx = (ww / 2) - (button_width / 2)
+		local by = (wh / 2) - (total_height / 2) + cursor_y
 		local mx, my = love.mouse.getPosition()
 		local hot = mx > bx and mx < bx + button_width and my > by and my < by + BUTTON_HEIGHT
 		button.color = {0.4, 0.4, 0.5, 1.0}
@@ -121,15 +131,14 @@ function update_buttons()
 		if button.now and not button.last and hot then
 			button.fn()
 		end
+		cursor_y = cursor_y + (BUTTON_HEIGHT + margin)
 	end
 end
 
 function draw_buttons()
 	local ww = love.graphics.getWidth()
 	local wh = love.graphics.getHeight()
-
 	local margin = 16
-
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
 	local cursor_y = 0
 
