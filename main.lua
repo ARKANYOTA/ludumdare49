@@ -45,13 +45,18 @@ function love.load() -- LOAD {{{2
 	start_menu('menu') -- valeurs posibles menu,ingame, ingame_menu, gameover
 	ingame_timer = 0
 	global_timer = 0
-	debug = false 
+	debug = true 
 	BUTTON_HEIGHT = 64
 
 	-- Particles
 	particles = {}
-
 	coll_check = false
+
+	-- Debug
+	if debug then
+		update_buttons()
+		menu = "ingame"
+	end
 end
 
 function love.update(dt) -- UPDATE {{{2
@@ -180,7 +185,7 @@ function draw_debug()
 		love.graphics.print("bomb active:"..tostring(b.active), 0, 100)
 		love.graphics.print("collision bomb/player: "..tostring(coll_check),0, 120)
 	end
-	love.graphics.print("debug: is_on",0,0)
+	love.graphics.print("debug: is_on ; menu: "..menu,0,0)
 end
 
 function start_game()
@@ -201,7 +206,6 @@ function start_menu(m)
 		table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
 		table.insert(buttons, newButton("Info", function() print("Info") end))
 		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
-		
 	end
 end
  
