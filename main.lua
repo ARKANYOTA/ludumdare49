@@ -42,6 +42,7 @@ function love.load() -- LOAD {{{2
 	menu = 'ingame'
 	ingame_timer = 0
 	global_timer = 0
+	timer = 0
 	debug = false
 end
 
