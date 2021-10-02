@@ -4,6 +4,8 @@
 
 --METTEZ OU IL FAUT LE METTRE SVP
 require "scripts/entities"
+require "scripts/collision"
+CM = require "lib.CameraMgr".newManager()
 
 -- Function {{{1
 function newButton(text, fn) -- {{{2
@@ -88,7 +90,7 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 end
 
 function love.draw() -- DRAWING {{{2
-	if menu == 'ingame' then
+	if menu == 'ingame' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		player_draw()
 		player_cursor()
@@ -101,8 +103,8 @@ function love.draw() -- DRAWING {{{2
 	if menu == "menu" then -- menu {{{3
 		draw_menu()
 	end
-
-	if debug then
+	if debug then -- {{{3
+		love.graphics.setColor(255, 255, 255, 1.0)
 		draw_debug()			
 	end
 end	
@@ -162,13 +164,3 @@ function draw_debug()
 	end
 end
 
---[[love.graphics.setColor(255, 255, 255, 1.0)
-		if menu == 'ingame' then
-			draw_collision(b.x,b.y,b.w,b.h)
-			draw_collision(p.x,p.y,p.w,p.h)
-			draw_collision(bl.x,bl.y,bl.w,bl.h)
-			love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
-			love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
-			--love.graphics.print(coll,16,16)
-			love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
-		end]]

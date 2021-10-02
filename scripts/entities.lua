@@ -1,5 +1,8 @@
+-- vim: fdm=marker
 -- FUNCTIONS {{{1
-function block_create()
+require "scripts/collision"
+
+function block_create() --{{{2
     bl = {
         x = 500,
         y = 0,
@@ -11,12 +14,12 @@ function block_create()
     bl.w, bl.h  = bl.sprite:getWidth()*bl.scale_x, bl.sprite:getHeight()*bl.scale_y
 end
 
-function block_draw()
+function block_draw()--{{{2
     love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
 end
 
---Player {{{2
-function bomb_create()
+
+function bomb_create()--{{{2
     b = {
 		x = 16,
 		y = 16,
@@ -33,7 +36,7 @@ function bomb_create()
     --b.h =sprite:getHeight()
 end
 
-function player_create() -- {{{3
+function player_create() -- {{{2
     local cursor_img = love.graphics.newImage("assets/cursor.png")
 	p = {
 		x = 300,
@@ -67,12 +70,12 @@ function player_create() -- {{{3
     p.w, p.h  = p.sprite:getWidth()*p.scale_x, p.sprite:getHeight()*p.scale_y
 end
 
-function player_cursor(dt)
+function player_cursor(dt) -- {{{2
     local mx, my = love.mouse.getPosition()
     p.cursor.x, p.cursor.y = mx, my
 end
 
-function player_movement(dt) --{{{3
+function player_movement(dt) --{{{2
 	local dir_vector = {x = 0, y = 0}
     if love.keyboard.isScancodeDown("a") or love.keyboard.isScancodeDown("left") then
         dir_vector.x = dir_vector.x - 1
@@ -98,7 +101,7 @@ function player_movement(dt) --{{{3
     p.y = p.y + p.dy * dt
 end
 
-function player_draw()
+function player_draw()--{{{2
     love.graphics.draw(p.sprite, p.x, p.y, 0, p.scale_x, p.scale_y)
 end
 
@@ -107,7 +110,7 @@ function draw_cursor()
     love.graphics.draw(c.sprite, c.x, c.y, 0, c.scale_x, c.scale_y, c.w/2, c.h/2)
 end
 
-function player_get_bomb() -- si collision, bomb s'accroche au mec
+function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
     if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true then
 		b.x = p.x
 		b.y = p.y-100
@@ -121,13 +124,3 @@ end
 function throw_bomb()
     
 end
-
-function collision(x1,y1,w1,h1,x2,y2,w2,h2) -- si collision entre deux objets, return true
-    return (x1+w1 > x2 and x1 < x2 + w2 and
-       y1 < y2 + h2 and y1 + h1 > y2)
-end
-
-function draw_collision(x,y,w,h)
-    love.graphics.rectangle("line",x,y,w,h)
-end
-
