@@ -25,6 +25,7 @@ function love.load() -- LOAD {{{2
 	ingame_timer = 0
 	global_timer = 0
 	debug = true 
+	coll_check = false
 end
 
 function love.update(dt) -- UPDATE {{{2
@@ -33,7 +34,12 @@ function love.update(dt) -- UPDATE {{{2
 		global_timer = global_timer + 1
 
 		player_movement(dt)
-		--coll = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
+		if collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h) then
+		coll_check = true
+		else
+		coll_check = false
+		end
+
 	end
 end
 
@@ -71,8 +77,8 @@ function love.draw() -- DRAWING {{{2
 		see_collision(p.x,p.y,p.w,p.h)
 		love.graphics.print(string.format("%.3f",p.x).."/"..string.format("%.3f",p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
 		--love.graphics.print(string.format("%.3f",b.x).."/"..string.format("%.3f",b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
-		love.graphics.print(b.w, b.x+50, b.y, 0,2,2) -- coordonnées bomb
-		--love.graphics.print(coll,16,16)
 		love.graphics.print(string.format("%.3f",global_timer), 0, 50, 0,2,2) -- arrondi a 3 décimale apres ,
+
+		love.graphics.print(tostring(coll_check),0,0)
 	end
 end	
