@@ -4,6 +4,7 @@
 
 --METTEZ OU IL FAUT LE METTRE SVP
 require "scripts/entities"
+CM = require "lib.CameraMgr".newManager()
 
 -- Function {{{1
 function newButton(text, fn) -- {{{2
@@ -82,7 +83,7 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 end
 
 function love.draw() -- DRAWING {{{2
-	if menu == 'ingame' then
+	if menu == 'ingame' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		player_draw()
 		player_cursor()
@@ -122,7 +123,7 @@ function love.draw() -- DRAWING {{{2
 			cursor_y = cursor_y + (BUTTON_HEIGHT + margin)
 		end
 	end
-	if debug then
+	if debug then -- {{{3
 		love.graphics.setColor(255, 255, 255, 1.0)
 		if menu == 'ingame' then
 			draw_collision(b.x,b.y,b.w,b.h)
@@ -136,3 +137,4 @@ function love.draw() -- DRAWING {{{2
 		
 	end
 end	
+
