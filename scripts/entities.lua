@@ -98,7 +98,7 @@ function player_get_bomb()
     end
 end
 
-function collision(x1,y1,w1,h1,x2,y2,w2,h2) -- si collision entre deux objets, return true
+function collision(x1, y1, w1, h1, x2, y2, w2, h2) -- si collision entre deux objets, return true
     if x1+w1 > x2 and
         x1 < x2 + w2 and
         y1 < y2 + h2 and
@@ -106,4 +106,11 @@ function collision(x1,y1,w1,h1,x2,y2,w2,h2) -- si collision entre deux objets, r
         return true
     end
     return false
+end
+
+function draw_collision(x,y,w,h)
+	love.graphics.rectangle("fill",x,y,4,h) -- vertical left
+	love.graphics.rectangle("fill",x+w,y,4,h) -- vert right
+	love.graphics.rectangle("fill",x,y,w,4)
+	love.graphics.rectangle("fill",x,y+w,w,4)
 end

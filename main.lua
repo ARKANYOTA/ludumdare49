@@ -17,17 +17,11 @@ function newButton(text, fn)
     }
 end
 
-function see_collision(x,y,w,h)
-	love.graphics.rectangle("fill",x,y,4,h) -- vertical left
-	love.graphics.rectangle("fill",x+w,y,4,h) -- vert right
-	love.graphics.rectangle("fill",x,y,w,4)
-	love.graphics.rectangle("fill",x,y+w,w,4)
-end
 
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
 	-- Proper font scaling 
-    font = love.graphics.newFont(30,"none")
+    font = love.graphics.newFont(15, "none", 3)
     love.graphics.setFont(font)
 
 	-- Create entities
@@ -128,8 +122,8 @@ function love.draw() -- DRAWING {{{2
 	if debug then
 		love.graphics.setColor(255, 255, 255, 1.0)
 		if menu == 'ingame' then
-			see_collision(b.x,b.y,b.w,b.h)
-			see_collision(p.x,p.y,p.w,p.h)
+			draw_collision(b.x,b.y,b.w,b.h)
+			draw_collision(p.x,p.y,p.w,p.h)
 			love.graphics.print(p.x.."/"..p.y, p.x, p.y-50, 0,2,2) -- coordonnées player
 			love.graphics.print(b.x.."/"..b.y, b.x+50, b.y, 0,2,2) -- coordonnées bomb
 			--love.graphics.print(coll,16,16)
