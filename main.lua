@@ -32,11 +32,7 @@ function love.load() -- LOAD {{{2
     font = love.graphics.newFont(15, "none", 3)
     love.graphics.setFont(font)
 
-	-- Create entities
-	player_create()
-	bomb_create()
-	block_create()
-	menu = 'menu'
+	start_menu('menu')
 	ingame_timer = 0
 	global_timer = 0
 	debug = false 
@@ -46,7 +42,7 @@ function love.load() -- LOAD {{{2
 	buttons = {}
 	font = love.graphics.newFont(32)
 
-	table.insert(buttons, newButton("Start Game", function() menu = "ingame" end))
+	table.insert(buttons, newButton("Start Game", start_game))
 	table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
 	table.insert(buttons, newButton("Info", function() print("Info") end))
 	table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
@@ -84,8 +80,8 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 
 	end
 	if debug then
-		if key=="m" then menu = "menu" end
-		if key=="g" then menu = "ingame" end
+		if key=="g" then start_game() end
+		if key=="m" then start_menu("menu") end
 	end
 end
 
@@ -158,10 +154,29 @@ function draw_debug()
 	if menu == 'ingame' then
 		draw_collision(b.x,b.y,b.w,b.h)
 		draw_collision(p.x,p.y,p.w,p.h)
-		love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50) -- coordonnées player
-		love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
+		--love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50) -- coordonnées player
+		--love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
+		--love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
 		--love.graphics.print(coll,16,16)
-		love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
+		-- coordonnées player
+		love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), 0, 14)
+		-- coordonnées bomb
+		love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), 0, 28)
+		love.graphics.print("collision bomb/player: "..tostring(coll_check),0,42)
 	end
+	love.graphics.print("debug: is_on",0,0)
+
 end
 
+function start_game()
+	love.mouse.setVisible(false)
+	player_create()
+	bomb_create()
+	block_create()
+	ingame_timer = 0
+	menu = 'ingame'
+end
+function start_menu(m)
+	love.mouse.setVisible(true)
+	menu = m
+end
