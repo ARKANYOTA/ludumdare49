@@ -46,10 +46,10 @@ function love.load() -- LOAD {{{2
 	buttons = {}
 	font = love.graphics.newFont(32)
 
-	table.insert( buttons, newButton("Start Game", function() menu = "ingame" end))
-	table.insert( buttons, newButton("Tuto", function() print("Tuto") end))
-	table.insert( buttons, newButton("Info", function() print("Info") end))
-	table.insert( buttons, newButton("Exit Game", function() love.event.quit(0) end))
+	table.insert(buttons, newButton("Start Game", function() menu = "ingame" end))
+	table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
+	table.insert(buttons, newButton("Info", function() print("Info") end))
+	table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
 
 	coll_check = false
 
@@ -94,11 +94,11 @@ function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		player_draw()
-		player_cursor()
-		draw_cursor()
 
 		love.graphics.draw(b.sprite, b.x, b.y, 0, b.scale_x, b.scale_y)
 		block_draw()
+		player_cursor()
+		draw_cursor()
 	end
 	if menu == "menu" then -- menu {{{3
 		draw_menu()
@@ -108,6 +108,7 @@ function love.draw() -- DRAWING {{{2
 	end
 end	
 
+-- USELESS FUCNTIONS {{{2
 function update_buttons()
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
 	local cursor_y = 0
