@@ -1,12 +1,19 @@
 -- FUNCTIONS {{{1
 function block_create()
-    block = {
-        x = 40,
-        y = 0 
+    bl = {
+        x = 500,
+        y = 0,
+        sprite = love.graphics.newImage("assets/stone.jpg"),
+        scale_x = 1,
+		scale_y = 1,
 
     }
+    bl.w, bl.h  = bl.sprite:getWidth()*bl.scale_x, bl.sprite:getHeight()*bl.scale_y
 end
 
+function block_draw()
+    love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
+end
 
 
 --Player {{{2
