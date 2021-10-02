@@ -21,6 +21,11 @@ end
 
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
+	-- Proper font scaling 
+    font = love.graphics.newFont(15, "none", 3)
+    love.graphics.setFont(font)
+
+	-- Create entities
 	player_create()
 	bomb_create()
 	menu = 'menu'
@@ -46,7 +51,6 @@ function love.update(dt) -- UPDATE {{{2
 	global_timer = global_timer + dt
 	if menu == 'ingame' then
 		global_timer = global_timer + 1
-
 		player_movement(dt)
 		coll_check = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
 		player_get_bomb()
@@ -78,9 +82,10 @@ end
 
 function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
-		love.graphics.draw(p.sprite,p.x,p.y,0,p.scale_x,scale_y) --joueur
-		love.graphics.draw(b.sprite,b.x,b.y,0,b.scale_x,b.scale_y)
-
+		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
+		player_draw()
+		player_cursor()
+		love.graphics.draw(b.sprite, b.x, b.y, 0, 0.2, 0.2)
 	end
 	if menu == "menu" then -- menu {{{3
 		local ww = love.graphics.getWidth()
@@ -118,10 +123,11 @@ function love.draw() -- DRAWING {{{2
 	if debug then
 		love.graphics.setColor(255, 255, 255, 1.0)
 		if menu == 'ingame' then
-			see_collision(b.x,b.y,b.w,b.h)
-			see_collision(p.x,p.y,p.w,p.h)
-			love.graphics.print(string.format("%.3f",p.x).."/"..string.format("%.3f",p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
-			love.graphics.print(string.format("%.3f",b.x).."/"..string.format("%.3f",b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
+			draw_collision(b.x,b.y,b.w,b.h)
+			draw_collision(p.x,p.y,p.w,p.h)
+			love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
+			love.graphics.print(b.x.."/"..b.y, b.x+50, b.y, 0,2,2) -- coordonnées bomb
+			--love.graphics.print(coll,16,16)
 			love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
 		end
 		
