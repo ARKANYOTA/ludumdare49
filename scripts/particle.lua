@@ -37,6 +37,6 @@ function spawn_smoke(x, y)
         {x = (love.math.random()*2-1)*10, y = (love.math.random()*2-1)*10}, 
         love.math.random()*0.5, 0.95, --size, Δsize 
         love.math.random() * 2*math.pi,
-        love.math.random()*2 - 1
+        (love.math.random()*2 - 1) / 3
     ))
 end
