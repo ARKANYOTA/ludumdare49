@@ -35,22 +35,23 @@ function love.load() -- LOAD {{{2
 	wh = love.graphics.getHeight()
 	button_width = ww * (1/3)
 	margin = 16
+
 	-- Proper font scaling 
     font = love.graphics.newFont(15, "none", 3)
     love.graphics.setFont(font)
+	font = love.graphics.newFont(32)
 
+	-- Menu {{{3
 	start_menu('menu') -- valeurs posibles menu,ingame, ingame_menu, gameover
 	ingame_timer = 0
 	global_timer = 0
 	debug = false 
-
-	-- Menu {{{3
 	BUTTON_HEIGHT = 64
-	
-	font = love.graphics.newFont(32)
+
+	-- Particles
+	particles = {}
 
 	coll_check = false
-
 end
 
 function love.update(dt) -- UPDATE {{{2
@@ -63,11 +64,12 @@ function love.update(dt) -- UPDATE {{{2
 	if menu == 'ingame' then
 		collision_table()
 		global_timer = global_timer + 1
-		player_movement(dt)
-		coll_check = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
-		player_get_bomb()
+		player_update()
 	end
 
+	for i,pt in ipairs(particles) do
+		update_particle(pt, dt)
+	end
 end
 
 function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
@@ -93,11 +95,17 @@ function love.draw() -- DRAWING {{{2
 	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'ingame' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
-		player_draw()
+		draw_player()
+		draw_bomb()
 
-		love.graphics.draw(b.sprite, b.x, b.y, 0, b.scale_x, b.scale_y)
 		block_draw()
 		player_cursor()
+
+		for i,pt in ipairs(particles) do
+			draw_particle(pt)
+		end
+
+		-- Keep at last
 		draw_cursor()
 		block_draw()
 	end
@@ -159,20 +167,20 @@ function draw_debug()
 	if menu == 'ingame' then
 		draw_collision(b.x,b.y,b.w,b.h)
 		draw_collision(p.x,p.y,p.w,p.h)
-		--love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50) -- coordonnées player
-		--love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
-		--love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
+
+		love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
+		love.graphics.print(b.catchcooldown, b.x+50, b.y-20) -- coordonnées bomb
 		--love.graphics.print(coll,16,16)
 		-- coordonnées player
-		love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), 0, 14)
+		love.graphics.print("player x:"..math.floor(p.x).." y:"..math.floor(p.y), 0, 20)
 		-- coordonnées bomb
-		love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), 0, 28)
-		love.graphics.print("collision bomb/player: "..tostring(coll_check),0,42)
-		love.graphics.print(p,0,56)
-		
+		love.graphics.print("bomb x:"..math.floor(b.x).." y:"..math.floor(b.y), 0, 40)
+		love.graphics.print("bomb timer:"..math.floor(b.timer * 1000)/1000, 0, 60)
+		love.graphics.print("bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000, 0, 80)
+		love.graphics.print("bomb active:"..tostring(b.active), 0, 100)
+		love.graphics.print("collision bomb/player: "..tostring(coll_check),0, 120)
 	end
 	love.graphics.print("debug: is_on",0,0)
-
 end
 
 function start_game()
