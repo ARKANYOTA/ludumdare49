@@ -27,6 +27,8 @@ function love.load() -- LOAD {{{2
 	buttons = {}
 	ww = love.graphics.getWidth()
 	wh = love.graphics.getHeight()
+	CMwh = 0
+	CM.setCoords(ww/2, wh/2)
 	button_width = ww * (1/3)
 	margin = 16
 
@@ -49,6 +51,7 @@ function love.load() -- LOAD {{{2
 end
 
 function love.update(dt) -- UPDATE {{{2
+	CM.update(dt)
 	global_timer = global_timer + dt
 	
 	if menu == 'menu' then
@@ -59,11 +62,14 @@ function love.update(dt) -- UPDATE {{{2
 		collision_table()
 		global_timer = global_timer + 1
 		player_update()
+		CMwh = CMwh+1
+		CM.setTarget(ww/2, wh/2+CMwh)
 	end
 
 	for i,pt in ipairs(particles) do
 		update_particle(pt, dt)
 	end
+
 end
 
 function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
@@ -81,10 +87,16 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 	if debug then
 		if key=="g" then start_game() end
 		if key=="m" then start_menu("menu") end
+		if key=="k" then
+			-- cam down
+			--CM.setScale(4)
+
+		end
 	end
 end
 
 function love.draw() -- DRAWING {{{2
+	CM.attach()
 	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'ingame' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
@@ -105,8 +117,11 @@ function love.draw() -- DRAWING {{{2
 		draw_menu()
 	end
 	if debug then -- {{{3
-		draw_debug()			
+		CM.debug()
+
+	-- 	draw_debug()			
 	end
+	CM.detach()
 end	
 
 -- USELESS FUCNTIONS {{{2
@@ -176,6 +191,8 @@ function draw_debug()
 end
 
 function start_game()
+
+	CMwh = 0
 	love.mouse.setVisible(false)
 	player_create()
 	bomb_create()

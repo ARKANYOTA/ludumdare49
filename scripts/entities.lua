@@ -182,3 +182,48 @@ end
 function draw_bomb()
     love.graphics.draw(b.sprite, b.x - b.w/2, b.y - b.h/2, 0, b.scale_x, b.scale_y)
 end
+--[[ function back_create() -- {{{2
+	back = {
+		x = 300,
+		y = 300,
+		dx = 0,
+		dy = 0,
+
+		sprite = love.graphics.newImage("assets/water.png"),
+		scale_x = 0.2,
+		scale_y = 0.2,
+
+        bomb = b,
+        hasBomb = false,
+
+        cursor = {
+            x = 0,
+            y = 0,
+            scrx = 0,
+            scry = 0,
+
+            sprite = cursor_img,
+            w = cursor_img:getWidth(),
+            h = cursor_img:getHeight(),
+            scale_x = 0.1,
+            scale_y = 0.1,
+
+            active = false,
+        },
+	}
+    p.w = p.sprite:getWidth() * p.scale_x 
+    p.h = p.sprite:getHeight() * p.scale_y
+end
+--]]
+
+
+function player_update()
+    local dt = love.timer.getDelta()
+    player_movement(dt)
+    coll_check = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
+    player_get_bomb()
+    player_cursor()
+    throw_bomb()
+    update_bomb(dt)
+end
+
