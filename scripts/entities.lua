@@ -125,8 +125,8 @@ function player_movement(dt) --{{{2
     local solid_x = is_solid(map, (p.x+p.dx)/bl.w, p.y/bl.h)
     local solid_y = is_solid(map, p.x/bl.w, (p.y+p.dy)/bl.h)
 
-    p.solidx = solid_x
-    p.solidy = solid_y
+    p.solidx = get_map(map, (p.x+p.dx)/bl.w, p.y/bl.h)
+    p.solidy = get_map(map, (p.x+p.dx)/bl.w, p.y/bl.h)
 
     if solid_x then
         p.dx = p.dx * p.bounce
