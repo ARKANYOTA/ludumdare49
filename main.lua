@@ -17,6 +17,12 @@ function newButton(text, fn) -- {{{2
     }
 end
 
+function print_table(elt)
+    for i,v in ipairs(elt) do
+		print(unpack(elt[i]))
+    end
+end
+
 function draw_collision(x,y,w,h) -- {{{2
 	love.graphics.rectangle("line",x,y,w,h) -- vertical left
 end
@@ -41,13 +47,18 @@ function love.load() -- LOAD {{{2
 	start_menu('menu') -- valeurs posibles menu,ingame, ingame_menu, gameover
 	ingame_timer = 0
 	global_timer = 0
-	debug = false 
+	debug = true 
 	BUTTON_HEIGHT = 64
 
 	-- Particles
 	particles = {}
-
 	coll_check = false
+
+	-- Debug
+	if debug then
+		update_buttons()
+		menu = "ingame"
+	end
 end
 
 function love.update(dt) -- UPDATE {{{2
@@ -79,6 +90,7 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 	end
 	if key == "f5" then love.event.quit("restart") end
 	if key == "f3" then debug = not debug end
+	if key == "f6" then print_table(coll_table) end
 	if menu == "ingame" then -- ingame {{{3
 	end
 	if menu == "menu" then -- menu {{{3
@@ -112,6 +124,7 @@ function love.draw() -- DRAWING {{{2
 
 		-- Keep at last
 		draw_cursor()
+		block_draw()
 	end
 	if menu == "menu" then -- menu {{{3
 		draw_menu()
@@ -186,8 +199,10 @@ function draw_debug()
 		love.graphics.print("bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000, 0, 80)
 		love.graphics.print("bomb active:"..tostring(b.active), 0, 100)
 		love.graphics.print("collision bomb/player: "..tostring(coll_check),0, 120)
+		love.graphics.print(math.floor(testx/bl.w),0,134)
+		love.graphics.print(math.floor(testy/bl.h),0,148)
 	end
-	love.graphics.print("debug: is_on",0,0)
+	love.graphics.print("debug: is_on ; menu: "..menu,0,0)
 end
 
 function start_game()

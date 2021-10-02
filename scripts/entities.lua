@@ -19,8 +19,7 @@ end
 
 function block_draw()--{{{2
     love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
-    coll_table[(bl.y/2)+1][bl.x/2] = 1
-    
+    coll_table[(bl.y/bl.h)+1][(bl.x/bl.w)+1] = 1  -- coll_table[y][x]
 end
 
 
@@ -30,14 +29,14 @@ function bomb_create()--{{{2
 		y = 16,
 		dx = 0,
 		dy = 0,
-
+ 
         timer = 0, -- In seconds
-        max_timer = 5,
+        max_timer = math.huge,
         active = false,
 
         sprite = love.graphics.newImage("assets/bomb.png"),
-        scale_x = 0.2,
-		scale_y = 0.2,
+        scale_x = 0.1,
+		scale_y = 0.1,
 
         throwspeed = 300,
         catchcooldown = 0,
@@ -63,7 +62,7 @@ function player_create() -- {{{2
 		scale_y = 0.2,
 
         bomb = b,
-        hasBomb = false,
+        hasBomb = true,
 
         cursor = {
             x = 0,
@@ -116,11 +115,15 @@ function player_movement(dt) --{{{2
     dir_vector.x = dir_vector.x / norm
     dir_vector.y = dir_vector.y / norm
 
-    p.dx = (p.dx + dir_vector.x * p.speed) * p.friction
     p.dy = (p.dy + dir_vector.y * p.speed) * p.friction
-
+    p.dx = (p.dx + dir_vector.x * p.speed) * p.friction
+    --if coll_table[(math.floor(p.y + p.dy * dt)/bl.h)+1][(math.floor(p.x + p.dx * dt)/bl.w)+1] == 1 then
+    testy = p.y + p.dy * dt
+    testx = p.x + p.dx * dt
+    --  if coll_table[0][2] == 1 then --math.floor(p.y + p.dy * dt/bl.h)
+        p.y = p.y + p.dy * dt
+    -- end
     p.x = p.x + p.dx * dt
-    p.y = p.y + p.dy * dt
 end
 
 function draw_player()--{{{2
@@ -148,8 +151,6 @@ end
 function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
     if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true and b.catchcooldown <= 0 then
 		p.hasBomb = true
-    else
-		p.hasBomb = false
     end
 end
 
@@ -165,9 +166,12 @@ end
 
 function update_bomb(dt)
     b.catchcooldown = math.max(b.catchcooldown - dt, 0)
-    b.timer = math.max(b.timer - dt, 0)
+    b.timer = b.timer - dt
     b.active = not p.hasBomb
     if b.active then
+        if b.timer < -1 then
+            menu = "gameover"
+        end
         b.x = b.x + b.dx * dt
         b.y = b.y + b.dy * dt
         if love.math.random() <= (b.timer%1) / 2 then
@@ -175,47 +179,14 @@ function update_bomb(dt)
         end
     else
         b.x = p.x - p.w/2
-        b.y = p.y - 80
+        b.y = p.y - p.h/2
     end
 end
 
 function draw_bomb()
     love.graphics.draw(b.sprite, b.x - b.w/2, b.y - b.h/2, 0, b.scale_x, b.scale_y)
+    --love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), 0, b.scale_x, b.scale_y)
 end
---[[ function back_create() -- {{{2
-	back = {
-		x = 300,
-		y = 300,
-		dx = 0,
-		dy = 0,
-
-		sprite = love.graphics.newImage("assets/water.png"),
-		scale_x = 0.2,
-		scale_y = 0.2,
-
-        bomb = b,
-        hasBomb = false,
-
-        cursor = {
-            x = 0,
-            y = 0,
-            scrx = 0,
-            scry = 0,
-
-            sprite = cursor_img,
-            w = cursor_img:getWidth(),
-            h = cursor_img:getHeight(),
-            scale_x = 0.1,
-            scale_y = 0.1,
-
-            active = false,
-        },
-	}
-    p.w = p.sprite:getWidth() * p.scale_x 
-    p.h = p.sprite:getHeight() * p.scale_y
-end
---]]
-
 
 function player_update()
     local dt = love.timer.getDelta()
@@ -226,4 +197,3 @@ function player_update()
     throw_bomb()
     update_bomb(dt)
 end
-
