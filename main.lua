@@ -94,6 +94,7 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 end
 
 function love.draw() -- DRAWING {{{2
+	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'ingame' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		player_draw()
@@ -107,7 +108,6 @@ function love.draw() -- DRAWING {{{2
 		draw_menu()
 	end
 	if debug then -- {{{3
-		love.graphics.setColor(255, 255, 255, 1.0)
 		draw_debug()			
 	end
 end	
@@ -137,7 +137,6 @@ function draw_buttons()
 	local ww = love.graphics.getWidth()
 	local wh = love.graphics.getHeight()
 	local margin = 16
-
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
 	local cursor_y = 0
 
