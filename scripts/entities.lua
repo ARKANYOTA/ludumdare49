@@ -12,10 +12,15 @@ function block_create() --{{{2
 
     }
     bl.w, bl.h  = bl.sprite:getWidth()*bl.scale_x, bl.sprite:getHeight()*bl.scale_y
+    bl.x = 2*bl.w
+    bl.y = 0*bl.h
+    
 end
 
 function block_draw()--{{{2
     love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
+    coll_table[(bl.y/2)+1][bl.x/2] = 1
+    
 end
 
 

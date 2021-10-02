@@ -12,7 +12,7 @@ end
 function collision_table()
     coll_table = {}
     for y = 0, 700, bl.h do
-        coll_table_x = {}
+        local coll_table_x = {}
         for x = 0, 700, bl.w do
             table.insert(coll_table_x,0)
         end

@@ -17,7 +17,7 @@ function newButton(text, fn) -- {{{2
     }
 end
 
-function see_collision(x,y,w,h) -- {{{2
+function draw_collision(x,y,w,h) -- {{{2
 	love.graphics.rectangle("line",x,y,w,h) -- vertical left
 end
 
@@ -160,6 +160,7 @@ function draw_debug()
 		-- coordonnées bomb
 		love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), 0, 28)
 		love.graphics.print("collision bomb/player: "..tostring(coll_check),0,42)
+		
 	end
 	love.graphics.print("debug: is_on",0,0)
 
@@ -185,3 +186,4 @@ function start_menu(m)
 		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
 	end
 end
+ 
