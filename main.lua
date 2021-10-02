@@ -7,6 +7,35 @@
 function is_odd(n) return n%2==1 end
 function is_even(n) return n%2==0 end
 
+--Player
+function player_create()
+	p = {
+		x=0,
+		y=0,
+		sprite = love.graphics.newImage("assets/player.sprite/player01.png"),
+		speed = 8
+		}
+end
+
+function player_movement()
+	if love.keyboard.isDown("left") then 
+		p.x = p.x - p.speed
+	end
+
+	if love.keyboard.isDown("right") then 
+		p.x = p.x + p.speed
+	end
+
+	if love.keyboard.isDown("up") then 
+		p.y = p.y - p.speed
+	end
+
+	if love.keyboard.isDown("down") then
+		 p.y = p.y + p.speed
+	end
+end
+
+
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
 	menu = 'ingame'
@@ -55,14 +84,6 @@ end
 --Player function 
 -----------------
 
-function player_create()
-	p = {
-		x=0,
-		y=0,
-		sprite = love.graphics.newImage("assets/player.sprite/player01.png"),
-		speed = 8
-		}
-end
 
 function player_movement()
 	if love.keyboard.isDown("left") then 
