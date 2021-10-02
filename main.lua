@@ -4,6 +4,9 @@
 
 --METTEZ OU IL FAUT LE METTRE SVP
 require "scripts/entities"
+--require "lib/CameraMgr/main"
+
+
 function see_collision(x,y,w,h)
 	love.graphics.rectangle("fill",x,y,4,h) -- vertical left
 	love.graphics.rectangle("fill",x+w,y,4,h) -- vert right
@@ -11,6 +14,7 @@ function see_collision(x,y,w,h)
 	love.graphics.rectangle("fill",x,y+w,w,4)
 	return 4
 end
+
 
 
 -- EVENTS{{{1
