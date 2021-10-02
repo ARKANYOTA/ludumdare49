@@ -63,6 +63,7 @@ function player_create() -- {{{2
 		speed = 70,
 		friction = 0.8,
         angle = 0,
+        bounce = 1,
 
 		sprite = love.graphics.newImage("assets/player01.png"),
 		scale_x = 0.2,
@@ -147,7 +148,8 @@ end
 function player_cursor(dt) -- {{{2
     local mx, my = love.mouse.getPosition()
     local click = love.mouse.isDown(1)
-    p.cursor.x, p.cursor.y = mx, my
+    p.cursor.scrx, p.cursor.scry = mx, my
+    p.cursor.x, p.cursor.y = mx, my + CMwh
     p.cursor.active = click
 
     local x = mx - (p.x + p.w/2)
@@ -205,7 +207,7 @@ function draw_ennemy()
 end
 
 function move_toward(target_x,target_y,x,y,speed)
-    diff_x = target_x-x
+    diff_x = target_x -x
     vartemp = diff_x
     diff_y = target_y-y
     if diff_x > 0 then x = x + speed
