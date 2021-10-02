@@ -24,6 +24,7 @@ end
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
 	-- UI
+	buttons = {}
 	ww = love.graphics.getWidth()
 	wh = love.graphics.getHeight()
 	button_width = ww * (1/3)
@@ -39,13 +40,8 @@ function love.load() -- LOAD {{{2
 
 	-- Menu {{{3
 	BUTTON_HEIGHT = 64
-	buttons = {}
+	
 	font = love.graphics.newFont(32)
-
-	table.insert(buttons, newButton("Start Game", start_game))
-	table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
-	table.insert(buttons, newButton("Info", function() print("Info") end))
-	table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
 
 	coll_check = false
 
@@ -176,7 +172,15 @@ function start_game()
 	ingame_timer = 0
 	menu = 'ingame'
 end
+
 function start_menu(m)
 	love.mouse.setVisible(true)
+	for i, v in ipairs(buttons) do buttons[i] = nil end
 	menu = m
+	if menu =='menu'then
+		table.insert(buttons, newButton("Start Game", start_game))
+		table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
+		table.insert(buttons, newButton("Info", function() print("Info") end))
+		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
+	end
 end
