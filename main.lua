@@ -54,6 +54,9 @@ function love.load() -- LOAD {{{2
 	particles = {}
 	coll_check = false
 
+	-- Map
+	map = make_blank_map(30, 30)
+
 	-- Debug
 end
 
@@ -66,12 +69,7 @@ function love.update(dt) -- UPDATE {{{2
 	end
 	
 	if menu == 'ingame' then
-		collision_table()
-		coll_table[(bl.y/bl.h)+1][(bl.x/bl.w)+1] = 1 
-		global_timer = global_timer + 1
-		player_update()
-		CMwh = CMwh+1
-		CM.setTarget(ww/2, wh/2+CMwh)
+		
 	end
 
 	for i,pt in ipairs(particles) do
