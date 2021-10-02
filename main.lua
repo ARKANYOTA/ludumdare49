@@ -11,7 +11,8 @@ function newButton(text, fn) -- {{{2
         text=text,
         fn=fn,
 		now= false,
-		last = false
+		last = false,
+		color = {0.4, 0.4, 0.5, 1.0}
     }
 end
 
@@ -21,6 +22,11 @@ end
 
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
+	-- UI
+	ww = love.graphics.getWidth()
+	wh = love.graphics.getHeight()
+	button_width = ww * (1/3)
+
 	-- Proper font scaling 
     font = love.graphics.newFont(15, "none", 3)
     love.graphics.setFont(font)
@@ -85,7 +91,8 @@ function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		player_draw()
-
+		player_cursor()
+		draw_cursor()
 
 		love.graphics.draw(b.sprite, b.x, b.y, 0, b.scale_x, b.scale_y)
 		block_draw()
@@ -100,16 +107,7 @@ function love.draw() -- DRAWING {{{2
 	end
 end	
 
-function update_buttons()
-	local ww = love.graphics.getWidth()
-	local wh = love.graphics.getHeight()
-
-	local button_width = ww * (1/3)
-	local margin = 16
-
-	local total_height = (BUTTON_HEIGHT + margin) * #buttons
-	local cursor_y = 0
-	
+function update_buttons()	
 	for i, button in ipairs(buttons) do
 		local mx, my = love.mouse.getPosition()
 		local hot = mx > bx and mx < bx + button_width and my > by and my < by + BUTTON_HEIGHT
@@ -128,12 +126,17 @@ function draw_buttons()
 	local ww = love.graphics.getWidth()
 	local wh = love.graphics.getHeight()
 
+	local margin = 16
+
+	local total_height = (BUTTON_HEIGHT + margin) * #buttons
+	local cursor_y = 0
+
 	for i, button in ipairs(buttons) do
 		button.last = button.now
 		local bx = (ww / 2) - (button_width / 2)
 		local by = (wh / 2) - (total_height / 2) + cursor_y
 		
-		love.graphics.setColor(unpack(color))
+		love.graphics.setColor(unpack(button.color))
 		love.graphics.rectangle("fill", bx, by, button_width, BUTTON_HEIGHT)
 		love.graphics.setColor(0, 0, 0, 1)
 		local textW = font:getWidth(button.text)
