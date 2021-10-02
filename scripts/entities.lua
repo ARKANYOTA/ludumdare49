@@ -115,11 +115,15 @@ function player_movement(dt) --{{{2
     dir_vector.x = dir_vector.x / norm
     dir_vector.y = dir_vector.y / norm
 
-    p.dx = (p.dx + dir_vector.x * p.speed) * p.friction
     p.dy = (p.dy + dir_vector.y * p.speed) * p.friction
-
+    p.dx = (p.dx + dir_vector.x * p.speed) * p.friction
+    --if coll_table[(math.floor(p.y + p.dy * dt)/bl.h)+1][(math.floor(p.x + p.dx * dt)/bl.w)+1] == 1 then
+    testy = p.y + p.dy * dt
+    testx = p.x + p.dx * dt
+    --  if coll_table[0][2] == 1 then --math.floor(p.y + p.dy * dt/bl.h)
+        p.y = p.y + p.dy * dt
+    -- end
     p.x = p.x + p.dx * dt
-    p.y = p.y + p.dy * dt
 end
 
 function draw_player()--{{{2
@@ -174,8 +178,8 @@ function update_bomb(dt)
             spawn_smoke(b.x, b.y)
         end
     else
-        b.x = p.x - p.w + 10
-        b.y = p.y - 40
+        b.x = p.x - p.w/2
+        b.y = p.y - p.h/2
     end
 end
 
