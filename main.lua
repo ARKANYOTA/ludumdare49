@@ -53,6 +53,14 @@ function love.load() -- LOAD {{{2
 	-- Particles
 	particles = {}
 	coll_check = false
+<<<<<<< HEAD
+=======
+
+	-- Map
+	map = make_blank_map(30, 30)
+
+	-- Debug
+>>>>>>> abf44f194c5318a5279aa9b3213cf09d3b427145
 end
 
 function love.update(dt) -- UPDATE {{{2
@@ -67,14 +75,7 @@ function love.update(dt) -- UPDATE {{{2
 	end
 	
 	if menu == 'ingame' then
-		collision_table()
-		coll_table[(bl.y/bl.h)+1][(bl.x/bl.w)+1] = 1 
-		global_timer = global_timer + 1
-		player_update()
-		if love.keyboard.isDown("k") then
-			CMwh = CMwh+1
-			CM.setTarget(ww/2, wh/2+CMwh)
-		end
+		
 	end
 
 	for i,pt in ipairs(particles) do
