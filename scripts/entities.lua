@@ -1,6 +1,7 @@
 -- vim: fdm=marker
 -- FUNCTIONS {{{1
 require "scripts/collision"
+require "scripts/particle"
 
 function block_create() --{{{2
     bl = {
@@ -26,6 +27,8 @@ function bomb_create()--{{{2
 		dy = 0,
 
         timer = 0, -- In seconds
+        max_timer = 5,
+        active = false,
 
         sprite = love.graphics.newImage("assets/bomb.png"),
         scale_x = 0.2,
@@ -33,7 +36,7 @@ function bomb_create()--{{{2
 
         throwspeed = 300,
         catchcooldown = 0,
-        def_catchcooldown = 1, 
+        max_catchcooldown = 1, 
     }
     b.w, b.h  = b.sprite:getWidth()*b.scale_x, b.sprite:getHeight() * b.scale_y
     --b.h =sprite:getHeight()
@@ -76,6 +79,8 @@ function player_create() -- {{{2
     p.h = p.sprite:getHeight() * p.scale_y
 end
 
+
+
 function player_update()
     local dt = love.timer.getDelta()
     player_movement(dt)
@@ -85,7 +90,6 @@ function player_update()
     throw_bomb()
     update_bomb(dt)
 end
-
 
 function player_movement(dt) --{{{2
 	local dir_vector = {x = 0, y = 0}
@@ -114,7 +118,7 @@ function player_movement(dt) --{{{2
     p.y = p.y + p.dy * dt
 end
 
-function player_draw()--{{{2
+function draw_player()--{{{2
     love.graphics.draw(p.sprite, p.x, p.y, 0, p.scale_x, p.scale_y)
 end
 
@@ -134,10 +138,10 @@ function draw_cursor()
     love.graphics.draw(c.sprite, c.x, c.y, 0, c.scale_x, c.scale_y, c.w/2, c.h/2)
 end
 
+
+
 function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
     if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true and b.catchcooldown <= 0 then
-		b.x = p.x
-		b.y = p.y - 100
 		p.hasBomb = true
     else
 		p.hasBomb = false
@@ -149,13 +153,27 @@ function throw_bomb()
         p.hasBomb = false
         b.dx = math.cos(p.angle) * b.throwspeed
         b.dy = math.sin(p.angle) * b.throwspeed
-        b.catchcooldown = b.def_catchcooldown
+        b.catchcooldown = b.max_catchcooldown
+        b.timer = b.max_timer
     end
 end
+
 function update_bomb(dt)
     b.catchcooldown = math.max(b.catchcooldown - dt, 0)
-    if not p.hasBomb then
+    b.timer = math.max(b.timer - dt, 0)
+    b.active = not p.hasBomb
+    if b.active then
         b.x = b.x + b.dx * dt
         b.y = b.y + b.dy * dt
+        if love.math.random() <= (b.timer%1) / 2 then
+            spawn_smoke(b.x, b.y)
+        end
+    else
+        b.x = p.x - p.w/2
+        b.y = p.y - 80
     end
+end
+
+function draw_bomb()
+    love.graphics.draw(b.sprite, b.x - b.w/2, b.y - b.h/2, 0, b.scale_x, b.scale_y)
 end
