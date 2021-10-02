@@ -2,7 +2,7 @@
 -- Permet de l'executer avec ./main.lua
 -- vim: fdm=marker
 require "scripts/entities"
---Camera = require "lib.CameraMgr"
+--require "lib/CameraMgr/main"
 
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
