@@ -53,8 +53,6 @@ function love.load() -- LOAD {{{2
 	-- Particles
 	particles = {}
 	coll_check = false
-
-	-- Debug
 end
 
 function love.update(dt) -- UPDATE {{{2
@@ -62,6 +60,9 @@ function love.update(dt) -- UPDATE {{{2
 	global_timer = global_timer + dt
 	
 	if menu == 'menu' then
+		update_buttons()
+	end
+	if menu == 'gameover' then
 		update_buttons()
 	end
 	
@@ -129,6 +130,9 @@ function love.draw() -- DRAWING {{{2
 		draw_debug()			
 	end
 	if menu == "menu" then -- menu {{{3
+		draw_menu()
+	end
+	if menu == "gameover" then -- menu {{{3
 		draw_menu()
 	end
 end	
@@ -233,6 +237,12 @@ function start_menu(m)
 		table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
 		table.insert(buttons, newButton("Info", function() print("Info") end))
 		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
+	end
+	if menu =='gameover' then
+		table.insert(buttons, newButton("Restart", start_game))
+		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
+		--table.insert(buttons, newButton("principal", start_game))
+		table.insert(buttons, newButton("Rage quit", function() love.event.quit(0) end))
 	end
 end
  
