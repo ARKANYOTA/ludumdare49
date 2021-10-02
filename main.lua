@@ -12,7 +12,6 @@ function see_collision(x,y,w,h)
 	love.graphics.rectangle("fill",x+w,y,4,h) -- vert right
 	love.graphics.rectangle("fill",x,y,w,4)
 	love.graphics.rectangle("fill",x,y+w,w,4)
-	return 4
 end
 
 
@@ -39,6 +38,7 @@ function love.update(dt) -- UPDATE {{{2
 		else
 		coll_check = false
 		end
+		player_get_bomb()
 
 	end
 end
@@ -67,7 +67,6 @@ end
 
 function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
-		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		love.graphics.draw(p.sprite,p.x,p.y,0,p.scale_x,scale_y) --joueur
 		love.graphics.draw(b.sprite,b.x,b.y,0,b.scale_x,b.scale_y)
 
@@ -76,9 +75,9 @@ function love.draw() -- DRAWING {{{2
 		see_collision(b.x,b.y,b.w,b.h)
 		see_collision(p.x,p.y,p.w,p.h)
 		love.graphics.print(string.format("%.3f",p.x).."/"..string.format("%.3f",p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
-		--love.graphics.print(string.format("%.3f",b.x).."/"..string.format("%.3f",b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
-		love.graphics.print(string.format("%.3f",global_timer), 0, 50, 0,2,2) -- arrondi a 3 décimale apres ,
+		love.graphics.print(string.format("%.3f",b.x).."/"..string.format("%.3f",b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
+		--love.graphics.print(string.format("%.3f",global_timer), 0, 50, 0,2,2) -- timer ,
 
-		love.graphics.print(tostring(coll_check),0,0)
+		love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
 	end
 end	

@@ -16,16 +16,16 @@ end
 
 function player_create() -- {{{3
 	p = {
-		x = 200,
-		y = 200,
+		x = 300,
+		y = 300,
 		dx = 0,
 		dy = 0,
 		speed = 70,
 		friction = 0.8,
-
 		sprite = love.graphics.newImage("assets/player01.png"),
 		scale_x = 1,
-		scale_y = 1
+		scale_y = 1,
+        getbomb = 0
 	}
     p.w, p.h  = p.sprite:getWidth()*p.scale_x, p.sprite:getHeight()*p.scale_y
 end
@@ -56,11 +56,25 @@ function player_movement(dt) --{{{3
     p.y = p.y + p.dy * dt
 end
 
+function player_get_bomb()
+    if collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h) == true then
+    b.x = p.x
+    b.y = p.y-40
+    p.getbomb = 1
+    else
+    p.getbomb = 0
+    end
+
+end
+
 function collision(x1,y1,w1,h1,x2,y2,w2,h2) -- si collision entre deux objets, return true
     if x1+w1 > x2 and
        x1 < x2 + w2 and
        y1 < y2 + h2 and
        y1 + h1 > y2 then
     return true
+    
+    else
+    return false
     end
 end
