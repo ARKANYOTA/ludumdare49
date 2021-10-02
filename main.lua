@@ -178,7 +178,7 @@ function draw_menu()
 	draw_buttons()
 end
 
-function debug_print(txt, ps)
+function debug_print(ps, txt)
 	love.graphics.print(txt, 0, ps*20)
 end
 
@@ -188,20 +188,20 @@ function draw_debug()
 		--love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
 		--love.graphics.print(b.catchcooldown, b.x+50, b.y-20) -- coordonnées bomb
 		--love.graphics.print(coll,16,16)
-		debug_print("player x:"..math.floor(p.x).." y:"..math.floor(p.y), 1)
-		debug_print("bomb x:"..math.floor(b.x).." y:"..math.floor(b.y), 2)
-		debug_print("bomb timer:"..math.floor(b.timer * 1000)/1000, 3)
-		debug_print("bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000, 4)
-		debug_print("bomb active:"..tostring(b.active), 5)
-		debug_print("collision bomb/player: "..tostring(coll_check),6)
-		debug_print("CMwh: "..tostring(CMwh),7)
-		debug_print(math.floor(testx/bl.w)+1,7)
-		debug_print(math.floor(testy/bl.h)+1,8)
+		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
+		debug_print(2, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
+		debug_print(3, "bomb timer:"..math.floor(b.timer * 1000)/1000)
+		debug_print(4, "bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000)
+		debug_print(5, "bomb active:"..tostring(b.active))
+		debug_print(6, "collision bomb/player: "..tostring(coll_check))
+		debug_print(7, math.floor(testx/bl.w)+1)
+		debug_print(8, math.floor(testy/bl.h)+1)
+		debug_print(9, "CMwh: "..tostring(CMwh))
 		--love.graphics.print(math.floor((testx+p.w)/bl.h)+1,0,148)
 		--love.graphics.print(math.floor((testy+p.h)/bl.h)+1,0,148)
 		
 	end
-	debug_print("debug: is_on ; menu: "..menu,0)
+	debug_print(0, "debug: is_on ; menu: "..menu)
 end
 function draw_debug_unfix()
 	love.graphics.setColor(255, 255, 255, 1.0)
