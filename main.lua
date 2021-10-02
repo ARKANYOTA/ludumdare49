@@ -6,8 +6,8 @@
 --Player {{{2
 function player_create() -- {{{3
 	p = {
-		x=0,
-		y=0,
+		x=200,
+		y=200,
 		sprite = love.graphics.newImage("assets/player01.png"),
 		speed = 8,
 		scale_x = 1,
@@ -19,10 +19,12 @@ function bombe_create()
     b = {
 	x=0,
 	y=0,
-	sprite = love.graphics.newImage("assets.bomb")
+	sprite = love.graphics.newImage("assets/bomb.png")
 
     }
 end
+
+
 
 function player_movement() --{{{3
 	if love.keyboard.isDown("q") or love.keyboard.isDown("left") then 
@@ -48,6 +50,7 @@ end
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
 	player_create()
+	bombe_create()
 	menu = 'ingame'
 	ingame_timer = 0
 	global_timer = 0
@@ -86,8 +89,8 @@ end
 
 function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
-		-- love.graphics.rectangle("fill",600, 100,100,20,40,1)
-		love.graphics.draw(p.sprite,p.x,p.y,0,p.scale_x,scale_y)
+		love.graphics.draw(p.sprite,p.x,p.y,0,p.scale_x,scale_y) --joueur
+		love.graphics.draw(b.sprite,b.x,b.y,0,0.2,0.2)
 	end
 	if debug then
 		love.graphics.print(p.x.."/"..p.y, 0, 0, 0,2,2)
