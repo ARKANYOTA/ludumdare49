@@ -12,15 +12,15 @@ function love.load() -- LOAD {{{2
 	menu = 'ingame'
 	ingame_timer = 0
 	global_timer = 0
-	timer = 0
-	debug = false
+	debug = true 
 end
 
 function love.update(dt) -- UPDATE {{{2
-	timer = timer + dt
+	global_timer = global_timer + dt
 	if menu == 'ingame' then
 		global_timer = global_timer + 1
 		player_movement(dt)
+		coll = collision(p.x,p.y,b.x,b.y)
 	end
 end
 
@@ -32,24 +32,31 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 	if key == "f5" then love.event.quit("restart") end
 	if key == "f3" then debug = not debug end
 	if menu == "ingame" then -- ingame {{{3
-		
 	end
 	if menu == "menu" then -- menu {{{3
 
+	end
+	if debug then
+		if key=="m" then
+			menu = "menu"
+		end
+		if key=="g" then
+			menu = "ingame"
+		end
 	end
 end
 
 function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
-		love.graphics.print(p.x.."/"..p.y, 0, 0, 0,2,2)
-		love.graphics.print(string.format("%.3f",timer), 0, 50, 0,2,2) -- arrondi a 3 décimale apres ,
 		love.graphics.rectangle("fill",600, 100,100,20,40,1)
-		
 		love.graphics.draw(p.sprite,p.x,p.y,0,p.scale_x,scale_y) --joueur
-
 		love.graphics.draw(b.sprite,b.x,b.y,0,0.2,0.2)
 	end
 	if debug then
-		love.graphics.print(tostring(timer), 40, 0)
+		love.graphics.print(p.x.."/"..p.y, p.x, p.y-50, 0,2,2) -- coordonnées player
+		love.graphics.print(b.x.."/"..b.y, b.x+50, b.y, 0,2,2) -- coordonnées bomb
+		love.graphics.print(coll, 0, 0, 0,2,2)
+		love.graphics.print(string.format("%.3f",global_timer), 0, 50, 0,2,2) -- arrondi a 3 décimale apres ,
+		love.graphics.print(p.x.."/"..p.y, 0, 0, 0,2,2)
 	end
 end	
