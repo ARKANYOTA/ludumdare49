@@ -21,20 +21,24 @@ function make_blank_map(w, h)
 end
 
 function get_map(map, x, y)
+    x = math.floor(x)
+    y = math.floor(y)
     if x <= 0 or #map[1] < x or y <= 0 or #map < y then 
-        return 1
+        return 0
     end
     return map[y][x]
 end
 
 function set_map(map, x, y, val)
+    x = math.floor(x)
+    y = math.floor(y)
     if x <= 0 or #map[1] < x or y <= 0 or #map < y then 
         return false
     end
     map[y][x] = val
     return true
 end
-
+--[[
 function make_collision_table()
     coll_table = {}
     for y = 0, 2700, bl.w do
@@ -44,7 +48,7 @@ function make_collision_table()
         end
         table.insert(coll_table,coll_table_x)
     end
-end
+end--]]
 
 function is_solid(map, x, y)
     return get_map(map, x, y) == 1
