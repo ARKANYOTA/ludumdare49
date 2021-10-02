@@ -7,8 +7,8 @@ function block_create() --{{{2
         x = 500,
         y = 0,
         sprite = love.graphics.newImage("assets/stone.jpg"),
-        scale_x = 1,
-		scale_y = 1,
+        scale_x = 0.5,
+		scale_y = 0.5,
 
     }
     bl.w, bl.h  = bl.sprite:getWidth()*bl.scale_x, bl.sprite:getHeight()*bl.scale_y

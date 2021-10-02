@@ -64,6 +64,7 @@ function love.update(dt) -- UPDATE {{{2
 	end
 	
 	if menu == 'ingame' then
+		collision_table()
 		global_timer = global_timer + 1
 		player_movement(dt)
 		coll_check = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
@@ -168,6 +169,7 @@ function draw_debug()
 		draw_collision(p.x,p.y,p.w,p.h)
 		love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50) -- coordonnées player
 		love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
+		love.graphics.print(coll_table,0,0)
 		--love.graphics.print(coll,16,16)
 		love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
 	end
