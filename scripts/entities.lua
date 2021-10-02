@@ -9,7 +9,6 @@ function block_create() --{{{2
         sprite = love.graphics.newImage("assets/stone.jpg"),
         scale_x = 1,
 		scale_y = 1,
-
     }
     bl.w, bl.h  = bl.sprite:getWidth()*bl.scale_x, bl.sprite:getHeight()*bl.scale_y
 end
@@ -31,8 +30,12 @@ function bomb_create()--{{{2
         sprite = love.graphics.newImage("assets/bomb.png"),
         scale_x = 0.2,
 		scale_y = 0.2,
+
+        throwspeed = 300,
+        catchcooldown = 0,
+        def_catchcooldown = 1, 
     }
-    b.w, b.h  = b.sprite:getWidth()*b.scale_x, b.sprite:getHeight()*b.scale_y
+    b.w, b.h  = b.sprite:getWidth()*b.scale_x, b.sprite:getHeight() * b.scale_y
     --b.h =sprite:getHeight()
 end
 
@@ -45,11 +48,13 @@ function player_create() -- {{{2
 		dy = 0,
 		speed = 70,
 		friction = 0.8,
-		sprite = love.graphics.newImage("assets/player01.png"),
-		scale_x = 0.5,
-		scale_y = 0.5,
+        angle = 0,
 
-        bomb = {},
+		sprite = love.graphics.newImage("assets/player01.png"),
+		scale_x = 0.2,
+		scale_y = 0.2,
+
+        bomb = b,
         hasBomb = false,
 
         cursor = {
@@ -67,16 +72,24 @@ function player_create() -- {{{2
             active = false,
         },
 	}
-    p.w, p.h  = p.sprite:getWidth()*p.scale_x, p.sprite:getHeight()*p.scale_y
+    p.w = p.sprite:getWidth() * p.scale_x 
+    p.h = p.sprite:getHeight() * p.scale_y
 end
 
-function player_cursor(dt) -- {{{2
-    local mx, my = love.mouse.getPosition()
-    p.cursor.x, p.cursor.y = mx, my
+function player_update()
+    local dt = love.timer.getDelta()
+    player_movement(dt)
+    coll_check = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
+    player_get_bomb()
+    player_cursor()
+    throw_bomb()
+    update_bomb(dt)
 end
+
 
 function player_movement(dt) --{{{2
 	local dir_vector = {x = 0, y = 0}
+    
     if love.keyboard.isScancodeDown("a") or love.keyboard.isScancodeDown("left") then
         dir_vector.x = dir_vector.x - 1
     end 
@@ -105,22 +118,44 @@ function player_draw()--{{{2
     love.graphics.draw(p.sprite, p.x, p.y, 0, p.scale_x, p.scale_y)
 end
 
+function player_cursor(dt) -- {{{2
+    local mx, my = love.mouse.getPosition()
+    local click = love.mouse.isDown(1)
+    p.cursor.x, p.cursor.y = mx, my
+    p.cursor.active = click
+
+    local x = mx - (p.x + p.w/2)
+    local y = my - (p.y + p.h/2)
+    p.angle = math.atan2(y, x)
+end
+
 function draw_cursor()
     local c = p.cursor
     love.graphics.draw(c.sprite, c.x, c.y, 0, c.scale_x, c.scale_y, c.w/2, c.h/2)
 end
 
 function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
-    if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true then
+    if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true and b.catchcooldown <= 0 then
 		b.x = p.x
-		b.y = p.y-100
-		p.getbomb = 1
+		b.y = p.y - 100
+		p.hasBomb = true
     else
-		p.getbomb = 0
-
+		p.hasBomb = false
     end
 end
 
 function throw_bomb()
-    
+    if p.cursor.active and p.hasBomb then
+        p.hasBomb = false
+        b.dx = math.cos(p.angle) * b.throwspeed
+        b.dy = math.sin(p.angle) * b.throwspeed
+        b.catchcooldown = b.def_catchcooldown
+    end
+end
+function update_bomb(dt)
+    b.catchcooldown = math.max(b.catchcooldown - dt, 0)
+    if not p.hasBomb then
+        b.x = b.x + b.dx * dt
+        b.y = b.y + b.dy * dt
+    end
 end
