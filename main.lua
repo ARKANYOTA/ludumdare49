@@ -32,7 +32,7 @@ function love.load() -- LOAD {{{2
     font = love.graphics.newFont(15, "none", 3)
     love.graphics.setFont(font)
 
-	start_menu('menu')
+	start_menu('menu') -- valeurs posibles menu,ingame, ingame_menu, gameover
 	ingame_timer = 0
 	global_timer = 0
 	debug = false 
