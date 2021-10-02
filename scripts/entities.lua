@@ -36,8 +36,8 @@ function bomb_create()--{{{2
         active = false,
 
         sprite = love.graphics.newImage("assets/bomb.png"),
-        scale_x = 0.2,
-		scale_y = 0.2,
+        scale_x = 0.1,
+		scale_y = 0.1,
 
         throwspeed = 300,
         catchcooldown = 0,
@@ -174,11 +174,11 @@ function update_bomb(dt)
             spawn_smoke(b.x, b.y)
         end
     else
-        b.x = p.x - p.w/2
-        b.y = p.y - 80
+        b.x = p.x - p.w + 10
+        b.y = p.y - 40
     end
 end
 
 function draw_bomb()
-    love.graphics.draw(b.sprite, b.x - b.w/2, b.y - b.h/2, 0, b.scale_x, b.scale_y)
+    love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), 0, b.scale_x, b.scale_y)
 end
