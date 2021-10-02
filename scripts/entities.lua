@@ -1,4 +1,14 @@
 -- FUNCTIONS {{{1
+function block_create()
+    block = {
+        x = 40,
+        y = 0 
+
+    }
+end
+
+
+
 --Player {{{2
 function bomb_create()
     b = {
@@ -27,8 +37,8 @@ function player_create() -- {{{3
 		speed = 70,
 		friction = 0.8,
 		sprite = love.graphics.newImage("assets/player01.png"),
-		scale_x = 1,
-		scale_y = 1,
+		scale_x = 0.5,
+		scale_y = 0.5,
 
         bomb = {},
         hasBomb = false,
@@ -94,7 +104,7 @@ end
 function player_get_bomb() -- si collision, bomb s'accroche au mec
     if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true then
 		b.x = p.x
-		b.y = p.y-40
+		b.y = p.y-100
 		p.getbomb = 1
     else
 		p.getbomb = 0
@@ -112,8 +122,6 @@ function collision(x1,y1,w1,h1,x2,y2,w2,h2) -- si collision entre deux objets, r
 end
 
 function draw_collision(x,y,w,h)
-	love.graphics.rectangle("fill",x,y,4,h) -- vertical left
-	love.graphics.rectangle("fill",x+w,y,4,h) -- vert right
-	love.graphics.rectangle("fill",x,y,w,4)
-	love.graphics.rectangle("fill",x,y+w,w,4)
+    love.graphics.rectangle("line",x,y,w,h)
 end
+
