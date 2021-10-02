@@ -28,6 +28,7 @@ function love.load() -- LOAD {{{2
 	-- Create entities
 	player_create()
 	bomb_create()
+	block_create()
 	menu = 'menu'
 	ingame_timer = 0
 	global_timer = 0
@@ -85,8 +86,10 @@ function love.draw() -- DRAWING {{{2
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		player_draw()
 		player_cursor()
-		love.graphics.draw(b.sprite, b.x, b.y, 0, 0.2, 0.2)
 		draw_cursor()
+		
+		love.graphics.draw(b.sprite, b.x, b.y, 0, b.scale_x, b.scale_y)
+		block_draw()
 	end
 	if menu == "menu" then -- menu {{{3
 		draw_menu()
@@ -160,6 +163,7 @@ end
 		if menu == 'ingame' then
 			draw_collision(b.x,b.y,b.w,b.h)
 			draw_collision(p.x,p.y,p.w,p.h)
+			draw_collision(bl.x,bl.y,bl.w,bl.h)
 			love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
 			love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
 			--love.graphics.print(coll,16,16)
