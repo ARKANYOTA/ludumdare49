@@ -39,7 +39,7 @@ function love.load() -- LOAD {{{2
 	debug = true 
 
 	font = love.graphics.newFont(32)
-	table.insert( buttons, newButton("Start Game", function() print("Starting Game") end))
+	table.insert( buttons, newButton("Start Game", function() menu = "ingame" end))
 	table.insert( buttons, newButton("Tuto", function() print("Tuto") end))
 	table.insert( buttons, newButton("Info", function() print("Info") end))
 	table.insert( buttons, newButton("Exit Game", function() love.event.quit(0) end))
@@ -127,16 +127,17 @@ function love.draw() -- DRAWING {{{2
 	end
 	if debug then
 		love.graphics.setColor(255, 255, 255, 1.0)
-		love.graphics.print(p.x.."/"..p.y, p.x, p.y-50, 0,2,2) -- coordonnées player
-		love.graphics.print(b.x.."/"..b.y, b.x+50, b.y, 0,2,2) -- coordonnées bomb
-		--love.graphics.print(coll,16,16)
-		see_collision(b.x,b.y,b.w,b.h)
-		see_collision(p.x,p.y,p.w,p.h)
-		love.graphics.print(string.format("%.3f",p.x).."/"..string.format("%.3f",p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
-		love.graphics.print(string.format("%.3f",b.x).."/"..string.format("%.3f",b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
+		if menu == 'ingame' then
+			see_collision(b.x,b.y,b.w,b.h)
+			see_collision(p.x,p.y,p.w,p.h)
+			love.graphics.print(p.x.."/"..p.y, p.x, p.y-50, 0,2,2) -- coordonnées player
+			love.graphics.print(b.x.."/"..b.y, b.x+50, b.y, 0,2,2) -- coordonnées bomb
+			--love.graphics.print(coll,16,16)
+			love.graphics.print(string.format("%.3f",p.x).."/"..string.format("%.3f",p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
+			love.graphics.print(string.format("%.3f",b.x).."/"..string.format("%.3f",b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
+			love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
+		end
 		--love.graphics.print(string.format("%.3f",global_timer), 0, 50, 0,2,2) -- timer ,
-
-
-		love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
+		
 	end
 end	
