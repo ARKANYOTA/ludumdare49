@@ -89,50 +89,59 @@ function love.draw() -- DRAWING {{{2
 		player_draw()
 		player_cursor()
 		love.graphics.draw(b.sprite, b.x, b.y, 0, 0.2, 0.2)
+		draw_cursor()
 	end
 	if menu == "menu" then -- menu {{{3
-		local ww = love.graphics.getWidth()
-		local wh = love.graphics.getHeight()
-
-		local button_with = ww * (1/3)
-		local margin = 16
-
-		local total_height = (BUTTON_HEIGHT + margin) * #buttons
-		local cursor_y = 0
-
-		for i, button in ipairs(buttons) do
-			button.last = button.now
-			local bx = (ww * 0.5) - (button_with * 0.5)
-			local by = (wh * 0.5) - (total_height *0.5) + cursor_y
-			local color = {0.4, 0.4, 0.5, 1.0}
-			local mx, my = love.mouse.getPosition()
-			local hot = mx > bx and mx < bx + button_with and my > by and my < by + BUTTON_HEIGHT
-			if hot then
-				color = {0.8, 0.8, 0.9, 1.0}
-			end
-			button.now = love.mouse.isDown(1)
-			if button.now and not button.last and hot then
-				button.fn()
-			end
-			love.graphics.setColor(unpack(color))
-			love.graphics.rectangle("fill", bx, by, button_with, BUTTON_HEIGHT)
-			love.graphics.setColor(0, 0, 0, 1)
-			local textW = font:getWidth(button.text)
-			local textH = font:getHeight(button.text)
-			love.graphics.print(button.text, font, (ww * 0.5) - textW * 0.5, by + textH * 0.5)
-			cursor_y = cursor_y + (BUTTON_HEIGHT + margin)
-		end
+		draw_menu()
 	end
+
 	if debug then
-		love.graphics.setColor(255, 255, 255, 1.0)
-		if menu == 'ingame' then
-			draw_collision(b.x,b.y,b.w,b.h)
-			draw_collision(p.x,p.y,p.w,p.h)
-			love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
-			love.graphics.print(b.x.."/"..b.y, b.x+50, b.y, 0,2,2) -- coordonnées bomb
-			--love.graphics.print(coll,16,16)
-			love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
-		end
-		
+		draw_debug()	
 	end
 end	
+
+function draw_menu()
+	local ww = love.graphics.getWidth()
+	local wh = love.graphics.getHeight()
+
+	local button_with = ww * (1/3)
+	local margin = 16
+
+	local total_height = (BUTTON_HEIGHT + margin) * #buttons
+	local cursor_y = 0
+
+	for i, button in ipairs(buttons) do
+		button.last = button.now
+		local bx = (ww * 0.5) - (button_with * 0.5)
+		local by = (wh * 0.5) - (total_height *0.5) + cursor_y
+		local color = {0.4, 0.4, 0.5, 1.0}
+		local mx, my = love.mouse.getPosition()
+		local hot = mx > bx and mx < bx + button_with and my > by and my < by + BUTTON_HEIGHT
+		if hot then
+			color = {0.8, 0.8, 0.9, 1.0}
+		end
+		button.now = love.mouse.isDown(1)
+		if button.now and not button.last and hot then
+			button.fn()
+		end
+		love.graphics.setColor(unpack(color))
+		love.graphics.rectangle("fill", bx, by, button_with, BUTTON_HEIGHT)
+		love.graphics.setColor(0, 0, 0, 1)
+		local textW = font:getWidth(button.text)
+		local textH = font:getHeight(button.text)
+		love.graphics.print(button.text, font, (ww * 0.5) - textW * 0.5, by + textH * 0.5)
+		cursor_y = cursor_y + (BUTTON_HEIGHT + margin)
+	end
+end
+
+function draw_debug()
+	love.graphics.setColor(255, 255, 255, 1.0)
+	if menu == 'ingame' then
+		draw_collision(b.x,b.y,b.w,b.h)
+		draw_collision(p.x,p.y,p.w,p.h)
+		love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50) -- coordonnées player
+		love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
+		--love.graphics.print(coll,16,16)
+		love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
+	end
+end
