@@ -78,6 +78,7 @@ function love.update(dt) -- UPDATE {{{2
 	
 	if menu == 'ingame' then
 		player_update()
+		enemy_update()
 	end
 
 	for i,pt in ipairs(particles) do
@@ -112,7 +113,7 @@ function love.draw() -- DRAWING {{{2
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		draw_player()
 		draw_bomb()
-		draw_ennemy()
+		draw_enemy()
 		block_draw()
 		player_cursor()
 
@@ -193,16 +194,22 @@ function draw_debug()
 		--love.graphics.print(b.catchcooldown, b.x+50, b.y-20) -- coordonnées bomb
 		--love.graphics.print(coll,16,16)
 		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
-		debug_print(2, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
-		debug_print(3, "bomb timer:"..math.floor(b.timer * 1000)/1000)
-		debug_print(4, "bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000)
-		debug_print(5, "bomb active:"..tostring(b.active))
-		debug_print(6, "collision bomb/player: "..tostring(coll_check))
-		--debug_print(7, math.floor(testx/bl.w)+1)
-		--debug_print(8, math.floor(testy/bl.h)+1)
-		debug_print(9, "CMwh: "..tostring(CMwh))
-		debug_print(10, p.x-ennemy.x.."/"..vartemp)
+		debug_print(2, "player dx:"..math.floor(p.dx).." dy:"..math.floor(p.dy))
+		debug_print(3, "solidx: "..tostring(p.solidx).." solidy:"..tostring(p.solidy))
+
+		debug_print(5, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
+		debug_print(6, "bomb timer:"..math.floor(b.timer * 1000)/1000)
+		debug_print(7, "bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000)
+		debug_print(8, "bomb active:"..tostring(b.active))
+		debug_print(9, "collision bomb/player: "..tostring(coll_check))
+		debug_print(10, "dif_x : "..math.floor(p.angle))
+		debug_print(13, "CMwh: "..tostring(CMwh))
 		
+		for i,v in ipairs(map) do
+			for j,u in ipairs(v) do
+				love.graphics.print(tostring(u), j*bl.w, i*bl.h)
+			end
+		end
 	end
 	debug_print(0, "debug: is_on ; menu: "..menu)
 end
@@ -220,7 +227,7 @@ function start_game()
 	player_create()
 	bomb_create()
 	block_create()
-	ennemy_create()
+	enemy_create()
 	ingame_timer = 0
 	menu = 'ingame'
 	CM.update(0)

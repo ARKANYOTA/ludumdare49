@@ -17,14 +17,15 @@ function block_create() --{{{2
     
 end
 
-function ennemy_create()
-    ennemy = {
-        x = 0,
-        y=0,
-        sprite = love.graphics.newImage("assets/ennemy01.png"),
+function enemy_create()
+    enemy = {
+        x = 200,
+        y=200,
+        sprite = love.graphics.newImage("assets/enemy01.png"),
         speed = 2,
         scale_x = 0.25,
-        scale_y = 0.25
+        scale_y = 0.25,
+        angle = 0
 
 
     }
@@ -44,6 +45,8 @@ function bomb_create()--{{{2
         sprite = love.graphics.newImage("assets/bomb.png"),
         scale_x = 0.1,
 		scale_y = 0.1,
+        r = 0,
+        dr = 1,
 
         throwspeed = 300,
         catchcooldown = 0,
@@ -127,9 +130,30 @@ function player_movement(dt) --{{{2
     dir_vector.x = dir_vector.x / norm 
     dir_vector.y = dir_vector.y / norm
 
-    p.dy = (p.dy + dir_vector.y * p.speed) * p.friction
-    p.dx = (p.dx + dir_vector.x * p.speed) * p.friction
-    testy = p.y + p.dy * dt
+    p.dx = p.dx + dir_vector.x * p.speed
+    p.dy = p.dy + dir_vector.y * p.speed
+
+    -- Collision
+    local solid_x = is_solid(map, (p.x+p.dx)/bl.w, p.y/bl.h)
+    local solid_y = is_solid(map, p.x/bl.w, (p.y+p.dy)/bl.h)
+
+    p.solidx = solid_x
+    p.solidy = solid_y
+
+    if solid_x then
+        p.dx = p.dx * p.bounce
+    end
+    if solid_y then
+        p.dy = p.dy * p.bounce
+    end
+
+    p.x = p.x * p.friction
+    p.y = p.y * p.friction
+
+    p.x = p.x + p.dx * dt
+    p.y = p.y + p.dy * dt
+    
+    --[[testy = p.y + p.dy * dt
     testx = p.x + p.dx * dt
     if coll_table[math.floor(testy/bl.h)+1][math.floor(testx/bl.h)+1] == 0 and 
        coll_table[math.floor(testy/bl.h)+1][math.floor((testx+p.w)/bl.h)+1] == 0 and
@@ -138,7 +162,7 @@ function player_movement(dt) --{{{2
        then
         p.y = p.y + p.dy * dt
         p.x = p.x + p.dx * dt
-    end
+    end]]
 end
 
 function draw_player()--{{{2
@@ -199,23 +223,26 @@ function update_bomb(dt)
 end
 
 function draw_bomb()
-    love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), 0, b.scale_x, b.scale_y)
+    love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), b.r, b.scale_x, b.scale_y)
 end
 
-function draw_ennemy()
-    love.graphics.draw(ennemy.sprite,ennemy.x,ennemy.y,0,ennemy.scale_x,ennemy.scale_y)
+function draw_enemy()
+    love.graphics.draw(enemy.sprite,enemy.x,enemy.y,0,enemy.scale_x,enemy.scale_y)
 end
 
-function move_toward(target_x,target_y,x,y,speed)
-    diff_x = target_x -x
-    vartemp = diff_x
-    diff_y = target_y-y
-    if diff_x > 0 then x = x + speed
-    elseif diff_x < 0 then x = x - speed end
-    if diff_y < 0 then y = y - speed
-    elseif diff_y > 0 then y = y + speed end
+function move_toward()
+    local x = enemy.x - (p.x + p.w/2)
+    local y = enemy.y - (p.x + p.h/2)
+    enemy.angle = math.atan2(y, x)
+    if  (p.x <= enemy.x and p.y <= enemy.y) or (p.x >= enemy.x and p.y >= enemy.y) then
+    enemy.x = enemy.x - math.cos(enemy.angle) * enemy.speed
+    enemy.y = enemy.y - math.cos(enemy.angle) * enemy.speed
+    elseif  (p.x >= enemy.x and p.y <= enemy.y) or (p.x <= enemy.x and p.y >= enemy.y) then
+        enemy.y = enemy.y + math.cos(enemy.angle) * enemy.speed
+        enemy.x = enemy.x - math.cos(enemy.angle) * enemy.speed
+    end
 end
 
-function ennemy_update()
-    move_toward(p.x,p.y,ennemy.x,ennemy.y,ennemy.speed)
+function enemy_update()
+    move_toward()
 end
