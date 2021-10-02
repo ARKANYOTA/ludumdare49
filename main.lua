@@ -54,7 +54,7 @@ function love.load() -- LOAD {{{2
 	font = love.graphics.newFont(32)
 
 	-- Menu {{{3
-	start_menu('menu') -- valeurs posibles menu,ingame, ingame_menu, gameover
+	start_menu('menu') -- valeurs posibles menu,ingame, pause, gameover
 	ingame_timer = 0
 	global_timer = 0
 	debug = true 
@@ -88,13 +88,16 @@ end
 
 function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 	-- always {{{3
-	if key == "escape" or (love.keyboard.isDown("lctrl") and key == "c") then
+	if (love.keyboard.isDown("lctrl") and key == "c") then
 		love.event.quit()
 	end
 	if key == "f5" then love.event.quit("restart") end
 	if key == "f3" then debug = not debug end
 	if key == "f6" then print_table(coll_table) end
 	if menu == "ingame" then -- ingame {{{3
+		if key == "escape" then
+			start_menu("pause")
+		end
 	end
 	if has_value(menus,menu) then -- menu {{{3
 
@@ -199,9 +202,9 @@ function draw_debug()
 		debug_print(4, "bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000)
 		debug_print(5, "bomb active:"..tostring(b.active))
 		debug_print(6, "collision bomb/player: "..tostring(coll_check))
-		debug_print(7, math.floor(testx/bl.w)+1)
-		debug_print(8, math.floor(testy/bl.h)+1)
-		debug_print(9, "CMwh: "..tostring(CMwh))
+		--debug_print(7, math.floor(testx/bl.w)+1)
+		--debug_print(8, math.floor(testy/bl.h)+1)
+		debug_print(7, "CMwh: "..tostring(CMwh))
 		--love.graphics.print(math.floor((testx+p.w)/bl.h)+1,0,148)
 		--love.graphics.print(math.floor((testy+p.h)/bl.h)+1,0,148)
 		
@@ -228,9 +231,14 @@ function start_game()
 	CM.update(0)
 end
 
+function continue_game()
+	love.mouse.setVisible(false)
+	menu = 'ingame'
+	CM.update(0)
+end
+
 function start_menu(m)
 	love.mouse.setVisible(true)
-	CMwh = 0
 	for i, v in ipairs(buttons) do buttons[i] = nil end
 	menu = m
 	if menu =='menu'then
@@ -241,6 +249,12 @@ function start_menu(m)
 	end
 	if menu =='gameover' then
 		table.insert(buttons, newButton("Restart", start_game))
+		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
+		--table.insert(buttons, newButton("principal", start_game))
+		table.insert(buttons, newButton("Rage quit", function() love.event.quit(0) end))
+	end
+	if menu =='pause' then
+		table.insert(buttons, newButton("Continuer", continue_game))
 		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
 		--table.insert(buttons, newButton("principal", start_game))
 		table.insert(buttons, newButton("Rage quit", function() love.event.quit(0) end))
