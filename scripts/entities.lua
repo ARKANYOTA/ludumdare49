@@ -2,12 +2,16 @@
 --Player {{{2
 function bomb_create()
     b = {
-		x = 0,
-		y = 0,
+		x = 16,
+		y = 16,
 		dx = 0,
 		dy = 0,
+        scale_x = 0.2,
+		scale_y = 0.2,
 		sprite = love.graphics.newImage("assets/bomb.png")
     }
+    b.w, b.h  = b.sprite:getWidth()*b.scale_x, b.sprite:getHeight()*b.scale_y
+    --b.h =sprite:getHeight()
 end
 
 function player_create() -- {{{3
@@ -23,6 +27,7 @@ function player_create() -- {{{3
 		scale_x = 1,
 		scale_y = 1
 	}
+    p.w, p.h  = p.sprite:getWidth()*p.scale_x, p.sprite:getHeight()*p.scale_y
 end
 
 function player_movement(dt) --{{{3
@@ -49,4 +54,13 @@ function player_movement(dt) --{{{3
 
     p.x = p.x + p.dx * dt
     p.y = p.y + p.dy * dt
+end
+
+function collision(x1,y1,w1,h1,x2,y2,w2,h2) -- si collision entre deux objets, return true
+    if x1+w1 > x2 and
+       x1 < x2 + w2 and
+       y1 < y2 + h2 and
+       y1 + h1 > y2 then
+    return true
+    end
 end
