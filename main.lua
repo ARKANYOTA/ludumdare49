@@ -53,10 +53,6 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 
 	-- Debug
-	if debug then
-		update_buttons()
-		menu = "ingame"
-	end
 end
 
 function love.update(dt) -- UPDATE {{{2

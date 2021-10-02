@@ -25,8 +25,8 @@ end
 
 function bomb_create()--{{{2
     b = {
-		x = 16,
-		y = 16,
+		x = 300,
+		y = 300,
 		dx = 0,
 		dy = 0,
  
@@ -132,14 +132,20 @@ end
 
 function player_cursor(dt) -- {{{2
     local mx, my = love.mouse.getPosition()
-    local click = love.mouse.isDown(1)
     p.cursor.x, p.cursor.y = mx, my
-    p.cursor.active = click
 
     local x = mx - (p.x + p.w/2)
     local y = my - (p.y + p.h/2)
     p.angle = math.atan2(y, x)
 end
+
+function love.mousepressed(x, y, button)    
+    p.cursor.active = (button == 1)
+end
+function love.mousereleased(x, y, button)
+    p.cursor.active = not (button == 1)
+end
+
 
 function draw_cursor()
     local c = p.cursor
