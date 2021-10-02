@@ -179,6 +179,8 @@ function draw_debug()
 		love.graphics.print("bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000, 0, 80)
 		love.graphics.print("bomb active:"..tostring(b.active), 0, 100)
 		love.graphics.print("collision bomb/player: "..tostring(coll_check),0, 120)
+		love.graphics.print(math.floor(testx/bl.w),0,134)
+		love.graphics.print(math.floor(testy/bl.h),0,148)
 	end
 	love.graphics.print("debug: is_on",0,0)
 end
