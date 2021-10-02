@@ -24,35 +24,28 @@ end
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
 	-- UI
+	buttons = {}
 	ww = love.graphics.getWidth()
 	wh = love.graphics.getHeight()
 	button_width = ww * (1/3)
 	margin = 16
+
 	-- Proper font scaling 
     font = love.graphics.newFont(15, "none", 3)
     love.graphics.setFont(font)
+	font = love.graphics.newFont(32)
 
-	-- Create entities
-	player_create()
-	bomb_create()
-	block_create()
-	menu = 'menu'
+	-- Menu {{{3
+	start_menu('menu') -- valeurs posibles menu,ingame, ingame_menu, gameover
 	ingame_timer = 0
 	global_timer = 0
 	debug = false 
-
-	-- Menu {{{3
 	BUTTON_HEIGHT = 64
-	buttons = {}
-	font = love.graphics.newFont(32)
 
-	table.insert(buttons, newButton("Start Game", function() menu = "ingame" end))
-	table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
-	table.insert(buttons, newButton("Info", function() print("Info") end))
-	table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
+	-- Particles
+	particles = {}
 
 	coll_check = false
-
 end
 
 function love.update(dt) -- UPDATE {{{2
@@ -67,6 +60,9 @@ function love.update(dt) -- UPDATE {{{2
 		player_update()
 	end
 
+	for i,pt in ipairs(particles) do
+		update_particle(pt, dt)
+	end
 end
 
 function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
@@ -82,8 +78,8 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 
 	end
 	if debug then
-		if key=="m" then menu = "menu" end
-		if key=="g" then menu = "ingame" end
+		if key=="g" then start_game() end
+		if key=="m" then start_menu("menu") end
 	end
 end
 
@@ -91,11 +87,17 @@ function love.draw() -- DRAWING {{{2
 	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'ingame' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
-		player_draw()
+		draw_player()
+		draw_bomb()
 
-		love.graphics.draw(b.sprite, b.x, b.y, 0, b.scale_x, b.scale_y)
 		block_draw()
 		player_cursor()
+
+		for i,pt in ipairs(particles) do
+			draw_particle(pt)
+		end
+
+		-- Keep at last
 		draw_cursor()
 	end
 	if menu == "menu" then -- menu {{{3
@@ -156,14 +158,39 @@ function draw_debug()
 	if menu == 'ingame' then
 		draw_collision(b.x,b.y,b.w,b.h)
 		draw_collision(p.x,p.y,p.w,p.h)
-		love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50) -- coordonnées player
-		love.graphics.print(math.floor(p.angle * 10000)/10000, p.x, p.y-70) 
-		love.graphics.print("cursor.active: "..tostring(p.cursor.active), p.x, p.y-90) 
 
 		love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
 		love.graphics.print(b.catchcooldown, b.x+50, b.y-20) -- coordonnées bomb
 		--love.graphics.print(coll,16,16)
-		love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
+		-- coordonnées player
+		love.graphics.print("player x:"..math.floor(p.x).." y:"..math.floor(p.y), 0, 20)
+		-- coordonnées bomb
+		love.graphics.print("bomb x:"..math.floor(b.x).." y:"..math.floor(b.y), 0, 40)
+		love.graphics.print("bomb timer:"..math.floor(b.timer * 1000)/1000, 0, 60)
+		love.graphics.print("bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000, 0, 80)
+		love.graphics.print("bomb active:"..tostring(b.active), 0, 100)
+		love.graphics.print("collision bomb/player: "..tostring(coll_check),0, 120)
 	end
+	love.graphics.print("debug: is_on",0,0)
 end
 
+function start_game()
+	love.mouse.setVisible(false)
+	player_create()
+	bomb_create()
+	block_create()
+	ingame_timer = 0
+	menu = 'ingame'
+end
+
+function start_menu(m)
+	love.mouse.setVisible(true)
+	for i, v in ipairs(buttons) do buttons[i] = nil end
+	menu = m
+	if menu =='menu'then
+		table.insert(buttons, newButton("Start Game", start_game))
+		table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
+		table.insert(buttons, newButton("Info", function() print("Info") end))
+		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
+	end
+end
