@@ -9,3 +9,13 @@ function draw_collision(x,y,w,h)--{{{2
     love.graphics.rectangle("line",x,y,w,h)
 end
 
+function collision_table()
+    coll_table = {}
+    for y = 0, 700, bl.h do
+        local coll_table_x = {}
+        for x = 0, 700, bl.w do
+            table.insert(coll_table_x,0)
+        end
+        table.insert(coll_table,coll_table_x)
+    end
+end

@@ -17,7 +17,7 @@ function newButton(text, fn) -- {{{2
     }
 end
 
-function see_collision(x,y,w,h) -- {{{2
+function draw_collision(x,y,w,h) -- {{{2
 	love.graphics.rectangle("line",x,y,w,h) -- vertical left
 end
 
@@ -56,6 +56,7 @@ function love.update(dt) -- UPDATE {{{2
 	end
 	
 	if menu == 'ingame' then
+		collision_table()
 		global_timer = global_timer + 1
 		player_update()
 	end
@@ -194,3 +195,4 @@ function start_menu(m)
 		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
 	end
 end
+ 
