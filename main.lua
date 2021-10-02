@@ -8,7 +8,7 @@ function player_create() -- {{{3
 	p = {
 		x=0,
 		y=0,
-		sprite = love.graphics.newImage("assets/player.sprite/player01.png"),
+		sprite = love.graphics.newImage("assets/player01.png"),
 		speed = 8,
 		scale_x = 1,
 		scale_y = 1
@@ -16,10 +16,12 @@ function player_create() -- {{{3
 end
 
 function bombe_create()
-	b = {
+    b = {
+	x=0,
+	y=0,
+	sprite = love.graphics.newImage("assets.bomb")
 
-
-	}
+    }
 end
 
 function player_movement() --{{{3
@@ -87,35 +89,3 @@ function love.draw() -- DRAWING {{{2
 		love.graphics.print(tostring(timer), 40, 0)
 	end
 end	
-
-
------------------
---Player function 
------------------
-
-function player_create()
-	p = {
-		x=0,
-		y=0,
-		sprite = love.graphics.newImage("assets/player01.png"),
-		speed = 8
-		}
-end
-
-function player_movement()
-	if love.keyboard.isDown("left") then 
-		p.x = p.x - p.speed
-	end
-
-	if love.keyboard.isDown("right") then 
-		p.x = p.x + p.speed
-	end
-
-	if love.keyboard.isDown("up") then 
-		p.y = p.y - p.speed
-	end
-
-	if love.keyboard.isDown("down") then
-		 p.y = p.y + p.speed
-	end
-end
