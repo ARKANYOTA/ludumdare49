@@ -3,12 +3,8 @@
 -- vim: fdm=marker
 
 -- FUNCTIONS {{{1
--- is_odd, is_even {{{2
-function is_odd(n) return n%2==1 end
-function is_even(n) return n%2==0 end
-
---Player
-function player_create()
+--Player {{{2
+function player_create() -- {{{3
 	p = {
 		x=0,
 		y=0,
@@ -19,7 +15,7 @@ function player_create()
 		}
 end
 
-function player_movement()
+function player_movement() --{{{3
 	if love.keyboard.isDown("q") then 
 		p.x = p.x - p.speed
 	end
@@ -49,7 +45,6 @@ function love.load() -- LOAD {{{2
 	debug = false
 end
 
-
 function love.update(dt) -- UPDATE {{{2
 	player_movement()
 	timer = timer + dt
@@ -76,7 +71,7 @@ function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
 		love.graphics.print("Hello World!", 400, 300)
 		love.graphics.rectangle("fill",600, 100,100,20,40,1)
-		love.graphics.draw(p.sprite,p.x,p.y,0,p.scale_x,0.5)
+		love.graphics.draw(p.sprite,p.x,p.y,0,p.scale_x,scale_y)
 	end
 	if debug then
 		love.graphics.print(tostring(timer), 40, 0)
