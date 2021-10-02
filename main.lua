@@ -5,10 +5,8 @@
 --METTEZ OU IL FAUT LE METTRE SVP
 require "scripts/entities"
 
-BUTTON_HEIGHT = 64
-local buttons = {}
-local font = nil
-function newButton(text, fn)
+-- Function {{{1
+function newButton(text, fn) -- {{{2
     return {
         text=text,
         fn=fn,
@@ -17,6 +15,12 @@ function newButton(text, fn)
     }
 end
 
+function see_collision(x,y,w,h) -- {{{2
+	love.graphics.rectangle("fill",x,y,4,h) -- vertical left
+	love.graphics.rectangle("fill",x+w,y,4,h) -- vert right
+	love.graphics.rectangle("fill",x,y,w,4)
+	love.graphics.rectangle("fill",x,y+w,w,4)
+end
 
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
@@ -32,7 +36,11 @@ function love.load() -- LOAD {{{2
 	global_timer = 0
 	debug = true 
 
+	-- Menu {{{3
+	BUTTON_HEIGHT = 64
+	buttons = {}
 	font = love.graphics.newFont(32)
+
 	table.insert( buttons, newButton("Start Game", function() menu = "ingame" end))
 	table.insert( buttons, newButton("Tuto", function() print("Tuto") end))
 	table.insert( buttons, newButton("Info", function() print("Info") end))
@@ -47,11 +55,7 @@ function love.update(dt) -- UPDATE {{{2
 	if menu == 'ingame' then
 		global_timer = global_timer + 1
 		player_movement(dt)
-		if collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h) then
-		coll_check = true
-		else
-		coll_check = false
-		end
+		coll_check = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
 		player_get_bomb()
 
 	end
@@ -124,14 +128,11 @@ function love.draw() -- DRAWING {{{2
 		if menu == 'ingame' then
 			draw_collision(b.x,b.y,b.w,b.h)
 			draw_collision(p.x,p.y,p.w,p.h)
-			love.graphics.print(p.x.."/"..p.y, p.x, p.y-50, 0,2,2) -- coordonnées player
+			love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
 			love.graphics.print(b.x.."/"..b.y, b.x+50, b.y, 0,2,2) -- coordonnées bomb
 			--love.graphics.print(coll,16,16)
-			love.graphics.print(string.format("%.3f",p.x).."/"..string.format("%.3f",p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
-			love.graphics.print(string.format("%.3f",b.x).."/"..string.format("%.3f",b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
 			love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
 		end
-		--love.graphics.print(string.format("%.3f",global_timer), 0, 50, 0,2,2) -- timer ,
 		
 	end
 end	

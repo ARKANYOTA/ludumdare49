@@ -88,24 +88,21 @@ function player_draw()
     love.graphics.draw(c.sprite, c.x, c.y, 0, c.scale_x, c.scale_y, c.w/2, c.h/2)
 end
 
-function player_get_bomb()
+function player_get_bomb() -- si collision, bomb s'accroche au mec
     if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true then
-        b.x = p.x
-        b.y = p.y-40
-        p.getbomb = 1
+		b.x = p.x
+		b.y = p.y-40
+		p.getbomb = 1
     else
-        p.getbomb = 0
+		p.getbomb = 0
+
     end
 end
 
-function collision(x1, y1, w1, h1, x2, y2, w2, h2) -- si collision entre deux objets, return true
-    if x1+w1 > x2 and
-        x1 < x2 + w2 and
-        y1 < y2 + h2 and
-        y1 + h1 > y2 then
-        return true
-    end
-    return false
+
+function collision(x1,y1,w1,h1,x2,y2,w2,h2) -- si collision entre deux objets, return true
+    return (x1+w1 > x2 and x1 < x2 + w2 and
+       y1 < y2 + h2 and y1 + h1 > y2)
 end
 
 function draw_collision(x,y,w,h)
