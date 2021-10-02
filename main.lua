@@ -121,6 +121,7 @@ function love.draw() -- DRAWING {{{2
 		end
 	end
 	if debug then
+		love.graphics.setColor(255, 255, 255, 1.0)
 		if menu == 'ingame' then
 			see_collision(b.x,b.y,b.w,b.h)
 			see_collision(p.x,p.y,p.w,p.h)
@@ -129,11 +130,9 @@ function love.draw() -- DRAWING {{{2
 			--love.graphics.print(coll,16,16)
 			love.graphics.print(string.format("%.3f",p.x).."/"..string.format("%.3f",p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
 			love.graphics.print(string.format("%.3f",b.x).."/"..string.format("%.3f",b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
+			love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
 		end
-		love.graphics.setColor(255, 255, 255, 1.0)
 		--love.graphics.print(string.format("%.3f",global_timer), 0, 50, 0,2,2) -- timer ,
-
-
-		love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
+		
 	end
 end	
