@@ -4,7 +4,6 @@
 
 --METTEZ OU IL FAUT LE METTRE SVP
 require "scripts/entities"
-require "scripts/collision"
 CM = require "lib.CameraMgr".newManager()
 
 -- Function {{{1
@@ -28,7 +27,7 @@ function love.load() -- LOAD {{{2
 	ww = love.graphics.getWidth()
 	wh = love.graphics.getHeight()
 	button_width = ww * (1/3)
-
+	margin = 16
 	-- Proper font scaling 
     font = love.graphics.newFont(15, "none", 3)
     love.graphics.setFont(font)
@@ -85,12 +84,8 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 
 	end
 	if debug then
-		if key=="m" then
-			menu = "menu"
-		end
-		if key=="g" then
-			menu = "ingame"
-		end
+		if key=="m" then menu = "menu" end
+		if key=="g" then menu = "ingame" end
 	end
 end
 
@@ -104,7 +99,6 @@ function love.draw() -- DRAWING {{{2
 
 		love.graphics.draw(b.sprite, b.x, b.y, 0, b.scale_x, b.scale_y)
 		block_draw()
-		player_cursor()
 	end
 	if menu == "menu" then -- menu {{{3
 		draw_menu()
@@ -115,9 +109,9 @@ function love.draw() -- DRAWING {{{2
 end	
 
 function update_buttons()
-	local margin = 16
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
 	local cursor_y = 0
+
 	for i, button in ipairs(buttons) do
 		local bx = (ww / 2) - (button_width / 2)
 		local by = (wh / 2) - (total_height / 2) + cursor_y
@@ -136,9 +130,6 @@ function update_buttons()
 end
 
 function draw_buttons()
-	local ww = love.graphics.getWidth()
-	local wh = love.graphics.getHeight()
-	local margin = 16
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
 	local cursor_y = 0
 
