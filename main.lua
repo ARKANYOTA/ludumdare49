@@ -65,6 +65,7 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 	-- Map
 	map = make_blank_map(30, 30)
+	set_map(map, 1, 1)
 	-- Debug
 end
 
@@ -130,10 +131,10 @@ function love.draw() -- DRAWING {{{2
 		for i,pt in ipairs(particles) do
 			draw_particle(pt)
 		end
-
-		-- Keep at last
-		draw_cursor()
 		block_draw()
+		
+		-- vv KEEP AS THE LAST vv
+		draw_cursor()
 	end
 	if debug then -- {{{3
 		draw_debug_unfix()
@@ -206,7 +207,7 @@ function draw_debug()
 		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
 		debug_print(2, "player dx:"..math.floor(p.dx).." dy:"..math.floor(p.dy))
 		debug_print(3, "solidx: "..tostring(p.solidx).." solidy:"..tostring(p.solidy))
-
+		debug_print(4, "FPS: "..love.timer.getFPS())
 		debug_print(5, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
 		debug_print(6, "bomb timer:"..math.floor(b.timer * 1000)/1000)
 		debug_print(7, "bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000)

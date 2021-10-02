@@ -129,10 +129,10 @@ function player_movement(dt) --{{{2
     p.solidy = get_map(map, (p.x+p.dx)/bl.w, p.y/bl.h)
 
     if solid_x then
-        p.dx = p.dx * p.bounce
+        p.dx = p.dx * -p.bounce
     end
     if solid_y then
-        p.dy = p.dy * p.bounce
+        p.dy = p.dy * -p.bounce
     end--
 
     p.dx = p.dx * p.friction
