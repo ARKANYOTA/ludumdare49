@@ -16,10 +16,7 @@ function newButton(text, fn) -- {{{2
 end
 
 function see_collision(x,y,w,h) -- {{{2
-	love.graphics.rectangle("fill",x,y,4,h) -- vertical left
-	love.graphics.rectangle("fill",x+w,y,4,h) -- vert right
-	love.graphics.rectangle("fill",x,y,w,4)
-	love.graphics.rectangle("fill",x,y+w,w,4)
+	love.graphics.rectangle("line",x,y,w,h) -- vertical left
 end
 
 -- EVENTS{{{1
