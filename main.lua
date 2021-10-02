@@ -17,6 +17,12 @@ function newButton(text, fn) -- {{{2
     }
 end
 
+function print_table(elt)
+    for i,v in ipairs(elt) do
+		print(unpack(elt[i]))
+    end
+end
+
 function draw_collision(x,y,w,h) -- {{{2
 	love.graphics.rectangle("line",x,y,w,h) -- vertical left
 end
@@ -73,6 +79,7 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 	end
 	if key == "f5" then love.event.quit("restart") end
 	if key == "f3" then debug = not debug end
+	if key == "f6" then print_table(coll_table) end
 	if menu == "ingame" then -- ingame {{{3
 	end
 	if menu == "menu" then -- menu {{{3
@@ -100,6 +107,7 @@ function love.draw() -- DRAWING {{{2
 
 		-- Keep at last
 		draw_cursor()
+		block_draw()
 	end
 	if menu == "menu" then -- menu {{{3
 		draw_menu()
@@ -193,6 +201,7 @@ function start_menu(m)
 		table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
 		table.insert(buttons, newButton("Info", function() print("Info") end))
 		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
+		
 	end
 end
  

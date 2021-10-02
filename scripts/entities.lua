@@ -19,8 +19,7 @@ end
 
 function block_draw()--{{{2
     love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
-    coll_table[(bl.y/2)+1][bl.x/2] = 1
-    
+    coll_table[(bl.y/bl.h)+1][(bl.x/bl.w)+1] = 1  -- coll_table[y][x]
 end
 
 
