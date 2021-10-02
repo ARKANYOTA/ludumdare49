@@ -59,7 +59,7 @@ function player_create()
 	p = {
 		x=0,
 		y=0,
-		sprite = love.graphics.newImage("assets/player.sprite/player01.png"),
+		sprite = love.graphics.newImage("assets/player01.png"),
 		speed = 8
 		}
 end
