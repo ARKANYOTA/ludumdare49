@@ -70,8 +70,10 @@ function love.update(dt) -- UPDATE {{{2
 		coll_table[(bl.y/bl.h)+1][(bl.x/bl.w)+1] = 1 
 		global_timer = global_timer + 1
 		player_update()
-		CMwh = CMwh+1
-		CM.setTarget(ww/2, wh/2+CMwh)
+		if love.keyboard.isDown("k") then
+			CMwh = CMwh+1
+			CM.setTarget(ww/2, wh/2+CMwh)
+		end
 	end
 
 	for i,pt in ipairs(particles) do
@@ -96,16 +98,11 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 	if debug then
 		if key=="g" then start_game() end
 		if key=="m" then start_menu("menu") end
-		if key=="k" then
-			-- cam down
-			--CM.setScale(4)
-
-		end
 	end
 end
 
 function love.draw() -- DRAWING {{{2
-	CM.attach()
+	CM.attach() -- CE QUI EST RELATIF A LA CAMERA
 	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'ingame' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
@@ -123,15 +120,17 @@ function love.draw() -- DRAWING {{{2
 		draw_cursor()
 		block_draw()
 	end
+	if debug then -- {{{3
+		draw_debug_unfix()
+	end
+	CM.detach() -- CE QUI FIX DANS L4ECRAN
+	if debug then -- {{{3
+		--CM.debug()
+		draw_debug()			
+	end
 	if menu == "menu" then -- menu {{{3
 		draw_menu()
 	end
-	if debug then -- {{{3
-		CM.debug()
-
-	-- 	draw_debug()			
-	end
-	CM.detach()
 end	
 
 -- USELESS FUCNTIONS {{{2
@@ -179,34 +178,40 @@ function draw_menu()
 	draw_buttons()
 end
 
+function debug_print(txt, ps)
+	love.graphics.print(txt, 0, ps*20)
+end
+
 function draw_debug()
 	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'ingame' then
-		draw_collision(b.x,b.y,b.w,b.h)
-		draw_collision(p.x,p.y,p.w,p.h)
-
-		love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
-		love.graphics.print(b.catchcooldown, b.x+50, b.y-20) -- coordonnées bomb
+		--love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
+		--love.graphics.print(b.catchcooldown, b.x+50, b.y-20) -- coordonnées bomb
 		--love.graphics.print(coll,16,16)
-		-- coordonnées player
-		love.graphics.print("player x:"..math.floor(p.x).." y:"..math.floor(p.y), 0, 20)
-		-- coordonnées bomb
-		love.graphics.print("bomb x:"..math.floor(b.x).." y:"..math.floor(b.y), 0, 40)
-		love.graphics.print("bomb timer:"..math.floor(b.timer * 1000)/1000, 0, 60)
-		love.graphics.print("bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000, 0, 80)
-		love.graphics.print("bomb active:"..tostring(b.active), 0, 100)
-		love.graphics.print("collision bomb/player: "..tostring(coll_check),0, 120)
-		love.graphics.print(math.floor(testx/bl.w)+1,0,134)
-		love.graphics.print(math.floor(testy/bl.h)+1,0,148)
+		debug_print("player x:"..math.floor(p.x).." y:"..math.floor(p.y), 1)
+		debug_print("bomb x:"..math.floor(b.x).." y:"..math.floor(b.y), 2)
+		debug_print("bomb timer:"..math.floor(b.timer * 1000)/1000, 3)
+		debug_print("bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000, 4)
+		debug_print("bomb active:"..tostring(b.active), 5)
+		debug_print("collision bomb/player: "..tostring(coll_check),6)
+		debug_print("CMwh: "..tostring(CMwh),7)
+		debug_print(math.floor(testx/bl.w)+1,7)
+		debug_print(math.floor(testy/bl.h)+1,8)
 		--love.graphics.print(math.floor((testx+p.w)/bl.h)+1,0,148)
 		--love.graphics.print(math.floor((testy+p.h)/bl.h)+1,0,148)
 		
 	end
-	love.graphics.print("debug: is_on ; menu: "..menu,0,0)
+	debug_print("debug: is_on ; menu: "..menu,0)
+end
+function draw_debug_unfix()
+	love.graphics.setColor(255, 255, 255, 1.0)
+	if menu == 'ingame' then
+		draw_collision(b.x,b.y,b.w,b.h)
+		draw_collision(p.x,p.y,p.w,p.h)
+	end
 end
 
 function start_game()
-
 	CMwh = 0
 	love.mouse.setVisible(false)
 	player_create()
@@ -215,10 +220,12 @@ function start_game()
 	
 	ingame_timer = 0
 	menu = 'ingame'
+	CM.update(0)
 end
 
 function start_menu(m)
 	love.mouse.setVisible(true)
+	CMwh = 0
 	for i, v in ipairs(buttons) do buttons[i] = nil end
 	menu = m
 	if menu =='menu'then
