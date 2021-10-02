@@ -58,23 +58,16 @@ end
 
 function player_get_bomb()
     if collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h) == true then
-    b.x = p.x
-    b.y = p.y-40
-    p.getbomb = 1
+		b.x = p.x
+		b.y = p.y-40
+		p.getbomb = 1
     else
-    p.getbomb = 0
+		p.getbomb = 0
     end
 
 end
 
 function collision(x1,y1,w1,h1,x2,y2,w2,h2) -- si collision entre deux objets, return true
-    if x1+w1 > x2 and
-       x1 < x2 + w2 and
-       y1 < y2 + h2 and
-       y1 + h1 > y2 then
-    return true
-    
-    else
-    return false
-    end
+    return (x1+w1 > x2 and x1 < x2 + w2 and
+       y1 < y2 + h2 and y1 + h1 > y2)
 end
