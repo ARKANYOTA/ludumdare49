@@ -71,7 +71,8 @@ end
 
 function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
-		love.graphics.print("Hello World!", 400, 300)
+		love.graphics.print(p.x.."/"..p.y, 0, 0, 0,2,2)
+		love.graphics.print(string.format("%.3f",timer), 0, 50, 0,2,2) -- arrondi a 3 décimale apres ,
 		love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		love.graphics.draw(p.sprite,p.x,p.y,0,p.scale_x,scale_y)
 	end
