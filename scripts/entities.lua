@@ -15,7 +15,6 @@ function block_draw()
     love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
 end
 
-
 --Player {{{2
 function bomb_create()
     b = {

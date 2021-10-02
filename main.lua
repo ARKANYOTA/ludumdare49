@@ -85,9 +85,9 @@ function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		player_draw()
-		player_cursor()
 		love.graphics.draw(b.sprite, b.x, b.y, 0, b.scale_x, b.scale_y)
 		block_draw()
+		player_cursor()
 	end
 	if menu == "menu" then -- menu {{{3
 		local ww = love.graphics.getWidth()
