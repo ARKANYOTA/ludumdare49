@@ -33,6 +33,8 @@ function love.load() -- LOAD {{{2
 	buttons = {}
 	ww = love.graphics.getWidth()
 	wh = love.graphics.getHeight()
+	CMwh = 0
+	CM.setCoords(ww/2, wh/2)
 	button_width = ww * (1/3)
 	margin = 16
 
@@ -45,16 +47,18 @@ function love.load() -- LOAD {{{2
 	start_menu('menu') -- valeurs posibles menu,ingame, ingame_menu, gameover
 	ingame_timer = 0
 	global_timer = 0
-	debug = false 
+	debug = true 
 	BUTTON_HEIGHT = 64
 
 	-- Particles
 	particles = {}
-
 	coll_check = false
+
+	-- Debug
 end
 
 function love.update(dt) -- UPDATE {{{2
+	CM.update(dt)
 	global_timer = global_timer + dt
 	
 	if menu == 'menu' then
@@ -66,11 +70,14 @@ function love.update(dt) -- UPDATE {{{2
 		coll_table[(bl.y/bl.h)+1][(bl.x/bl.w)+1] = 1 
 		global_timer = global_timer + 1
 		player_update()
+		CMwh = CMwh+1
+		CM.setTarget(ww/2, wh/2+CMwh)
 	end
 
 	for i,pt in ipairs(particles) do
 		update_particle(pt, dt)
 	end
+
 end
 
 function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
@@ -89,10 +96,16 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 	if debug then
 		if key=="g" then start_game() end
 		if key=="m" then start_menu("menu") end
+		if key=="k" then
+			-- cam down
+			--CM.setScale(4)
+
+		end
 	end
 end
 
 function love.draw() -- DRAWING {{{2
+	CM.attach()
 	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'ingame' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
@@ -114,8 +127,11 @@ function love.draw() -- DRAWING {{{2
 		draw_menu()
 	end
 	if debug then -- {{{3
-		draw_debug()			
+		CM.debug()
+
+	-- 	draw_debug()			
 	end
+	CM.detach()
 end	
 
 -- USELESS FUCNTIONS {{{2
@@ -186,10 +202,12 @@ function draw_debug()
 		--love.graphics.print(math.floor((testy+p.h)/bl.h)+1,0,148)
 		
 	end
-	love.graphics.print("debug: is_on",0,0)
+	love.graphics.print("debug: is_on ; menu: "..menu,0,0)
 end
 
 function start_game()
+
+	CMwh = 0
 	love.mouse.setVisible(false)
 	player_create()
 	bomb_create()
@@ -208,7 +226,6 @@ function start_menu(m)
 		table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
 		table.insert(buttons, newButton("Info", function() print("Info") end))
 		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
-		
 	end
 end
  

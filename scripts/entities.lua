@@ -26,13 +26,13 @@ end
 
 function bomb_create()--{{{2
     b = {
-		x = 16,
-		y = 16,
+		x = 300,
+		y = 300,
 		dx = 0,
 		dy = 0,
-
+ 
         timer = 0, -- In seconds
-        max_timer = 5,
+        max_timer = math.huge,
         active = false,
 
         sprite = love.graphics.newImage("assets/bomb.png"),
@@ -63,7 +63,7 @@ function player_create() -- {{{2
 		scale_y = 0.2,
 
         bomb = b,
-        hasBomb = false,
+        hasBomb = true,
 
         cursor = {
             x = 0,
@@ -136,14 +136,20 @@ end
 
 function player_cursor(dt) -- {{{2
     local mx, my = love.mouse.getPosition()
-    local click = love.mouse.isDown(1)
     p.cursor.x, p.cursor.y = mx, my
-    p.cursor.active = click
 
     local x = mx - (p.x + p.w/2)
     local y = my - (p.y + p.h/2)
     p.angle = math.atan2(y, x)
 end
+
+function love.mousepressed(x, y, button)    
+    p.cursor.active = (button == 1)
+end
+function love.mousereleased(x, y, button)
+    p.cursor.active = not (button == 1)
+end
+
 
 function draw_cursor()
     local c = p.cursor
@@ -155,8 +161,6 @@ end
 function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
     if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true and b.catchcooldown <= 0 then
 		p.hasBomb = true
-    else
-		p.hasBomb = false
     end
 end
 
@@ -172,9 +176,12 @@ end
 
 function update_bomb(dt)
     b.catchcooldown = math.max(b.catchcooldown - dt, 0)
-    b.timer = math.max(b.timer - dt, 0)
+    b.timer = b.timer - dt
     b.active = not p.hasBomb
     if b.active then
+        if b.timer < -1 then
+            menu = "gameover"
+        end
         b.x = b.x + b.dx * dt
         b.y = b.y + b.dy * dt
         if love.math.random() <= (b.timer%1) / 2 then
@@ -187,5 +194,16 @@ function update_bomb(dt)
 end
 
 function draw_bomb()
+    --love.graphics.draw(b.sprite, b.x - b.w/2, b.y - b.h/2, 0, b.scale_x, b.scale_y)
     love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), 0, b.scale_x, b.scale_y)
+end
+
+function player_update()
+    local dt = love.timer.getDelta()
+    player_movement(dt)
+    coll_check = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
+    player_get_bomb()
+    player_cursor()
+    throw_bomb()
+    update_bomb(dt)
 end
