@@ -118,8 +118,8 @@ function player_movement(dt) --{{{2
     dir_vector.x = dir_vector.x / norm 
     dir_vector.y = dir_vector.y / norm
 
-    p.dx = p.dx + dir_vector.x * p.speed
-    p.dy = p.dy + dir_vector.y * p.speed
+    p.dx = p.dx + (dir_vector.x * p.speed)
+    p.dy = p.dy + (dir_vector.y * p.speed)
 
     -- Collision
     local solid_x = is_solid(map, (p.x+p.dx)/bl.w, p.y/bl.h)
@@ -133,10 +133,10 @@ function player_movement(dt) --{{{2
     end
     if solid_y then
         p.dy = p.dy * p.bounce
-    end
+    end--
 
-    p.x = p.x * p.friction
-    p.y = p.y * p.friction
+    p.dx = p.dx * p.friction
+    p.dy = p.dy * p.friction
 
     p.x = p.x + p.dx * dt
     p.y = p.y + p.dy * dt
