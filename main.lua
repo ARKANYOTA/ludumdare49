@@ -3,25 +3,55 @@
 -- vim: fdm=marker
 
 -- FUNCTIONS {{{1
--- is_odd, is_even {{{2
-function is_odd(n) return n%2==1 end
-function is_even(n) return n%2==0 end
+--Player {{{2
+function player_create() -- {{{3
+	p = {
+		x=0,
+		y=0,
+		sprite = love.graphics.newImage("assets/player.sprite/player01.png"),
+		speed = 8,
+		scale_x = 1,
+		scale_y = 1
+		}
+end
 
--- EVENTS{{{1
-function love.load() -- LOAD {{{2
-	menu = 'ingame'
-	timer = 0
-	x, y, w, h = 20, 20, 60, 20
-	player_create()
-	debug = false
+function player_movement() --{{{3
+	if love.keyboard.isDown("q") then 
+		p.x = p.x - p.speed
+	end
+
+	if love.keyboard.isDown("d") then 
+		p.x = p.x + p.speed
+	end
+
+	if love.keyboard.isDown("z") then 
+		p.y = p.y - p.speed
+	end
+
+	if love.keyboard.isDown("s") then
+		 p.y = p.y + p.speed
+	end
 end
 
 
+
+
+-- EVENTS{{{1
+function love.load() -- LOAD {{{2
+	player_create()
+	menu = 'ingame'
+	ingame_timer = 0
+	global_timer = 0
+	timer = 0
+	debug = false
+end
+
 function love.update(dt) -- UPDATE {{{2
-	player_movement()
 	timer = timer + dt
-	w = w + 1
-	h = h + 1
+	if menu == 'ingame' then
+		global_timer = global_timer + 1
+		player_movement()
+	end
 end
 
 function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
@@ -41,9 +71,10 @@ end
 
 function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
-		love.graphics.print("Hello World!", 400, 300)
+		love.graphics.print(p.x.."/"..p.y, 0, 0, 0,2,2)
+		love.graphics.print(string.format("%.3f",timer), 0, 50, 0,2,2) -- arrondi a 3 décimale apres ,
 		love.graphics.rectangle("fill",600, 100,100,20,40,1)
-		love.graphics.draw(p.sprite,p.x,p.y,0,0.5,0.5)
+		love.graphics.draw(p.sprite,p.x,p.y,0,p.scale_x,scale_y)
 	end
 	if debug then
 		love.graphics.print(tostring(timer), 40, 0)
