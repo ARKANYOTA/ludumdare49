@@ -126,7 +126,7 @@ function love.draw() -- DRAWING {{{2
 			draw_collision(b.x,b.y,b.w,b.h)
 			draw_collision(p.x,p.y,p.w,p.h)
 			love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
-			love.graphics.print(b.x.."/"..b.y, b.x+50, b.y, 0,2,2) -- coordonnées bomb
+			love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
 			--love.graphics.print(coll,16,16)
 			love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
 		end

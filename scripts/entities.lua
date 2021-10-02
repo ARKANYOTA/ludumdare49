@@ -1,4 +1,14 @@
 -- FUNCTIONS {{{1
+function block_create()
+    block = {
+        x = 40,
+        y = 0 
+
+    }
+end
+
+
+
 --Player {{{2
 function bomb_create()
     b = {
@@ -106,8 +116,6 @@ function collision(x1,y1,w1,h1,x2,y2,w2,h2) -- si collision entre deux objets, r
 end
 
 function draw_collision(x,y,w,h)
-	love.graphics.rectangle("fill",x,y,4,h) -- vertical left
-	love.graphics.rectangle("fill",x+w,y,4,h) -- vert right
-	love.graphics.rectangle("fill",x,y,w,4)
-	love.graphics.rectangle("fill",x,y+w,w,4)
+    love.graphics.rectangle("line",x,y,w,h)
 end
+
