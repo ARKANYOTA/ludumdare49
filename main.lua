@@ -78,6 +78,9 @@ function love.update(dt) -- UPDATE {{{2
 	
 	if menu == 'ingame' then
 		player_update()
+		if love.keyboard.isScancodeDown("k") then
+			CMwh = CMwh +1
+		end 
 	end
 
 	for i,pt in ipairs(particles) do
@@ -97,6 +100,10 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 	if menu == "ingame" then -- ingame {{{3
 		if key == "escape" then
 			start_menu("pause")
+		end
+	elseif menu == "pause" then -- ingame {{{3
+		if key == "escape" then
+			continue_game("pause")
 		end
 	end
 	if has_value(menus,menu) then -- menu {{{3
