@@ -15,20 +15,27 @@ function player_create() -- {{{3
 		}
 end
 
+function bombe_create()
+	b = {
+
+
+	}
+end
+
 function player_movement() --{{{3
-	if love.keyboard.isDown("q") then 
+	if love.keyboard.isDown("q") or love.keyboard.isDown("left") then 
 		p.x = p.x - p.speed
 	end
 
-	if love.keyboard.isDown("d") then 
+	if love.keyboard.isDown("d") or love.keyboard.isDown("right") then 
 		p.x = p.x + p.speed
 	end
 
-	if love.keyboard.isDown("z") then 
+	if love.keyboard.isDown("z") or love.keyboard.isDown("up") then 
 		p.y = p.y - p.speed
 	end
 
-	if love.keyboard.isDown("s") then
+	if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
 		 p.y = p.y + p.speed
 	end
 end
