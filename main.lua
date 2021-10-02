@@ -34,7 +34,7 @@ function love.load() -- LOAD {{{2
 	debug = true 
 
 	font = love.graphics.newFont(32)
-	table.insert( buttons, newButton("Start Game", function() print("Starting Game") end))
+	table.insert( buttons, newButton("Start Game", function() menu = "ingame" end))
 	table.insert( buttons, newButton("Tuto", function() print("Tuto") end))
 	table.insert( buttons, newButton("Info", function() print("Info") end))
 	table.insert( buttons, newButton("Exit Game", function() love.event.quit(0) end))
