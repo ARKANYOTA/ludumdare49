@@ -113,7 +113,7 @@ function player_get_bomb() -- si collision, bomb s'accroche au mec
 end
 
 function throw_bomb()
-
+    
 end
 
 function collision(x1,y1,w1,h1,x2,y2,w2,h2) -- si collision entre deux objets, return true
