@@ -63,6 +63,7 @@ function love.update(dt) -- UPDATE {{{2
 	
 	if menu == 'ingame' then
 		collision_table()
+		coll_table[(bl.y/bl.h)+1][(bl.x/bl.w)+1] = 1 
 		global_timer = global_timer + 1
 		player_update()
 	end
@@ -179,8 +180,11 @@ function draw_debug()
 		love.graphics.print("bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000, 0, 80)
 		love.graphics.print("bomb active:"..tostring(b.active), 0, 100)
 		love.graphics.print("collision bomb/player: "..tostring(coll_check),0, 120)
-		love.graphics.print(math.floor(testx/bl.w),0,134)
-		love.graphics.print(math.floor(testy/bl.h),0,148)
+		love.graphics.print(math.floor(testx/bl.w)+1,0,134)
+		love.graphics.print(math.floor(testy/bl.h)+1,0,148)
+		--love.graphics.print(math.floor((testx+p.w)/bl.h)+1,0,148)
+		--love.graphics.print(math.floor((testy+p.h)/bl.h)+1,0,148)
+		
 	end
 	love.graphics.print("debug: is_on",0,0)
 end
@@ -190,6 +194,7 @@ function start_game()
 	player_create()
 	bomb_create()
 	block_create()
+	
 	ingame_timer = 0
 	menu = 'ingame'
 end

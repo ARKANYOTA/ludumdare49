@@ -13,13 +13,14 @@ function block_create() --{{{2
     }
     bl.w, bl.h  = bl.sprite:getWidth()*bl.scale_x, bl.sprite:getHeight()*bl.scale_y
     bl.x = 2*bl.w
-    bl.y = 0*bl.h
+    bl.y = 1*bl.h
+    
     
 end
 
 function block_draw()--{{{2
     love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
-    coll_table[(bl.y/bl.h)+1][(bl.x/bl.w)+1] = 1  -- coll_table[y][x]
+ -- coll_table[y][x]
 end
 
 
@@ -112,18 +113,21 @@ function player_movement(dt) --{{{2
     end 
     -- Normalize the direction vector
     local norm = math.sqrt(dir_vector.x * dir_vector.x + dir_vector.y * dir_vector.y) + 0.0001
-    dir_vector.x = dir_vector.x / norm
+    dir_vector.x = dir_vector.x / norm 
     dir_vector.y = dir_vector.y / norm
 
     p.dy = (p.dy + dir_vector.y * p.speed) * p.friction
     p.dx = (p.dx + dir_vector.x * p.speed) * p.friction
-    --if coll_table[(math.floor(p.y + p.dy * dt)/bl.h)+1][(math.floor(p.x + p.dx * dt)/bl.w)+1] == 1 then
     testy = p.y + p.dy * dt
     testx = p.x + p.dx * dt
-    --  if coll_table[0][2] == 1 then --math.floor(p.y + p.dy * dt/bl.h)
+    if coll_table[math.floor(testy/bl.h)+1][math.floor(testx/bl.h)+1] == 0 and 
+       coll_table[math.floor(testy/bl.h)+1][math.floor((testx+p.w)/bl.h)+1] == 0 and
+       coll_table[math.floor((testy+p.h)/bl.h)+1][math.floor(testx/bl.h)+1] == 0 and
+       --call_table[math.floor((testy+p.h)/bl.h)+1][math.floor(testx/bl.h)+1] == 0 
+       then
         p.y = p.y + p.dy * dt
-    -- end
-    p.x = p.x + p.dx * dt
+        p.x = p.x + p.dx * dt
+    end
 end
 
 function draw_player()--{{{2
