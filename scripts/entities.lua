@@ -173,8 +173,8 @@ function update_bomb(dt)
             spawn_smoke(b.x, b.y)
         end
     else
-        b.x = p.x - p.w + 10
-        b.y = p.y - 40
+        b.x = p.x - p.w/2
+        b.y = p.y - p.h/2
     end
 end
 
