@@ -65,7 +65,7 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 	-- Map
 	map = make_blank_map(30, 30)
-	set_map(map, 1, 1)
+	set_map(map, 2, 1, 1)
 	-- Debug
 end
 
@@ -199,7 +199,7 @@ function draw_debug()
 		--love.graphics.print(coll,16,16)
 		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
 		debug_print(2, "player dx:"..math.floor(p.dx).." dy:"..math.floor(p.dy))
-		debug_print(3, "solidx: "..tostring(p.solidx).." solidy:"..tostring(p.solidy))
+		debug_print(3, "solidx: "..tostring(p.solidx).." solidy:"..tostring(p.solidy).." block: "..tostring(p.block))
 		debug_print(4, "FPS: "..love.timer.getFPS())
 		debug_print(5, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
 		debug_print(6, "bomb timer:"..math.floor(b.timer * 1000)/1000)
