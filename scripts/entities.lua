@@ -37,8 +37,8 @@ function player_create() -- {{{3
 		speed = 70,
 		friction = 0.8,
 		sprite = love.graphics.newImage("assets/player01.png"),
-		scale_x = 1,
-		scale_y = 1,
+		scale_x = 0.5,
+		scale_y = 0.5,
 
         bomb = {},
         hasBomb = false,
@@ -101,7 +101,7 @@ end
 function player_get_bomb() -- si collision, bomb s'accroche au mec
     if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true then
 		b.x = p.x
-		b.y = p.y-40
+		b.y = p.y-100
 		p.getbomb = 1
     else
 		p.getbomb = 0
