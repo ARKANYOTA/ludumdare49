@@ -54,7 +54,7 @@ function love.load() -- LOAD {{{2
 	font = love.graphics.newFont(32)
 
 	-- Menu {{{3
-	start_menu('menu') -- valeurs posibles menu,ingame, ingame_menu, gameover
+	start_menu('menu') -- valeurs posibles menu,ingame, pause, gameover
 	ingame_timer = 0
 	global_timer = 0
 	debug = true 
@@ -65,6 +65,7 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 	-- Map
 	map = make_blank_map(30, 30)
+	set_map(map, 2, 1, 1)
 	-- Debug
 end
 
@@ -79,6 +80,9 @@ function love.update(dt) -- UPDATE {{{2
 	if menu == 'ingame' then
 		player_update()
 		enemy_update()
+		if love.keyboard.isScancodeDown("k") then
+			CMwh = CMwh +1
+		end 
 	end
 
 	for i,pt in ipairs(particles) do
@@ -89,12 +93,19 @@ end
 
 function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 	-- always {{{3
-	if key == "escape" or (love.keyboard.isDown("lctrl") and key == "c") then
+	if (love.keyboard.isDown("lctrl") and key == "c") then
 		love.event.quit()
 	end
 	if key == "f5" then love.event.quit("restart") end
 	if key == "f3" then debug = not debug end
 	if menu == "ingame" then -- ingame {{{3
+		if key == "escape" then
+			start_menu("pause")
+		end
+	elseif menu == "pause" then -- ingame {{{3
+		if key == "escape" then
+			continue_game("pause")
+		end
 	end
 	if has_value(menus,menu) then -- menu {{{3
 
@@ -120,10 +131,10 @@ function love.draw() -- DRAWING {{{2
 		for i,pt in ipairs(particles) do
 			draw_particle(pt)
 		end
-
-		-- Keep at last
-		draw_cursor()
 		block_draw()
+		
+		-- vv KEEP AS THE LAST vv
+		draw_cursor()
 	end
 	if debug then -- {{{3
 		draw_debug_unfix()
@@ -195,8 +206,8 @@ function draw_debug()
 		--love.graphics.print(coll,16,16)
 		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
 		debug_print(2, "player dx:"..math.floor(p.dx).." dy:"..math.floor(p.dy))
-		debug_print(3, "solidx: "..tostring(p.solidx).." solidy:"..tostring(p.solidy))
-
+		debug_print(3, "solidx: "..tostring(p.solidx).." solidy:"..tostring(p.solidy).." block: "..tostring(p.block))
+		debug_print(4, "FPS: "..love.timer.getFPS())
 		debug_print(5, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
 		debug_print(6, "bomb timer:"..math.floor(b.timer * 1000)/1000)
 		debug_print(7, "bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000)
@@ -233,9 +244,14 @@ function start_game()
 	CM.update(0)
 end
 
+function continue_game()
+	love.mouse.setVisible(false)
+	menu = 'ingame'
+	CM.update(0)
+end
+
 function start_menu(m)
 	love.mouse.setVisible(true)
-	CMwh = 0
 	for i, v in ipairs(buttons) do buttons[i] = nil end
 	menu = m
 	if menu =='menu'then
@@ -246,6 +262,12 @@ function start_menu(m)
 	end
 	if menu =='gameover' then
 		table.insert(buttons, newButton("Restart", start_game))
+		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
+		--table.insert(buttons, newButton("principal", start_game))
+		table.insert(buttons, newButton("Rage quit", function() love.event.quit(0) end))
+	end
+	if menu =='pause' then
+		table.insert(buttons, newButton("Continuer", continue_game))
 		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
 		--table.insert(buttons, newButton("principal", start_game))
 		table.insert(buttons, newButton("Rage quit", function() love.event.quit(0) end))
