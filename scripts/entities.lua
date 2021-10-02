@@ -101,6 +101,9 @@ end
 
 function player_draw()--{{{2
     love.graphics.draw(p.sprite, p.x, p.y, 0, p.scale_x, p.scale_y)
+end
+
+function draw_cursor()
     local c = p.cursor
     love.graphics.draw(c.sprite, c.x, c.y, 0, c.scale_x, c.scale_y, c.w/2, c.h/2)
 end
@@ -116,6 +119,9 @@ function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
     end
 end
 
+function throw_bomb()
+    
+end
 
 function collision(x1,y1,w1,h1,x2,y2,w2,h2) -- si collision entre deux objets, return true --{{{2
     return (x1+w1 > x2 and x1 < x2 + w2 and
