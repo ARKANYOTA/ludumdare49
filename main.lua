@@ -4,7 +4,6 @@
 
 --METTEZ OU IL FAUT LE METTRE SVP
 require "scripts/entities"
-require "scripts/collision"
 CM = require "lib.CameraMgr".newManager()
 
 -- Function {{{1
@@ -25,32 +24,24 @@ end
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
 	-- UI
+	buttons = {}
 	ww = love.graphics.getWidth()
 	wh = love.graphics.getHeight()
 	button_width = ww * (1/3)
-
+	margin = 16
 	-- Proper font scaling 
     font = love.graphics.newFont(15, "none", 3)
     love.graphics.setFont(font)
 
-	-- Create entities
-	player_create()
-	bomb_create()
-	block_create()
-	menu = 'menu'
+	start_menu('menu') -- valeurs posibles menu,ingame, ingame_menu, gameover
 	ingame_timer = 0
 	global_timer = 0
 	debug = false 
 
 	-- Menu {{{3
 	BUTTON_HEIGHT = 64
-	buttons = {}
+	
 	font = love.graphics.newFont(32)
-
-	table.insert( buttons, newButton("Start Game", function() menu = "ingame" end))
-	table.insert( buttons, newButton("Tuto", function() print("Tuto") end))
-	table.insert( buttons, newButton("Info", function() print("Info") end))
-	table.insert( buttons, newButton("Exit Game", function() love.event.quit(0) end))
 
 	coll_check = false
 
@@ -86,12 +77,8 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 
 	end
 	if debug then
-		if key=="m" then
-			menu = "menu"
-		end
-		if key=="g" then
-			menu = "ingame"
-		end
+		if key=="g" then start_game() end
+		if key=="m" then start_menu("menu") end
 	end
 end
 
@@ -100,12 +87,11 @@ function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		player_draw()
-		player_cursor()
-		draw_cursor()
 
 		love.graphics.draw(b.sprite, b.x, b.y, 0, b.scale_x, b.scale_y)
 		block_draw()
 		player_cursor()
+		draw_cursor()
 	end
 	if menu == "menu" then -- menu {{{3
 		draw_menu()
@@ -115,10 +101,11 @@ function love.draw() -- DRAWING {{{2
 	end
 end	
 
+-- USELESS FUCNTIONS {{{2
 function update_buttons()
-	local margin = 16
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
 	local cursor_y = 0
+
 	for i, button in ipairs(buttons) do
 		local bx = (ww / 2) - (button_width / 2)
 		local by = (wh / 2) - (total_height / 2) + cursor_y
@@ -137,9 +124,6 @@ function update_buttons()
 end
 
 function draw_buttons()
-	local ww = love.graphics.getWidth()
-	local wh = love.graphics.getHeight()
-	local margin = 16
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
 	local cursor_y = 0
 
@@ -167,11 +151,37 @@ function draw_debug()
 	if menu == 'ingame' then
 		draw_collision(b.x,b.y,b.w,b.h)
 		draw_collision(p.x,p.y,p.w,p.h)
-		love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50) -- coordonnées player
-		love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
-		love.graphics.print(coll_table,0,0)
+		--love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), p.x, p.y-50) -- coordonnées player
+		--love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
+		--love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
 		--love.graphics.print(coll,16,16)
-		love.graphics.print("collision bomb/player: "..tostring(coll_check),600,100)
+		-- coordonnées player
+		love.graphics.print(math.floor(p.x).."/"..math.floor(p.y), 0, 14)
+		-- coordonnées bomb
+		love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), 0, 28)
+		love.graphics.print("collision bomb/player: "..tostring(coll_check),0,42)
 	end
+	love.graphics.print("debug: is_on",0,0)
+
 end
 
+function start_game()
+	love.mouse.setVisible(false)
+	player_create()
+	bomb_create()
+	block_create()
+	ingame_timer = 0
+	menu = 'ingame'
+end
+
+function start_menu(m)
+	love.mouse.setVisible(true)
+	for i, v in ipairs(buttons) do buttons[i] = nil end
+	menu = m
+	if menu =='menu'then
+		table.insert(buttons, newButton("Start Game", start_game))
+		table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
+		table.insert(buttons, newButton("Info", function() print("Info") end))
+		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
+	end
+end
