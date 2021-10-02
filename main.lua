@@ -20,7 +20,7 @@ function love.update(dt) -- UPDATE {{{2
 		global_timer = global_timer + 1
 
 		player_movement(dt)
-		coll = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
+		--coll = collision(p.x,p.y,p.w,p.h,b.x,b.y,b.w,b.h)
 	end
 end
 
@@ -48,15 +48,14 @@ end
 
 function love.draw() -- DRAWING {{{2
 	if menu == 'ingame' then
-		love.graphics.rectangle("fill",600, 100,100,20,40,1)
+		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		love.graphics.draw(p.sprite,p.x,p.y,0,p.scale_x,scale_y) --joueur
 		love.graphics.draw(b.sprite,b.x,b.y,0,0.2,0.2)
 	end
 	if debug then
-		love.graphics.print(p.x.."/"..p.y, p.x, p.y-50, 0,2,2) -- coordonnées player
-		love.graphics.print(b.x.."/"..b.y, b.x+50, b.y, 0,2,2) -- coordonnées bomb
-		love.graphics.print(coll,16,16)
+		love.graphics.print(string.format("%.3f",p.x).."/"..string.format("%.3f",p.y), p.x, p.y-50, 0,2,2) -- coordonnées player
+		love.graphics.print(string.format("%.3f",b.x).."/"..string.format("%.3f",b.y), b.x+50, b.y, 0,2,2) -- coordonnées bomb
+		--love.graphics.print(coll,16,16)
 		love.graphics.print(string.format("%.3f",global_timer), 0, 50, 0,2,2) -- arrondi a 3 décimale apres ,
-		love.graphics.print(p.x.."/"..p.y, 0, 0, 0,2,2)
 	end
 end	
