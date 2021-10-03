@@ -226,15 +226,3 @@ end
 function draw_bomb()
     love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), b.r, b.scale_x, b.scale_y)
 end
-
-function draw_enemy()
-    love.graphics.draw(enemy.sprite,enemy.x,enemy.y,0,enemy.scale_x,enemy.scale_y)
-end
-
-function move_toward()
-
-end
-
-function enemy_update()
-    move_toward()
-end
