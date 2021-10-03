@@ -20,7 +20,7 @@ function make_blank_map(w, h)
 	return t
 end
 
-function get_map(map, x, y, blockw)
+function get_map(map, x, y)
 	x = (math.floor(x) + 1)
 	y = (math.floor(y) + 1)
 	if x <= 0 or #map[1] < x or y <= 0 or #map < y then

@@ -3,6 +3,7 @@
 require "scripts/collision"
 require "scripts/particle"
 require "scripts/utility"
+require "scripts/constants"
 
 function player_create() -- {{{2
 	local cursor_img = love.graphics.newImage("assets/cursor.png")
@@ -116,7 +117,7 @@ function player_movement(dt) --{{{2
 		p.dy = 0
 	end
 
-	local bw = bl.w
+	local bw = blockw
 	if is_solid_rect(map, nextx/bw, (p.y + CameraY)/bw,   p.w/bw, p.h/bw) then 
 		p.dx = 0
 	end
@@ -175,7 +176,7 @@ function update_bomb(dt)
 	b.timer = math.max(b.timer - dt, 0)
 	b.active = not p.hasBomb
 	if b.active then
-		local bw = bl.w
+		local bw = blockw
 		local nextx = b.x + b.dx * dt
 		local nexty = b.y + b.dy * dt
 		if is_solid_rect(map, nextx/bw, b.y/bw,   b.w/bw, b.h/bw) then
