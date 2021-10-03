@@ -27,5 +27,7 @@ end
 end
 
 function enemy_update(dt)
-	move_toward_player(dt)
+	if enemy_wont_move == true then
+		move_toward_player(dt)
+	end
 end

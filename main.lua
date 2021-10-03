@@ -40,6 +40,7 @@ function love.load() -- LOAD {{{2
 	
 	-- Map
 	-- Debug
+	enemy_wont_move = true
 end
 
 function love.update(dt) -- UPDATE {{{2
@@ -129,7 +130,7 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 		if key=="o" then start_menu("game_over") end
 		if key=="c" then start_menu("credits") end
 		if key=="t" then start_menu("tuto") end
-
+		if key=="p" then enemy_wont_move = not(enemy_wont_move) end
 		if key=="b" then b.x = p.x; b.y = p.y; end
 	end
 end
@@ -281,14 +282,14 @@ function draw_debug()
 		
 		love.graphics.setColor(255, 255, 255, 1.0)
 		for i,v in ipairs(map) do
-			lllig= ""
+		--	lllig= ""
 			for j,u in ipairs(v) do
-				--love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraY)
-				lllig = lllig..tostring(u)
+				love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraY)
+				--lllig = lllig..tostring(u)
 			end
-			print(lllig)
+			--print(lllig)
 		end
-		print("-----")
+		--print("-----")
 
 		love.graphics.setColor(1,0,0)
 		love.graphics.line(screenw2, screenh2, screenw2 + 64, screenh2)
