@@ -4,6 +4,7 @@
 
 --METTEZ OU IL FAUT LE METTRE SVP
 require "scripts/entities"
+require "scripts/menus"
 CM = require "lib.CameraMgr".newManager()
 
 -- Function {{{1
@@ -54,6 +55,7 @@ function love.load() -- LOAD {{{2
 	font = love.graphics.newFont(32)
 
 	-- Menu {{{3
+    sprite_btn = love.graphics.newImage("assets/button.png"),
 	start_menu('menu') -- valeurs posibles menu,ingame, pause, gameover
 	ingame_timer = 0
 	global_timer = 0
@@ -114,6 +116,7 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 		if key=="g" then start_game() end
 		if key=="m" then start_menu("menu") end
 		if key=="o" then start_menu("gameover") end
+		--if key=="p" then credits() end
 	end
 end
 
@@ -181,7 +184,8 @@ function draw_buttons()
 		local by = (wh / 2) - (total_height / 2) + cursor_y
 		
 		love.graphics.setColor(unpack(button.color))
-		love.graphics.rectangle("fill", bx, by, button_width, BUTTON_HEIGHT)
+		--love.graphics.rectangle("fill", bx, by, button_width, BUTTON_HEIGHT)
+		love.graphics.draw(sprite_btn, bx, by+5)
 		love.graphics.setColor(0, 0, 0, 1)
 		local textW = font:getWidth(button.text)
 		local textH = font:getHeight(button.text)
@@ -260,7 +264,7 @@ function start_menu(m)
 	if menu =='menu'then
 		table.insert(buttons, newButton("Start Game", start_game))
 		table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
-		table.insert(buttons, newButton("Info", function() print("Info") end))
+		table.insert(buttons, newButton("Crédits", function() print("Info") end))
 		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
 	end
 	if menu =='gameover' then
@@ -272,7 +276,6 @@ function start_menu(m)
 	if menu =='pause' then
 		table.insert(buttons, newButton("Continuer", continue_game))
 		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
-		--table.insert(buttons, newButton("principal", start_game))
 		table.insert(buttons, newButton("Rage quit", function() love.event.quit(0) end))
 	end
 end
