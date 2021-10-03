@@ -1,7 +1,7 @@
 -- vim: fdm=marker
 
 -- Crédits {{{2
---[[ 
+--[[
 |-----------------------------------------------------------|
 |            --- ---  ---  --  - ---                        |
 |            -   ---  --   - - -  -                         |
@@ -32,15 +32,15 @@ function load_credits()
 				{"#ARKANYOTA","#Maxim-Costa","#Yolwoocle","#cringecrimson"}
 			},
 			{
-				{"Poulpito_GDL"}, 
+				{"Poulpito_GDL"},
 				{"#Poulpito_GD"}
 			},
 			{
-				{"Pierre"}, 
+				{"Pierre"},
 				{"#..."}
 			},
 			{
-				{"Antoine"}, 
+				{"Antoine"},
 				{"#..."}
 			}
 		}

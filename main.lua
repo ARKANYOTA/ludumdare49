@@ -9,19 +9,19 @@ CM = require "lib.CameraMgr".newManager()
 
 -- Function {{{1
 function newButton(text, fn) -- {{{2
-    return {
-        text=text,
-        fn=fn,
+	return {
+		text=text,
+		fn=fn,
 		now= false,
 		last = false,
 		color = {0.4, 0.4, 0.5, 1.0}
-    }
+	}
 end
 
 function print_table(elt)
-    for i,_ in ipairs(elt) do
+	for i,_ in ipairs(elt) do
 		print(unpack(elt[i]))
-    end
+	end
 end
 
 function draw_collision(x,y,w,h) -- {{{2
@@ -29,12 +29,12 @@ function draw_collision(x,y,w,h) -- {{{2
 end
 
 function has_value(tab, val)
-    for _, value in ipairs(tab) do
-        if value == val then
-            return true
-        end
-    end
-    return false
+	for _, value in ipairs(tab) do
+		if value == val then
+			return true
+		end
+	end
+	return false
 end
 
 -- EVENTS{{{1
@@ -49,17 +49,17 @@ function love.load() -- LOAD {{{2
 	button_width = ww * (1/3)
 	margin = 16
 
-	-- Proper font scaling 
-    font = love.graphics.newFont(15, "none", 3)
-    love.graphics.setFont(font)
+	-- Proper font scaling
+	font = love.graphics.newFont(15, "none", 3)
+	love.graphics.setFont(font)
 	font = love.graphics.newFont(32)
 
 	-- Menu {{{3
-    sprite_btn = love.graphics.newImage("assets/button.png"),
+	sprite_btn = love.graphics.newImage("assets/button.png"),
 	start_menu('menu') -- valeurs possibles menu,in_game, pause, game_over
 	in_game_timer = 0
 	global_timer = 0
-	debug = false 
+	debug = false
 	BUTTON_HEIGHT = 64
 	-- Credits
 	load_credits()
@@ -89,7 +89,7 @@ function love.update(dt) -- UPDATE {{{2
 		enemy_update()
 		if love.keyboard.isScancodeDown("k") then
 			CMwh = CMwh +1
-		end 
+		end
 	end
 
 	for _,pt in ipairs(particles) do
@@ -237,7 +237,7 @@ function draw_debug()
 		
 		for i,v in ipairs(map) do
 			for j,u in ipairs(v) do
-				love.graphics.print(tostring(u), (j-1)* bl.w, (i-1)*bl.h-CMwh) -- 
+				love.graphics.print(tostring(u), (j-1)* bl.w, (i-1)*bl.h-CMwh)
 			end
 		end
 	end
