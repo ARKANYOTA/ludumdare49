@@ -15,15 +15,19 @@ function draw_enemy()
 end
 
 function move_toward_player()
-	if p.x > enemy.x  then
-		enemy.x = enemy.x + enemy.speed
-	elseif p.x < enemy.x then
-		enemy.x = enemy.x - enemy.speed
+	if p.x < enemy.x - enemy.speed/2 or p.x > enemy.x + enemy.speed/2 then
+		if p.x > enemy.x  then
+				enemy.x = enemy.x + enemy.speed
+		elseif p.x < enemy.x then
+				enemy.x = enemy.x - enemy.speed
+		end
 	end
-	if p.y > enemy.y  then
-		enemy.y = enemy.y + enemy.speed
-	elseif p.y < enemy.y then
-		enemy.y = enemy.y - enemy.speed
+	if p.y < enemy.y - enemy.speed/2 or p.y > enemy.y + enemy.speed/2 then
+		if p.y > enemy.y  then
+			enemy.y = enemy.y + enemy.speed
+		elseif p.y < enemy.y then
+			enemy.y = enemy.y - enemy.speed
+		end
 	end
 end
 
