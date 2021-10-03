@@ -7,6 +7,7 @@ require "scripts/menus"
 require "scripts/player"
 require "scripts/enemy"
 require "scripts/block"
+require "scripts/constants"
 CM = require "lib.CameraMgr".newManager()
 
 -- Function {{{1
@@ -61,8 +62,6 @@ function love.load() -- LOAD {{{2
 	start_menu('menu') -- valeurs possibles menu,in_game, pause, game_over
 	in_game_timer = 0
 	global_timer = 0
-	debug = false
-	BUTTON_HEIGHT = 64
 	load_credits()
 
 	-- Particles
@@ -143,6 +142,8 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 		if key=="o" then start_menu("game_over") end
 		if key=="c" then start_menu("credits") end
 		if key=="t" then start_menu("tuto") end
+
+		if key=="b" then b.x = p.x; b.y = p.y; end
 	end
 end
 
@@ -236,15 +237,15 @@ function draw_debug()
 	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'in_game' then
 		--love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
-		--love.graphics.print(b.catch_cool_down, b.x+50, b.y-20) -- coordonnées bomb
+		--love.graphics.print(b.catch_cooldown, b.x+50, b.y-20) -- coordonnées bomb
 		--love.graphics.print(coll,16,16)
 		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
 		debug_print(2, "player dx:"..math.floor(p.dx).." dy:"..math.floor(p.dy))
-		debug_print(3, "solidx: "..tostring(p.solidx).." solidy:"..tostring(p.solidy).." block: "..tostring(p.block))
+		debug_print(3, "screenw, h: "..screenw..";"..screenh)
 		debug_print(4, "FPS: "..love.timer.getFPS())
 		debug_print(5, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
 		debug_print(6, "bomb timer:"..math.floor(b.timer * 1000)/1000)
-		debug_print(7, "bomb cool_down:"..math.floor(b.max_catch_cool_down * 1000)/1000)
+		debug_print(7, "bomb cooldown:"..math.floor(b.max_catch_cooldown * 1000)/1000)
 		debug_print(8, "bomb active:"..tostring(b.active))
 		debug_print(9, "collision bomb/player: "..tostring(coll_check))
 		debug_print(10, "dif_x : "..math.floor(p.angle))
