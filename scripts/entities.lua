@@ -21,7 +21,7 @@ function block_draw()--{{{2
     for i,v in ipairs(map) do
         for j,u in ipairs(v) do
             if u == 1 then 
-                love.graphics.draw(bl.sprite, (j-1)* bl.w, (i-1)*bl.h-CMwh, 0, bl.scale_y, bl.scale_y)
+                love.graphics.draw(bl.sprite, (i-1)* bl.w, (j-1)*bl.h-CMwh, 0, bl.scale_y, bl.scale_y)
             end
         end
     end

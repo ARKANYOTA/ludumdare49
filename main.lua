@@ -72,6 +72,7 @@ function love.load() -- LOAD {{{2
 	--set_map(map, 3, 3, 1)
 	--map[2][2] = 1
 	set_map(map, 2, 2, 1)
+	set_map(map, 2, 3, 1)
 	-- Debug
 end
 
