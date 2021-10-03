@@ -106,7 +106,7 @@ function start_menu(m)
 	if menu =='menu'then
 		table.insert(buttons, newButton("Start Game", start_game))
 		table.insert(buttons, newButton("Help", function() start_menu("tuto") end))
-		table.insert(buttons, newButton("Crédits", function() start_menu("credits") end))
+		table.insert(buttons, newButton("Credits", function() start_menu("credits") end))
 		table.insert(buttons, newButton("Ragequit", function() love.event.quit(0) end))
 	end
 	if menu =='game_over' then
