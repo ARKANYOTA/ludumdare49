@@ -220,9 +220,9 @@ function start_game()
 	color = 1
 	total_enemy = {}
 
-	--spawn_enemy(100,100)
-	--spawn_enemy(200,100)
-	spawn_enemy(100,1000)
+	spawn_enemy(100,100)
+	spawn_enemy(200,100)
+	--spawn_enemy(100,1000)
 	CameraY = 0
 	DeletedMapBlock = 0
 	CameraYAdd = 0
