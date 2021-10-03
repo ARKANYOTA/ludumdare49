@@ -4,6 +4,7 @@ require "scripts/collision"
 require "scripts/particle"
 require "scripts/utility"
 require "scripts/constants"
+require "scripts/sound"
 
 function player_create() -- {{{2
 	local cursor_img = love.graphics.newImage("assets/cursor.png")
@@ -60,6 +61,7 @@ function bomb_create()--{{{2
         redshift = 0,
         r = 0,
         dr = 1,
+		can_bounce = true,
 
 		throwspeed = 300,
 		catch_cooldown = 0,
@@ -164,10 +166,16 @@ end
 function throw_bomb()
 	if p.cursor.active and p.hasBomb then
 		p.hasBomb = false
+
+		b.x = p.x 
+		b.y = p.y 
 		b.dx = math.cos(p.angle) * b.throwspeed
 		b.dy = math.sin(p.angle) * b.throwspeed
+		
 		b.catch_cooldown = b.max_catch_cooldown
 		b.timer = b.max_timer
+
+		snd_woosh:play()
 	end
 end
 
@@ -185,7 +193,17 @@ function update_bomb(dt)
 		if is_solid_rect(map, b.x/bw,   nexty/bw, b.w/bw, b.h/bw) then
 			b.dy = -b.dy 
 		end
-		
+		-- si plusieurs enemy, faire for i in enemy
+
+		if collision(enemy.x,enemy.y,enemy.w,enemy.h,b.x,b.y,b.w,b.h) == true and b.can_bounce == true
+		then
+			b.dx = -b.dx
+			b.dy = -b.dy
+			b.can_bounce = false
+		elseif math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
+			b.can_bounce = true
+		end
+
 		-- Apply movement 
 		b.x = b.x + b.dx * dt
 		b.y = b.y + b.dy * dt
@@ -194,9 +212,13 @@ function update_bomb(dt)
 			spawn_smoke(b.x, b.y)
 		end
 	else
+		if math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
+			b.can_bounce = true
+		end
 		b.x = p.x - p.w/2
 		b.y = p.y - p.h/2
 	end
+	
 end
 
 function draw_bomb()

@@ -58,5 +58,21 @@ function is_solid(map, x, y)
 end
 
 function is_solid_rect(map, x, y, w, h)
-    return is_solid(map, x, y) or is_solid(map, x+w, y) or is_solid(map, x,   y+h) or is_solid(map, x+w, y+h) 
+    --[[
+        A - x - B
+        |       |
+        y       z
+        |       |
+        C - w - D
+    ]]
+    return 
+        is_solid(map, x,     y) or   --A
+        is_solid(map, x+w,   y) or   --B
+        is_solid(map, x,     y+h) or --C
+        is_solid(map, x+w,   y+h) or --D
+
+        is_solid(map, x+w/2, y) or     --x
+        is_solid(map, x,     y+h/2) or --y
+        is_solid(map, x+w,   y+h/2) or --z
+        is_solid(map, x+w/2, y+h/2)    --w
 end

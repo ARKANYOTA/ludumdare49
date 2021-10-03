@@ -10,36 +10,6 @@ require "scripts/block"
 require "scripts/constants"
 CM = require "lib.CameraMgr".newManager()
 
--- Function {{{1
-function newButton(text, fn) -- {{{2
-	return {
-		text=text,
-		fn=fn,
-		now= false,
-		last = false,
-		color = {0.4, 0.4, 0.5, 1.0}
-	}
-end
-
-function print_table(elt)
-	for i,_ in ipairs(elt) do
-		print(unpack(elt[i]))
-	end
-end
-
-function draw_collision(x,y,w,h) -- {{{2
-	love.graphics.rectangle("line",x,y,w,h) -- vertical left
-end
-
-function has_value(tab, val)
-	for _, value in ipairs(tab) do
-		if value == val then
-			return true
-		end
-	end
-	return false
-end
-
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
 	-- UI
@@ -107,8 +77,11 @@ function love.update(dt) -- UPDATE {{{2
 
 	end
 
-	for _,pt in ipairs(particles) do
+	for i, pt in ipairs(particles) do
 		update_particle(pt, dt)
+		if pt.mustdestroy then
+			table.remove(particles, i)
+		end
 	end
 
 end
@@ -191,6 +164,37 @@ function love.draw() -- DRAWING {{{2
 	end
 end	
 
+
+-- Function {{{1
+function newButton(text, fn) -- {{{2
+	return {
+		text=text,
+		fn=fn,
+		now= false,
+		last = false,
+		color = {0.4, 0.4, 0.5, 1.0}
+	}
+end
+
+function print_table(elt)
+	for i,_ in ipairs(elt) do
+		print(unpack(elt[i]))
+	end
+end
+
+function draw_collision(x,y,w,h) -- {{{2
+	love.graphics.rectangle("line",x,y,w,h) -- vertical left
+end
+
+function has_value(tab, val)
+	for _, value in ipairs(tab) do
+		if value == val then
+			return true
+		end
+	end
+	return false
+end
+
 -- USELESS FUNCTIONS {{{2
 function update_buttons(pressed_btn, mx, my)
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
@@ -263,7 +267,7 @@ function draw_debug()
 		debug_print(8, "bomb cooldown:"..math.floor(b.max_catch_cooldown * 1000)/1000)
 		debug_print(9, "bomb active:"..tostring(b.active))
 		debug_print(10, "collision bomb/player: "..tostring(coll_check))
-		debug_print(11, "dif_x : "..math.floor(p.angle))
+		debug_print(11, "bond : "..tostring(b.can_bounce))
 		debug_print(12, "CameraY: "..tostring(CameraY))
 		debug_print(13, "CameraYAdd: "..tostring(CameraYAdd))
 		debug_print(14, "DeletedMapBlock: "..tostring(DeletedMapBlock))
@@ -329,7 +333,7 @@ function start_menu(m)
 		table.insert(buttons, newButton("Start Game", start_game))
 		table.insert(buttons, newButton("Help", function() start_menu("tuto") end))
 		table.insert(buttons, newButton("Crédits", function() start_menu("credits") end))
-		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
+		table.insert(buttons, newButton("Ragequit", function() love.event.quit(0) end))
 	end
 	if menu =='game_over' then
 		table.insert(buttons, newButton("Restart", start_game))
@@ -340,6 +344,6 @@ function start_menu(m)
 	if menu =='pause' then
 		table.insert(buttons, newButton("Continuer", continue_game))
 		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
-		table.insert(buttons, newButton("Rage quit", function() love.event.quit(0) end))
+		table.insert(buttons, newButton("Ragequit", function() love.event.quit(0) end))
 	end
 end
