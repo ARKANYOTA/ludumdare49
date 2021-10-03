@@ -1,0 +1,1 @@
+snd_woosh = love.audio.newSource("assets/sound/woosh.mp3", "static")

@@ -1,6 +1,6 @@
 debug = false
 BUTTON_HEIGHT = 64
-blockw = 64
+blockw = 60
 
 screenw = love.graphics.getWidth()
 screenh = love.graphics.getHeight()

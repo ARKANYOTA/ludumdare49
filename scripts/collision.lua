@@ -51,12 +51,28 @@ function make_collision_table()
 end--]]
 
 function is_solid(map, x, y)
-    if (x < 0) or (screenw/blockw < x) or (y < 0) or (screenh/blockw < y) then
+    if (x < 0) or (blockw < x) or (y < 0) or (blockh < y) then
         return true
     end 
 	return get_map(map, x, y) == 1
 end
 
 function is_solid_rect(map, x, y, w, h)
-    return is_solid(map, x, y) or is_solid(map, x+w, y) or is_solid(map, x,   y+h) or is_solid(map, x+w, y+h) 
+    --[[
+        A - x - B
+        |       |
+        y       z
+        |       |
+        C - w - D
+    ]]
+    return 
+        is_solid(map, x,     y) or   --A
+        is_solid(map, x+w,   y) or   --B
+        is_solid(map, x,     y+h) or --C
+        is_solid(map, x+w,   y+h) or --D
+
+        is_solid(map, x+w/2, y) or     --x
+        is_solid(map, x,     y+h/2) or --y
+        is_solid(map, x+w,   y+h/2) or --z
+        is_solid(map, x+w/2, y+h/2)    --w
 end
