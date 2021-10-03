@@ -18,7 +18,13 @@ function block_create() --{{{2
 end
 
 function block_draw()--{{{2
-    love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
+    for i,v in ipairs(map) do
+        for j,u in ipairs(v) do
+            if u == 1 then 
+                love.graphics.draw(bl.sprite, (j-1)* bl.w, (i-1)*bl.h-CMwh, 0, bl.scale_y, bl.scale_y)
+            end
+        end
+    end
  -- coll_table[y][x]
 end
 
@@ -86,8 +92,6 @@ function player_create() -- {{{2
     p.h = p.sprite:getHeight() * p.scale_y
 end
 
-
-
 function player_update()
     local dt = love.timer.getDelta()
     player_movement(dt)
@@ -96,6 +100,11 @@ function player_update()
     player_cursor()
     throw_bomb()
     update_bomb(dt)
+end
+
+function round(num, numDecimalPlaces)
+    local mult = 10^(numDecimalPlaces or 0)
+    return math.floor(num * mult + 0.5) / mult
 end
 
 function player_movement(dt) --{{{2
@@ -113,7 +122,7 @@ function player_movement(dt) --{{{2
     if love.keyboard.isScancodeDown("s") or love.keyboard.isScancodeDown("down") then
         dir_vector.y = dir_vector.y + 1
     end 
-    -- Normalize the direction vector
+
     local norm = math.sqrt(dir_vector.x * dir_vector.x + dir_vector.y * dir_vector.y) + 0.0001
     dir_vector.x = dir_vector.x / norm 
     dir_vector.y = dir_vector.y / norm
@@ -121,36 +130,36 @@ function player_movement(dt) --{{{2
     p.dx = p.dx + (dir_vector.x * p.speed)
     p.dy = p.dy + (dir_vector.y * p.speed)
 
-    -- Collision
-    local solid_x = is_solid(map, (p.x+p.dx)/bl.w, p.y/bl.h)
-    local solid_y = is_solid(map, p.x/bl.w, (p.y+p.dy)/bl.h)
-
-    p.solidx = get_map(map, (p.x+p.dx)/bl.w, p.y/bl.h)
-    p.solidy = get_map(map, (p.x+p.dx)/bl.w, p.y/bl.h)
-
-    if solid_x then
-        p.dx = p.dx * -p.bounce
-    end
-    if solid_y then
-        p.dy = p.dy * -p.bounce
-    end--
-
     p.dx = p.dx * p.friction
     p.dy = p.dy * p.friction
 
-    p.x = p.x + p.dx * dt
-    p.y = p.y + p.dy * dt
+    local tpx,tpy,cord,tpxf,tpyf
+    tpxf = p.x + p.dx * dt
+    tpyf = p.y + p.dy * dt
+
+    if tpxf<0 then tpxf=0 end
+    if tpyf<0 then tpyf=0 end
+
+    tpx = tpxf+p.w/2
+    tpy = tpyf+p.h/2
+
+    cord = {
+        {math.floor((tpx - p.w/2)/bl.w),math.floor((tpy - p.h/2)/bl.h)},
+        {math.floor((tpx + p.w/2)/bl.w),math.floor((tpy + p.h/2)/bl.h)},
+        {math.floor((tpx + p.w/2)/bl.w),math.floor((tpy - p.h/2)/bl.h)},
+        {math.floor((tpx - p.w/2)/bl.w),math.floor((tpy + p.h/2)/bl.h)}
+    }
+
+    if map[cord[1][1]+1][cord[1][2]+1] == 1 or map[cord[2][1]+1][cord[2][2]+1] == 1 or map[cord[3][1]+1][cord[3][2]+1] == 1 or map[cord[4][1]+1][cord[4][2]+1] == 1 then
+        p.dx = 0
+        p.dy = 0
+        tpxf=p.x
+        tpyf=p.y
+    end
+
+    p.x = tpxf
+    p.y = tpyf
     
-    --[[testy = p.y + p.dy * dt
-    testx = p.x + p.dx * dt
-    if coll_table[math.floor(testy/bl.h)+1][math.floor(testx/bl.h)+1] == 0 and 
-       coll_table[math.floor(testy/bl.h)+1][math.floor((testx+p.w)/bl.h)+1] == 0 and
-       coll_table[math.floor((testy+p.h)/bl.h)+1][math.floor(testx/bl.h)+1] == 0 and
-       coll_table[math.floor((testy+p.h)/bl.h)+1][math.floor((testx+p.w)/bl.h)+1] == 0
-       then
-        p.y = p.y + p.dy * dt
-        p.x = p.x + p.dx * dt
-    end]]
 end
 
 function draw_player()--{{{2
@@ -161,7 +170,7 @@ function player_cursor(dt) -- {{{2
     local mx, my = love.mouse.getPosition()
     local click = love.mouse.isDown(1)
     p.cursor.scrx, p.cursor.scry = mx, my
-    p.cursor.x, p.cursor.y = mx, my + CMwh
+    p.cursor.x, p.cursor.y = mx, my
     p.cursor.active = click
 
     local x = mx - (p.x + p.w/2)

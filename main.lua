@@ -65,7 +65,8 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 	-- Map
 	map = make_blank_map(30, 30)
-	set_map(map, 1, 1)
+	--set_map(map, 3, 3, 1)
+	map[2][2] = 1
 	-- Debug
 end
 
@@ -221,12 +222,13 @@ function draw_debug()
 		
 		for i,v in ipairs(map) do
 			for j,u in ipairs(v) do
-				love.graphics.print(tostring(u), j*bl.w, i*bl.h)
+				love.graphics.print(tostring(u), (j-1)* bl.w, (i-1)*bl.h-CMwh) -- 
 			end
 		end
 	end
-	debug_print(0, "debug: is_on ; menu: "..menu)
+	-- debug_print(0, "debug: is_on ; menu: "..menu)
 end
+
 function draw_debug_unfix()
 	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'ingame' then
