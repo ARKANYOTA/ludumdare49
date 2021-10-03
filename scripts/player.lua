@@ -187,11 +187,20 @@ function update_bomb(dt)
 		local bw = blockw
 		local nextx = b.x + b.dx * dt
 		local nexty = b.y + b.dy * dt
+		local bounce = false 
 		if is_solid_rect(map, nextx/bw, b.y/bw,   b.w/bw, b.h/bw) then
-			b.dx = -b.dx 
+			b.dx = -b.dx
+			bounce = true
 		end
 		if is_solid_rect(map, b.x/bw,   nexty/bw, b.w/bw, b.h/bw) then
-			b.dy = -b.dy 
+			b.dy = -b.dy
+			bounce = true
+		end
+
+		if bounce then
+--			sound:setPitch(love.math.random() + 1)
+			snd_metalbar:play()
+--			sound:setPitch(1)
 		end
 		-- si plusieurs enemy, faire for i in enemy
 
