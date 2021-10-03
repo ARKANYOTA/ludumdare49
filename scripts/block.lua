@@ -1,4 +1,5 @@
 require "scripts/constants"
+require "scripts/textures"
 
 function block_create() --{{{2
 	bl = {
@@ -8,7 +9,7 @@ function block_create() --{{{2
         h = blockw,
         
 		sprite = love.graphics.newImage("assets/stone.png"), --200 × 200
-		bg = love.graphics.newImage("assets/bg.png"),
+		bg = sand1,
 		scale_x = 1/3,
 		scale_y = 1/3,
 	}
@@ -22,7 +23,8 @@ function block_draw()--{{{2
 			if block == 1 then
 				love.graphics.draw(bl.sprite, (x-1)* bl.w, (y-1)*bl.h-CameraY+DeletedMapBlock*blockh, 0, bl.scale_y, bl.scale_y)
 			elseif block == 0 then
-				love.graphics.draw(bl.bg, (x-1)* bl.w, (y-1)*bl.h-CameraY+DeletedMapBlock*blockh, 0, bl.scale_y, bl.scale_y)
+				local texture = sandmap[(x+y*#map[1]) % #sandmap]
+				love.graphics.draw(texture, (x-1)* bl.w, (y-1)*bl.h-CameraY+DeletedMapBlock*blockh, 0, bl.scale_y, bl.scale_y)
 			end
 		end
 	end

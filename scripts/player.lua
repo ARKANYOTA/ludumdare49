@@ -249,6 +249,12 @@ function update_bomb(dt)
 			spawn_smoke(b.x, b.y)
 		end
 
+		-- Game over
+		if b.timer <= 0 then
+			play_random_pitch(snd_bombboom)
+			start_menu("game_over")
+		end
+
 		-- Beeping (I'm pretty sure there's a better way to do this)
 		b.beep_timer = b.beep_timer - dt
 		if b.beep_timer < 0 then

@@ -97,7 +97,6 @@ function love.mousepressed( x, y, button, istouch, presses )
 	end
 end
 
-
 function love.mousemoved( x, y, dx, dy, istouch )
 	if has_value(menus,menu) then
 		update_buttons(0, x, y)
@@ -181,23 +180,28 @@ function newButton(text, fn) -- {{{2
 	}
 end
 
-function print_table(elt)
-	for i,_ in ipairs(elt) do
-		print(unpack(elt[i]))
-	end
+function start_game()
+	CameraY = 0
+	DeletedMapBlock = 0
+	CameraYAdd = 0
+	love.mouse.setVisible(false)
+	player_create()
+	bomb_create()
+	block_create()
+	enemy_create()
+	in_game_timer = 0
+	map = make_blank_map(nb_block_x, nb_block_y)
+	set_map(map, 1, 0, 1)
+	set_map(map, 1, 1, 1)
+	set_map(map, 1, 4, 1)
+	menu = 'in_game'
+	CM.update(0)
 end
 
-function draw_collision(x,y,w,h) -- {{{2
-	love.graphics.rectangle("line",x,y,w,h) -- vertical left
-end
-
-function has_value(tab, val)
-	for _, value in ipairs(tab) do
-		if value == val then
-			return true
-		end
-	end
-	return false
+function continue_game()
+	love.mouse.setVisible(false)
+	menu = 'in_game'
+	CM.update(0)
 end
 
 -- USELESS FUNCTIONS {{{2

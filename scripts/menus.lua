@@ -100,30 +100,6 @@ function draw_tuto()
 end
 
 
-function start_game()
-	CameraY = 0
-	DeletedMapBlock = 0
-	CameraYAdd = 0
-	love.mouse.setVisible(false)
-	player_create()
-	bomb_create()
-	block_create()
-	enemy_create()
-	in_game_timer = 0
-	map = make_blank_map(nb_block_x, nb_block_y)
-	set_map(map, 1, 0, 1)
-	set_map(map, 1, 1, 1)
-	set_map(map, 1, 4, 1)
-	menu = 'in_game'
-	CM.update(0)
-end
-
-function continue_game()
-	love.mouse.setVisible(false)
-	menu = 'in_game'
-	CM.update(0)
-end
-
 function start_menu(m)
 	love.mouse.setVisible(true)
 	for i, _ in ipairs(buttons) do buttons[i] = nil end
@@ -169,9 +145,9 @@ end
 
 function draw_buttons()
 	if menu == "game_over" then
-		love.graphics.print({{244, 0, 0, 1}, "Game_Over"}, game_over_font_120,200, 0)
+		love.graphics.print({{244, 0, 0, 1}, "Game Over!"}, game_over_font_120,200, 0)
 		love.graphics.print({{244, 0, 0, 0.7}, "score : "..p.score}, game_over_font_90,200, 100)
-		love.graphics.print({{244, 0, 0, 0.7}, "max score : "..p.max_score}, game_over_font_90,200, 130)
+		love.graphics.print({{244, 0, 0, 0.7}, "highscore : "..p.max_score}, game_over_font_90,200, 130)
 	end
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
 	local cursor_y = 0
