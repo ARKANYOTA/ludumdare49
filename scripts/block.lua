@@ -7,7 +7,7 @@ function block_create() --{{{2
         w = blockw,
         h = blockw,
         
-		sprite = love.graphics.newImage("assets/stone.jpg"), --200 × 200
+		sprite = love.graphics.newImage("assets/stone.png"), --200 × 200
 		bg = love.graphics.newImage("assets/bg.png"),
 		scale_x = 1/3,
 		scale_y = 1/3,

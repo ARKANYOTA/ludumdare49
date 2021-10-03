@@ -7,7 +7,7 @@ function block_create() --{{{2
     bl = {
         x = 500,
         y = 0,
-        sprite = love.graphics.newImage("assets/stone.jpg"),
+        sprite = love.graphics.newImage("assets/stone.png"),
         scale_x = 0.5,
 		scale_y = 0.5,
     }
@@ -196,6 +196,7 @@ function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
 		p.hasBomb = false
     end
 end
+
 
 function throw_bomb()
     if p.cursor.active and p.hasBomb then

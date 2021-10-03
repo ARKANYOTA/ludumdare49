@@ -248,7 +248,7 @@ function draw_debug()
 		debug_print(8, "bomb cooldown:"..math.floor(b.max_catch_cooldown * 1000)/1000)
 		debug_print(9, "bomb active:"..tostring(b.active))
 		debug_print(10, "collision bomb/player: "..tostring(coll_check))
-		debug_print(11, "dif_x : "..math.floor(p.angle))
+		debug_print(11, "bond : "..tostring(b.can_bounce))
 		debug_print(12, "CameraY: "..tostring(CameraY))
 		
 		for i,v in ipairs(map) do

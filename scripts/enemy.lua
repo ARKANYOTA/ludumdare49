@@ -16,7 +16,7 @@ function draw_enemy()
 end
 
 function move_toward_player(dt)
-	local dx,dy = enemy.x - p.x, enemy.y-p.y
+	local dx,dy = enemy.x - p.x, enemy.y-p.yz
 	local distance = math.sqrt(dx^2+dy^2)
 if p.x < enemy.x + enemy.speed/200 or p.x > enemy.x + enemy.speed/10 then
 	enemy.x = enemy.x - dx/distance * enemy.speed * dt
