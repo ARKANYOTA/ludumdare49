@@ -7,7 +7,7 @@ function block_create() --{{{2
     bl = {
         x = 500,
         y = 0,
-        sprite = love.graphics.newImage("assets/stone.jpg"),
+        sprite = love.graphics.newImage("assets/stone.png"),
         scale_x = 0.5,
 		scale_y = 0.5,
     }
@@ -95,10 +95,10 @@ function player_create() -- {{{2
 end
 
 
-function block_draw()--{{{2
-    love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
- -- coll_table[y][x]
-end
+-- function block_draw()--{{{2 Deja défini dans vlocks
+--     love.graphics.draw(bl.sprite, bl.x, bl.y+(DeletedMapBlock*blockh), 0, bl.scale_y, bl.scale_y)
+--  -- coll_table[y][x]
+-- end
 
 function player_update()
     local dt = love.timer.getDelta()
@@ -196,6 +196,7 @@ function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
 		p.hasBomb = false
     end
 end
+
 
 function throw_bomb()
     if p.cursor.active and p.hasBomb then
