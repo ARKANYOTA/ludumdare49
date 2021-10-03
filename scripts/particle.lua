@@ -42,7 +42,7 @@ function spawn_smoke(x, y)
 		love.graphics.newImage("assets/smoke.png"),
 		{x=x, y=y},
 		{x = (love.math.random()*2-1)*10, y = (love.math.random()*2-1)*10},
-		love.math.random()*0.5, 0.95, --size, Δ size
+		love.math.random()*0.3, 0.95, --size, Δ size
 		love.math.random() * 2*math.pi,
 		(love.math.random()*2 - 1) / 3
 	))

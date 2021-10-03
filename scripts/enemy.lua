@@ -20,8 +20,8 @@ function draw_enemy(enemy)-- vacciné
 end
 
 function move_toward_player(x,y,speed,dt)-- vacciné
-		local dx,dy = x - p.x, y-p.y
-		local distance = math.sqrt(dx^2+dy^2)
+	local dx,dy = x - p.x, y-p.y
+	local distance = math.sqrt(dx^2+dy^2)
 	if p.x < x + y/200 or p.x > x + y/10 then
 		x = x - dx/distance * y * dt
 	end
@@ -37,8 +37,6 @@ function enemy_update(dt) -- vacciné
 		if enemy.hp > 0 then
 			if enemy_wont_move == true then
 				enemy.x,enemy.y = move_toward_player(enemy.x,enemy.y,enemy.speed,dt)
-
-
 			end
 		else 
 			enemy.x = 0
