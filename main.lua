@@ -59,7 +59,7 @@ function love.load() -- LOAD {{{2
 	start_menu('menu') -- valeurs posibles menu,ingame, pause, gameover
 	ingame_timer = 0
 	global_timer = 0
-	debug = true 
+	debug = false 
 	BUTTON_HEIGHT = 64
 	-- Credits
 	load_credits()
