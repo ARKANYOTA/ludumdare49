@@ -61,8 +61,8 @@ function bomb_create()--{{{2
         dr = 1,
 
 		throwspeed = 300,
-		catch_cool_down = 0,
-		max_catch_cool_down = 1,
+		catch_cooldown = 0,
+		max_catch_cooldown = 1,
 	}
 	b.w, b.h  = b.sprite:getWidth()*b.scale_x, b.sprite:getHeight() * b.scale_y
 	--b.h =sprite:getHeight() 
@@ -150,10 +150,10 @@ function draw_cursor()
 	love.graphics.draw(c.sprite, c.x, c.y, 0, c.scale_x, c.scale_y, c.w/2, c.h/2)
 end
 
-
+-- Bomb
 
 function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
-	if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true and b.catch_cool_down <= 0 then
+	if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true and b.catch_cooldown <= 0 then
 		p.hasBomb = true
 	else
 		p.hasBomb = false
@@ -165,18 +165,30 @@ function throw_bomb()
 		p.hasBomb = false
 		b.dx = math.cos(p.angle) * b.throwspeed
 		b.dy = math.sin(p.angle) * b.throwspeed
-		b.catch_cool_down = b.max_catch_cool_down
+		b.catch_cooldown = b.max_catch_cooldown
 		b.timer = b.max_timer
 	end
 end
 
 function update_bomb(dt)
-	b.catch_cool_down = math.max(b.catch_cool_down - dt, 0)
+	b.catch_cooldown = math.max(b.catch_cooldown - dt, 0)
 	b.timer = math.max(b.timer - dt, 0)
 	b.active = not p.hasBomb
 	if b.active then
+		local bw = bl.w
+		local nextx = b.x + b.dx * dt
+		local nexty = b.y + b.dy * dt
+		if is_solid_rect(map, nextx/bw, b.y/bw,   b.w/bw, b.h/bw) then
+			b.dx = -b.dx 
+		end
+		if is_solid_rect(map, b.x/bw,   nexty/bw, b.w/bw, b.h/bw) then
+			b.dy = -b.dy 
+		end
+		
+		-- Apply movement 
 		b.x = b.x + b.dx * dt
 		b.y = b.y + b.dy * dt
+
 		if love.math.random() <= (b.timer%1) / 2 then
 			spawn_smoke(b.x, b.y)
 		end

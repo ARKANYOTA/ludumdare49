@@ -51,6 +51,9 @@ function make_collision_table()
 end--]]
 
 function is_solid(map, x, y)
+    if (x < 0) or (screenw/blockw < x) or (y < 0) or (screenh/blockw < y) then
+        return true
+    end 
 	return get_map(map, x, y) == 1
 end
 
