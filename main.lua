@@ -217,6 +217,11 @@ function update_buttons(pressed_btn, mx, my)
 end
 
 function draw_buttons()
+	if menu == "game_over" then
+		love.graphics.print({{244, 0, 0, 1}, "Game_Over"}, game_over_font_120,200, 0)
+		love.graphics.print({{244, 0, 0, 0.7}, "score : "..p.score}, game_over_font_90,200, 100)
+		love.graphics.print({{244, 0, 0, 0.7}, "max score : "..p.max_score}, game_over_font_90,200, 130)
+	end
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
 	local cursor_y = 0
 
@@ -271,6 +276,7 @@ function draw_debug()
 		debug_print(12, "CameraY: "..tostring(CameraY))
 		debug_print(13, "CameraYAdd: "..tostring(CameraYAdd))
 		debug_print(14, "DeletedMapBlock: "..tostring(DeletedMapBlock))
+		debug_print(15, "Vie: "..tostring(p.vie))
 		
 		love.graphics.setColor(255, 255, 255, 1.0)
 		for i,v in ipairs(map) do
