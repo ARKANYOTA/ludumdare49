@@ -56,7 +56,7 @@ function bomb_create()--{{{2
     --b.h =sprite:getHeight()
 end
 
-function player_create() -- {{{2
+--[[function player_create() -- {{{2
     local cursor_img = love.graphics.newImage("assets/cursor.png")
 	p = {
 		x = 300,
@@ -74,6 +74,8 @@ function player_create() -- {{{2
 
         bomb = b,
         hasBomb = false,
+		timer_bomb = 0,
+		vie = 100,
 
         cursor = {
             x = 0,
@@ -93,7 +95,7 @@ function player_create() -- {{{2
     p.w = p.sprite:getWidth() * p.scale_x 
     p.h = p.sprite:getHeight() * p.scale_y
 end
-
+--]]
 
 -- function block_draw()--{{{2 Deja défini dans vlocks
 --     love.graphics.draw(bl.sprite, bl.x, bl.y+(DeletedMapBlock*blockh), 0, bl.scale_y, bl.scale_y)
