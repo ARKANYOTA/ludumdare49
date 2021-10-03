@@ -40,7 +40,7 @@ end
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
 	-- UI
-	menus = {'menu', 'gameover', 'pause'}
+	menus = {'menu', 'gameover', 'pause', 'credits', 'tuto'}
 	buttons = {}
 	ww = love.graphics.getWidth()
 	wh = love.graphics.getHeight()
@@ -61,6 +61,8 @@ function love.load() -- LOAD {{{2
 	global_timer = 0
 	debug = true 
 	BUTTON_HEIGHT = 64
+	-- Credits
+	load_credits()
 
 	-- Particles
 	particles = {}
@@ -110,6 +112,10 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 		if key == "escape" then
 			continue_game("pause")
 		end
+	elseif menu == "credits" or menu == "tuto" then
+		if key == "escape" then
+			start_menu("menu")
+		end
 	end
 	if has_value(menus,menu) then -- menu {{{3
 
@@ -118,7 +124,8 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 		if key=="g" then start_game() end
 		if key=="m" then start_menu("menu") end
 		if key=="o" then start_menu("gameover") end
-		--if key=="p" then credits() end
+		if key=="c" then start_menu("credits") end
+		if key=="p" then draw_credits() end
 	end
 end
 
@@ -197,7 +204,12 @@ function draw_buttons()
 end
 
 function draw_menu()
-	draw_buttons()
+	if menu == "credits" then
+		draw_credits()
+	elseif menu == "tuto" then
+	else
+		draw_buttons()
+	end
 end
 
 function debug_print(ps, txt)
@@ -263,8 +275,8 @@ function start_menu(m)
 	menu = m
 	if menu =='menu'then
 		table.insert(buttons, newButton("Start Game", start_game))
-		table.insert(buttons, newButton("Tuto", function() print("Tuto") end))
-		table.insert(buttons, newButton("Crédits", function() print("Info") end))
+		table.insert(buttons, newButton("Tuto", function() start_menu("tuto") end))
+		table.insert(buttons, newButton("Crédits", function() start_menu("credits") end))
 		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
 	end
 	if menu =='gameover' then
