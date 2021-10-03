@@ -89,6 +89,9 @@ function love.update(dt) -- UPDATE {{{2
 		enemy_update()
 		if love.keyboard.isScancodeDown("k") then
 			CMwh = CMwh +1
+			p.y = p.y -1
+			b.y = b.y -1
+			enemy.y = enemy.y -1
 		end
 	end
 
