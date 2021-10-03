@@ -10,7 +10,7 @@ It's a game for Ludum dare 49, GameJam.
 | ARKANYOTA | Dev & Idea | [ARKANYOTA](https://github.com/ARKANYOTA) | arkanyota#3321 |
 | Yolwoocle | Dev & Idea | [Yolwoocle](https://github.com/Yolwoocle) | |
 | Maxim-Costa | Dev & Idea | [Maxim-Costa](https://github.com/Maxim-Costa) | |
-| Notgoyome | Dev & Idea | [cringecrimson](https://github.com/cringecrimson) | |
+| Notgoyome | Dev & Idea | [Yauyau123](https://github.com/Yauyau123) | |
 | Poulpito\_GDL | Images | ... | |
 | Pierre | Music | ... | |
 | Antoine | Idea | ... | |
@@ -29,6 +29,7 @@ It's a game for Ludum dare 49, GameJam.
 ### In game
 - w, s, a and d and arrows: Move player (Change with you keyboard layout)
 - escape: Pause game
+- mouse: for launch bomb
 
 ### In pause mode
 - escape: exit pause menu

@@ -222,6 +222,7 @@ function draw_menu()
 	if menu == "credits" then
 		draw_credits()
 	elseif menu == "tuto" then
+		draw_tuto()
 	else
 		draw_buttons()
 	end
@@ -290,7 +291,7 @@ function start_menu(m)
 	menu = m
 	if menu =='menu'then
 		table.insert(buttons, newButton("Start Game", start_game))
-		table.insert(buttons, newButton("Tuto", function() start_menu("tuto") end))
+		table.insert(buttons, newButton("Help", function() start_menu("tuto") end))
 		table.insert(buttons, newButton("Crédits", function() start_menu("credits") end))
 		table.insert(buttons, newButton("Exit Game", function() love.event.quit(0) end))
 	end
