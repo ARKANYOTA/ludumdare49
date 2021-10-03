@@ -100,7 +100,7 @@ function player_update()
 				p.iframes = p.max_iframe
 			end
 			if enemy.hp > 0 then
-			p.vie = p.vie - 1
+			p.life = p.life - 1
 			end
 		end
 		if p.life <= 0 then
