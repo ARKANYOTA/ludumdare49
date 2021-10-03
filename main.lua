@@ -263,6 +263,7 @@ function draw_debug_unfix()
 	if menu == 'in_game' then
 		draw_collision(b.x,b.y,b.w,b.h)
 		draw_collision(p.x,p.y,p.w,p.h)
+		draw_collision(enemy.x,enemy.y,enemy.w,enemy.h)
 	end
 end
 

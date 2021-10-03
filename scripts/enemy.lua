@@ -8,6 +8,7 @@ function enemy_create()
 		scale_y = 0.25,
 		angle = 0
 	}
+	enemy.w, enemy.h  = enemy.sprite:getWidth()*enemy.scale_x, enemy.sprite:getHeight() * enemy.scale_y
 end
 
 function draw_enemy()
@@ -15,17 +16,20 @@ function draw_enemy()
 end
 
 function move_toward_player()
-	if p.x < enemy.x - enemy.speed/2 or p.x > enemy.x + enemy.speed/2 then
-		if p.x > enemy.x  then
-				enemy.x = enemy.x + enemy.speed
-		elseif p.x < enemy.x then
-				enemy.x = enemy.x - enemy.speed
+	local center_enemy_x = enemy.x + enemy.w/3.25
+	local center_enemy_y = enemy.y + enemy.h/3.25
+	
+	if p.x < center_enemy_x - enemy.speed/2 or p.x > center_enemy_x + enemy.speed/2 then
+		if p.x > center_enemy_x  then
+			enemy.x = enemy.x + enemy.speed
+		elseif p.x < center_enemy_x then
+			enemy.x = enemy.x - enemy.speed
 		end
 	end
-	if p.y < enemy.y - enemy.speed/2 or p.y > enemy.y + enemy.speed/2 then
-		if p.y > enemy.y  then
+	if p.y < center_enemy_y - enemy.speed/2 or p.y > center_enemy_y + enemy.speed/2 then
+		if p.y > center_enemy_y  then
 			enemy.y = enemy.y + enemy.speed
-		elseif p.y < enemy.y then
+		elseif p.y < center_enemy_y then
 			enemy.y = enemy.y - enemy.speed
 		end
 	end
