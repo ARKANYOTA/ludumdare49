@@ -236,8 +236,8 @@ function move_toward()
     local y = enemy.y - (p.x + p.h/2)
     enemy.angle = math.atan2(y, x)
     if  (p.x <= enemy.x and p.y <= enemy.y) or (p.x >= enemy.x and p.y >= enemy.y) then
-    enemy.x = enemy.x - math.cos(enemy.angle) * enemy.speed
-    enemy.y = enemy.y - math.cos(enemy.angle) * enemy.speed
+        enemy.x = enemy.x - math.cos(enemy.angle) * enemy.speed
+        enemy.y = enemy.y - math.cos(enemy.angle) * enemy.speed
     elseif  (p.x >= enemy.x and p.y <= enemy.y) or (p.x <= enemy.x and p.y >= enemy.y) then
         enemy.y = enemy.y + math.cos(enemy.angle) * enemy.speed
         enemy.x = enemy.x - math.cos(enemy.angle) * enemy.speed
