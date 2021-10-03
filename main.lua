@@ -66,7 +66,8 @@ function love.load() -- LOAD {{{2
 	-- Map
 	map = make_blank_map(30, 30)
 	--set_map(map, 3, 3, 1)
-	map[2][2] = 1
+	--map[2][2] = 1
+	set_map(map, 2, 2, 1)
 	-- Debug
 end
 
@@ -80,6 +81,7 @@ function love.update(dt) -- UPDATE {{{2
 	
 	if menu == 'ingame' then
 		player_update()
+		enemy_update()
 		if love.keyboard.isScancodeDown("k") then
 			CMwh = CMwh +1
 		end 
@@ -98,7 +100,6 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 	end
 	if key == "f5" then love.event.quit("restart") end
 	if key == "f3" then debug = not debug end
-	if key == "f6" then print_table(coll_table) end
 	if menu == "ingame" then -- ingame {{{3
 		if key == "escape" then
 			start_menu("pause")
@@ -125,7 +126,7 @@ function love.draw() -- DRAWING {{{2
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
 		draw_player()
 		draw_bomb()
-
+		draw_enemy()
 		block_draw()
 		player_cursor()
 
@@ -207,18 +208,15 @@ function draw_debug()
 		--love.graphics.print(coll,16,16)
 		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
 		debug_print(2, "player dx:"..math.floor(p.dx).." dy:"..math.floor(p.dy))
-		debug_print(3, "solidx: "..tostring(p.solidx).." solidy:"..tostring(p.solidy))
+		debug_print(3, "solidx: "..tostring(p.solidx).." solidy:"..tostring(p.solidy).." block: "..tostring(p.block))
 		debug_print(4, "FPS: "..love.timer.getFPS())
 		debug_print(5, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
 		debug_print(6, "bomb timer:"..math.floor(b.timer * 1000)/1000)
 		debug_print(7, "bomb cooldown:"..math.floor(b.max_catchcooldown * 1000)/1000)
 		debug_print(8, "bomb active:"..tostring(b.active))
 		debug_print(9, "collision bomb/player: "..tostring(coll_check))
-		--debug_print(7, math.floor(testx/bl.w)+1)
-		--debug_print(8, math.floor(testy/bl.h)+1)
+		debug_print(10, "dif_x : "..math.floor(p.angle))
 		debug_print(13, "CMwh: "..tostring(CMwh))
-		--love.graphics.print(math.floor((testx+p.w)/bl.h)+1,0,148)
-		--love.graphics.print(math.floor((testy+p.h)/bl.h)+1,0,148)
 		
 		for i,v in ipairs(map) do
 			for j,u in ipairs(v) do
@@ -243,7 +241,7 @@ function start_game()
 	player_create()
 	bomb_create()
 	block_create()
-	
+	enemy_create()
 	ingame_timer = 0
 	menu = 'ingame'
 	CM.update(0)
