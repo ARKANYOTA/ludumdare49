@@ -25,8 +25,9 @@ function player_create() -- {{{2
 		bomb = b,
 		hasBomb = true,
 		timer_bomb = 0,
-		vie = 3,
-		dt_vie = 1,
+		life = 3,
+		iframes = 1,
+		max_iframes = 1,
 		score = 0,
 		max_score = 0,
 
@@ -57,7 +58,7 @@ function bomb_create()--{{{2
 		dy = 0,
 
 		timer = 0, -- In seconds
-		max_timer = 5,
+		max_timer = 6,
 		active = false,
 
 		sprite = love.graphics.newImage("assets/bomb.png"),
@@ -74,8 +75,10 @@ function bomb_create()--{{{2
 		
 		beep_timer = 0,
 		beep_pitch = 1,
-		max_beep_timer = 1,
+		max_beep_timer = 2,
 		default_max_beep_timer = 1,
+		
+		isred = false,
 	}
 	b.w, b.h  = b.sprite:getWidth() * b.scale_x, b.sprite:getHeight() * b.scale_y
 	--b.h =sprite:getHeight() 
@@ -91,14 +94,14 @@ function player_update()
 	update_bomb(dt)
 
 	if collision(enemy.x,enemy.y,enemy.w,enemy.h,p.x,p.y,p.w,p.h) then
-		p.dt_vie = p.dt_vie-dt
-		if p.dt_vie < 0 then 
-			p.dt_vie = 1
-			--print(p.vie)
-			p.vie = p.vie - 1
+		p.iframes = p.iframes - dt
+		if p.iframes < 0 then 
+			p.iframes = p.max_iframes
+			--print(p.life)
+			p.life = p.life - 1
 		end
 	end
-	if p.vie <= 0 then
+	if p.life <= 0 then
 		start_menu("game_over")
 	end
 end
@@ -160,15 +163,19 @@ end
 
 function player_cursor(dt) -- {{{2
 	local mx, my = love.mouse.getPosition()
-	local click = love.mouse.isDown(1)
 	p.cursor.scrx, p.cursor.scry = mx, my
 	p.cursor.x, p.cursor.y = mx, my
-	p.cursor.active = click
+	p.cursor.active = love.mouse.isDown(1)
 
 	local x = mx - (p.x + p.w/2)
 	local y = my - (p.y + p.h/2)
 	p.angle = math.atan2(y, x)
 end
+
+function love.mousepressed(x, y, button)
+	p.cursor.active = (button == 1)
+end
+
 
 function draw_cursor()
 	local c = p.cursor
@@ -188,6 +195,7 @@ end
 function throw_bomb()
 	if p.cursor.active and p.hasBomb then
 		p.hasBomb = false
+		b.beep_timer = b.max_beep_timer
 
 		b.x = p.x 
 		b.y = p.y 
@@ -241,14 +249,18 @@ function update_bomb(dt)
 			spawn_smoke(b.x, b.y)
 		end
 
-		-- Beeping 
+		-- Beeping (I'm pretty sure there's a better way to do this)
 		b.beep_timer = b.beep_timer - dt
 		if b.beep_timer < 0 then
+			b.max_beep_timer = b.max_beep_timer * 0.5 -- Make it faster
+			b.beep_timer = b.max_beep_timer -- Reset timer
+			
+			b.beep_pitch = b.beep_pitch + 0.001
+
+			b.isred = not b.isred
+		
 			snd_bombbeep:setPitch(b.beep_pitch)
 			snd_bombbeep:play()
-			b.max_beep_timer = b.max_beep_timer / 2
-			b.beep_timer = b.max_beep_timer
-			b.beep_pitch = b.beep_pitch + 0.01
 		end
 	else
 		if math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
@@ -259,12 +271,16 @@ function update_bomb(dt)
 		
 		b.max_beep_timer = b.default_max_beep_timer
 		b.beep_pitch = 1
+		b.isred = false
 	end
 	
 end
 
 function draw_bomb()
-    --love.graphics.setColor(1,0,0)
-    love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), b.r, b.scale_x, b.scale_y)
     love.graphics.setColor(1,1,1)
+	if b.isred then
+		love.graphics.setColor(1,0,0)
+	end
+	love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), b.r, b.scale_x, b.scale_y)
+	love.graphics.setColor(1,1,1)
 end

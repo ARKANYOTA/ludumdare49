@@ -84,8 +84,6 @@ function love.update(dt) -- UPDATE {{{2
 			table.remove(particles, i)
 		end
 	end
-
-	print(collectgarbage('count'))
 end
 
 function love.mousepressed( x, y, button, istouch, presses ) 
@@ -198,61 +196,6 @@ function has_value(tab, val)
 end
 
 -- USELESS FUNCTIONS {{{2
-function update_buttons(pressed_btn, mx, my)
-	local total_height = (BUTTON_HEIGHT + margin) * #buttons
-	local cursor_y = 0
-
-	for _, button in ipairs(buttons) do
-		local bx = (ww / 2) - (button_width / 2)
-		local by = (wh / 2) - (total_height / 2) + cursor_y
-		local hot = mx > bx and mx < bx + button_width and my > by and my < by + BUTTON_HEIGHT
-		button.color = {0.4, 0.4, 0.5, 1.0}
-		if hot then
-			button.color = {0.8, 0.8, 0.9, 1.0}
-		end
-		button.now = pressed_btn==1
-		if button.now and not button.last and hot then
-			button.fn()
-		end
-		cursor_y = cursor_y + (BUTTON_HEIGHT + margin)
-	end
-end
-
-function draw_buttons()
-	if menu == "game_over" then
-		love.graphics.print({{244, 0, 0, 1}, "Game_Over"}, game_over_font_120,200, 0)
-		love.graphics.print({{244, 0, 0, 0.7}, "score : "..p.score}, game_over_font_90,200, 100)
-		love.graphics.print({{244, 0, 0, 0.7}, "max score : "..p.max_score}, game_over_font_90,200, 130)
-	end
-	local total_height = (BUTTON_HEIGHT + margin) * #buttons
-	local cursor_y = 0
-
-	for _, button in ipairs(buttons) do
-		button.last = button.now
-		local bx = (ww / 2) - (button_width / 2)
-		local by = (wh / 2) - (total_height / 2) + cursor_y
-		
-		love.graphics.setColor(unpack(button.color))
-		--love.graphics.rectangle("fill", bx, by, button_width, BUTTON_HEIGHT)
-		love.graphics.draw(sprite_btn, bx, by+5)
-		love.graphics.setColor(0, 0, 0, 1)
-		local textW = font:getWidth(button.text)
-		local textH = font:getHeight(button.text)
-		love.graphics.print(button.text, font, (ww * 0.5) - textW * 0.5, by + textH * 0.5)
-		cursor_y = cursor_y + (BUTTON_HEIGHT + margin)
-	end
-end
-
-function draw_menu()
-	if menu == "credits" then
-		draw_credits()
-	elseif menu == "tuto" then
-		draw_tuto()
-	else
-		draw_buttons()
-	end
-end
-
 function debug_print(ps, txt)
 	love.graphics.print(txt, 0, ps*20)
 end
@@ -309,49 +252,3 @@ function draw_debug_unfix()
 	end
 end
 
-function start_game()
-	CameraY = 0
-	DeletedMapBlock = 0
-	CameraYAdd = 0
-	love.mouse.setVisible(false)
-	player_create()
-	bomb_create()
-	block_create()
-	enemy_create()
-	in_game_timer = 0
-	map = make_blank_map(nb_block_x, nb_block_y)
-	set_map(map, 1, 0, 1)
-	set_map(map, 1, 1, 1)
-	set_map(map, 1, 4, 1)
-	menu = 'in_game'
-	CM.update(0)
-end
-
-function continue_game()
-	love.mouse.setVisible(false)
-	menu = 'in_game'
-	CM.update(0)
-end
-
-function start_menu(m)
-	love.mouse.setVisible(true)
-	for i, _ in ipairs(buttons) do buttons[i] = nil end
-	menu = m
-	if menu =='menu'then
-		table.insert(buttons, newButton("Start Game", start_game))
-		table.insert(buttons, newButton("Help", function() start_menu("tuto") end))
-		table.insert(buttons, newButton("Crédits", function() start_menu("credits") end))
-		table.insert(buttons, newButton("Ragequit", function() love.event.quit(0) end))
-	end
-	if menu =='game_over' then
-		table.insert(buttons, newButton("Restart", start_game))
-		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
-		--table.insert(buttons, newButton("principal", start_game))
-		table.insert(buttons, newButton("Rage quit", function() love.event.quit(0) end))
-	end
-	if menu =='pause' then
-		table.insert(buttons, newButton("Continuer", continue_game))
-		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
-		table.insert(buttons, newButton("Ragequit", function() love.event.quit(0) end))
-	end
-end
