@@ -252,10 +252,14 @@ function draw_debug()
 		debug_print(13, "CameraY: "..tostring(CameraY))
 		
 		for i,v in ipairs(map) do
+			--lllig= ""
 			for j,u in ipairs(v) do
 				love.graphics.print(tostring(u), (j-1)* bl.w, (i-1)*bl.h-CameraY)
+				--lllig = lllig .. tostring(u)
 			end
+			--print(lllig)
 		end
+		--print("---")
 	end
 	-- debug_print(0, "debug: is_on ; menu: "..menu)
 end
