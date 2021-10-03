@@ -69,11 +69,12 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 	
 	-- Map
-	map = make_blank_map(30, 40)
+	blockw = 30
+	blockh = 30
+	map = make_blank_map(blockw, blockh)
 	set_map(map, 1, 0, 1)
 	set_map(map, 1, 1, 1)
 	set_map(map, 1, 4, 1)
-	blockw = 30
 
 	-- Debug
 end
@@ -91,6 +92,11 @@ function love.update(dt) -- UPDATE {{{2
 			p.y = p.y -1
 			b.y = b.y -1
 			enemy.y = enemy.y -1
+		elseif love.keyboard.isScancodeDown("l") then
+			CameraY = CameraY +50
+			p.y = p.y -50
+			b.y = b.y -50
+			enemy.y = enemy.y -50
 		end
 	end
 
