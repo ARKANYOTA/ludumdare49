@@ -69,7 +69,7 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 	
 	-- Map
-	map = make_blank_map(30, 30)
+	map = make_blank_map(30, 40)
 	set_map(map, 1, 0, 1)
 	set_map(map, 1, 1, 1)
 	set_map(map, 1, 4, 1)
@@ -241,15 +241,16 @@ function draw_debug()
 		--love.graphics.print(coll,16,16)
 		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
 		debug_print(2, "player dx:"..math.floor(p.dx).." dy:"..math.floor(p.dy))
-		debug_print(3, "screenw, h: "..screenw..";"..screenh)
-		debug_print(4, "FPS: "..love.timer.getFPS())
-		debug_print(5, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
-		debug_print(6, "bomb timer:"..math.floor(b.timer * 1000)/1000)
-		debug_print(7, "bomb cooldown:"..math.floor(b.max_catch_cooldown * 1000)/1000)
-		debug_print(8, "bomb active:"..tostring(b.active))
-		debug_print(9, "collision bomb/player: "..tostring(coll_check))
-		debug_print(10, "dif_x : "..math.floor(p.angle))
-		debug_print(13, "CameraY: "..tostring(CameraY))
+		debug_print(3, "player lx:"..(math.floor((p.x+p.w)/bl.w)+1).." ly:"..math.floor((p.y+p.h+CameraY)/bl.h)+1)
+		debug_print(4, "screenw, h: "..screenw..";"..screenh)
+		debug_print(5, "FPS: "..love.timer.getFPS())
+		debug_print(6, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
+		debug_print(7, "bomb timer:"..math.floor(b.timer * 1000)/1000)
+		debug_print(8, "bomb cooldown:"..math.floor(b.max_catch_cooldown * 1000)/1000)
+		debug_print(9, "bomb active:"..tostring(b.active))
+		debug_print(10, "collision bomb/player: "..tostring(coll_check))
+		debug_print(11, "dif_x : "..math.floor(p.angle))
+		debug_print(12, "CameraY: "..tostring(CameraY))
 		
 		for i,v in ipairs(map) do
 			for j,u in ipairs(v) do
