@@ -191,8 +191,6 @@ end
 function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
 	if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true and b.catch_cooldown <= 0 then
 		p.hasBomb = true
-	else
-		p.hasBomb = false
 	end
 end
 
@@ -236,6 +234,7 @@ function update_bomb(dt)
 		end
 		-- si plusieurs enemy, faire for i in enemy
 		-- marque temp
+		--Damage enemy
 		for i , enemy in ipairs(total_enemy) do 
 			if collision(enemy.x,enemy.y,enemy.w,enemy.h,b.x,b.y,b.w,b.h) == true and b.can_bounce == true
 			then
@@ -243,6 +242,7 @@ function update_bomb(dt)
 				b.dy = -b.dy
 				b.can_bounce = false
 				enemy.hp = enemy.hp - 1
+				play_random_pitch(snd_enemydamage)
 			elseif math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
 				b.can_bounce = true
 			end
@@ -252,7 +252,7 @@ function update_bomb(dt)
 		b.y = b.y + b.dy * dt
 
 		if love.math.random() <= (b.timer%1) / 2 then
-			spawn_smoke(b.x, b.y)
+			spawn_smoke(b.x + b.w/2, b.y + b.h/2 )
 		end
 
 		-- Game over
@@ -279,8 +279,8 @@ function update_bomb(dt)
 			if math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
 				b.can_bounce = true
 			end
-		b.x = p.x - p.w/2
-		b.y = p.y - p.h/2
+		b.x = p.x  + math.cos(p.angle) * 30
+		b.y = p.y  + math.sin(p.angle) * 30
 		
 		b.max_beep_timer = b.default_max_beep_timer
 		b.beep_pitch = 1
