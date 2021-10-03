@@ -83,9 +83,6 @@ function love.update(dt) -- UPDATE {{{2
 	CM.update(dt)
 	global_timer = global_timer + dt
 	
-	if has_value(menus,menu) then
-		update_buttons()
-	end
 	
 	if menu == 'in_game' then
 		player_update()
@@ -99,6 +96,19 @@ function love.update(dt) -- UPDATE {{{2
 		update_particle(pt, dt)
 	end
 
+end
+
+function love.mousepressed( x, y, button, istouch, presses ) 
+	if has_value(menus,menu) then
+		update_buttons(button, x, y)
+	end
+end
+
+
+function love.mousemoved( x, y, dx, dy, istouch )
+	if has_value(menus,menu) then
+		update_buttons(0, x, y)
+	end
 end
 
 function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
@@ -129,7 +139,7 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 		if key=="m" then start_menu("menu") end
 		if key=="o" then start_menu("game_over") end
 		if key=="c" then start_menu("credits") end
-		if key=="p" then draw_credits() end
+		if key=="t" then start_menu("tuto") end
 	end
 end
 
@@ -165,20 +175,19 @@ function love.draw() -- DRAWING {{{2
 end	
 
 -- USELESS FUNCTIONS {{{2
-function update_buttons()
+function update_buttons(pressed_btn, mx, my)
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
 	local cursor_y = 0
 
 	for _, button in ipairs(buttons) do
 		local bx = (ww / 2) - (button_width / 2)
 		local by = (wh / 2) - (total_height / 2) + cursor_y
-		local mx, my = love.mouse.getPosition()
 		local hot = mx > bx and mx < bx + button_width and my > by and my < by + BUTTON_HEIGHT
 		button.color = {0.4, 0.4, 0.5, 1.0}
 		if hot then
 			button.color = {0.8, 0.8, 0.9, 1.0}
 		end
-		button.now = love.mouse.isDown(1)
+		button.now = pressed_btn==1
 		if button.now and not button.last and hot then
 			button.fn()
 		end
