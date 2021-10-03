@@ -9,7 +9,6 @@ function block_create() --{{{2
 	bl.w, bl.h  = bl.sprite:getWidth()*bl.scale_x, bl.sprite:getHeight()*bl.scale_y
 	bl.x = 2*bl.w
 	bl.y = 1*bl.h
-
 end
 
 function block_draw()--{{{2

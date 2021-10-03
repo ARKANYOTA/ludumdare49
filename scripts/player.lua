@@ -112,21 +112,16 @@ function player_movement(dt) --{{{2
 	if nextx < 0 then
 		p.dx = 0
 	end
+	if nexty < 0 then
+		p.dy = 0
+	end
 
-	tpx = tpxf+p.w/2
-	tpy = tpyf+p.h/2
-
-	--[[cord = {
-		{(tpx - p.w/2)/bl.w, ((tpy+CMwh) - p.h/2)/bl.h},
-		{(tpx + p.w/2)/bl.w, ((tpy+CMwh) + p.h/2)/bl.h},
-		{(tpx + p.w/2)/bl.w, ((tpy+CMwh) - p.h/2)/bl.h},
-		{(tpx - p.w/2)/bl.w, ((tpy+CMwh) + p.h/2)/bl.h},
-	} ]]
-
-	if is_solid(map, cord[1][1]+1, cord[1][2]+1) or is_solid(map, cord[2][1]+1, cord[2][2]+1) then
+	if is_solid(map, nextx / bl.w, p.y / bl.h) then 
+	--is_solid(map, cord[1][1]+1, cord[1][2]+1) or is_solid(map, cord[2][1]+1, cord[2][2]+1) then
 		p.dx = 0
 	end
-	if is_solid(map, cord[3][1]+1, cord[3][2]+1) or is_solid(map, cord[4][1]+1, cord[4][2]+1) then
+	if is_solid(map, p.x / bl.w, nexty / bl.h) then
+	--is_solid(map, cord[3][1]+1, cord[3][2]+1) or is_solid(map, cord[4][1]+1, cord[4][2]+1) then
 		p.dy = 0
 	end
 

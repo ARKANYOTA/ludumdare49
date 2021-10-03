@@ -21,8 +21,8 @@ function make_blank_map(w, h)
 end
 
 function get_map(map, x, y)
-	x = math.floor(x)
-	y = math.floor(y)
+	x = math.floor(x) + 1
+	y = math.floor(y) + 1
 	if x <= 0 or #map[1] < x or y <= 0 or #map < y then
 		return 0
 	end
@@ -30,8 +30,8 @@ function get_map(map, x, y)
 end
 
 function set_map(map, x, y, val)
-	x = math.floor(x)
-	y = math.floor(y)
+	x = math.floor(x) + 1
+	y = math.floor(y) + 1
 	if x <= 0 or #map[1] < x or y <= 0 or #map < y then
 		return false
 	end
