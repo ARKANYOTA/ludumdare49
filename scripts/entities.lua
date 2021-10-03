@@ -58,8 +58,8 @@ function bomb_create()--{{{2
         dr = 1,
 
         throwspeed = 300,
-        catchcooldown = 0,
-        max_catchcooldown = 1, 
+        catch_cool_down = 0,
+        max_catch_cool_down = 1, 
     }
     b.w, b.h  = b.sprite:getWidth()*b.scale_x, b.sprite:getHeight() * b.scale_y
     --b.h =sprite:getHeight()
@@ -200,7 +200,7 @@ end
 
 
 function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
-    if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true and b.catchcooldown <= 0 then
+    if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true and b.catch_cool_down <= 0 then
 		p.hasBomb = true
     else
 		p.hasBomb = false
@@ -212,13 +212,13 @@ function throw_bomb()
         p.hasBomb = false
         b.dx = math.cos(p.angle) * b.throwspeed
         b.dy = math.sin(p.angle) * b.throwspeed
-        b.catchcooldown = b.max_catchcooldown
+        b.catch_cool_down = b.max_catch_cool_down
         b.timer = b.max_timer
     end
 end
 
 function update_bomb(dt)
-    b.catchcooldown = math.max(b.catchcooldown - dt, 0)
+    b.catch_cool_down = math.max(b.catch_cool_down - dt, 0)
     b.timer = math.max(b.timer - dt, 0)
     b.active = not p.hasBomb
     if b.active then

@@ -3,7 +3,7 @@
 ## Introduction
 It's a game for Ludum dare 49, GameJam.
 
-## Devlopers
+## Developers
 
 | User | Role | Github | Discord |
 |------|------|--------|---------|
@@ -26,14 +26,14 @@ It's a game for Ludum dare 49, GameJam.
 - F3: Debug vars, maybe delete at final version
 - F5: Restart windows
 
-### Ingame
-- wsad and arrows: Move player (Change with you keyboard layout)
+### In game
+- w, s, a and d and arrows: Move player (Change with you keyboard layout)
 - escape: Pause game
 
 ### In pause mode
 - escape: exit pause menu
 
-### In Degug (Deleta at final version)
+### In Debug (Delete at final version)
 - g: start game
 - m: start menu
 - o: pause menu
@@ -41,5 +41,5 @@ It's a game for Ludum dare 49, GameJam.
 
 ## Game Jam
 
-[Lien vers la game jam](https://ldjam.com/events/ludum-dare/49)
+[Link to GameJam](https://ldjam.com/events/ludum-dare/49)
 

@@ -13,7 +13,7 @@ function make_blank_map(w, h)
     local t = {}
     for y = 1, w do
         table.insert(t, {})
-        for x = 1, h do
+        for _ = 1, h do
             table.insert(t[y], 0)
         end
     end

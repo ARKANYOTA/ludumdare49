@@ -1,13 +1,13 @@
-function make_particle(sprite, pos, speed, size, deltasize, rot, deltarot)
+function make_particle(sprite, pos, speed, size, delta_size, rot, delta_rot)
     local pt = {
         x = pos.x,
         y = pos.y,
         dx = speed.x,
         dy = speed.y,
         s = size,
-        ds = deltasize,
+        ds = delta_size,
         r = rot,
-        dr = deltarot,
+        dr = delta_rot,
 
         sprite = sprite,
     }
@@ -35,7 +35,7 @@ function spawn_smoke(x, y)
         love.graphics.newImage("assets/smoke.png"),
         {x=x, y=y}, 
         {x = (love.math.random()*2-1)*10, y = (love.math.random()*2-1)*10}, 
-        love.math.random()*0.5, 0.95, --size, Δsize 
+        love.math.random()*0.5, 0.95, --size, Δ size
         love.math.random() * 2*math.pi,
         (love.math.random()*2 - 1) / 3
     ))
