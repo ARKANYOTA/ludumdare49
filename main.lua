@@ -39,10 +39,7 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 	
 	-- Map
-	total_enemy = {}
 
-	spawn_enemy(100,100)
-	spawn_enemy(200,100)
 	-- Debug
 	enemy_wont_move = true
 end
@@ -202,6 +199,11 @@ function newButton(text, fn) -- {{{2
 end
 
 function start_game()
+	color = 1
+	total_enemy = {}
+
+	spawn_enemy(100,100)
+	spawn_enemy(200,100)
 	CameraY = 0
 	DeletedMapBlock = 0
 	CameraYAdd = 0

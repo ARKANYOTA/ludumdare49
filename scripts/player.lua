@@ -97,9 +97,11 @@ function player_update()
 		if collision(enemy.x,enemy.y,enemy.w,enemy.h,p.x,p.y,p.w,p.h) then
 			if enemy.hp > 0 then
 				if p.iframes < 0 then
+					--color = 0
 					p.life = p.life - 1
 					p.iframes = p.max_iframes
 				end
+
 				p.iframes = p.iframes - dt
 			end
 		
@@ -162,7 +164,10 @@ function player_movement(dt) --{{{2
 end
 
 function draw_player()--{{{2
+
+	love.graphics.setColor(color,color,color)
 	love.graphics.draw(p.sprite, p.x, p.y, 0, p.scale_x, p.scale_y)
+	love.graphics.setColor(0,0,0)
 end
 
 function player_cursor(dt) -- {{{2
