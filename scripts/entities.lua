@@ -95,10 +95,10 @@ function player_create() -- {{{2
 end
 
 
-function block_draw()--{{{2
-    love.graphics.draw(bl.sprite, bl.x, bl.y, 0, bl.scale_y, bl.scale_y)
- -- coll_table[y][x]
-end
+-- function block_draw()--{{{2 Deja défini dans vlocks
+--     love.graphics.draw(bl.sprite, bl.x, bl.y+(DeletedMapBlock*blockh), 0, bl.scale_y, bl.scale_y)
+--  -- coll_table[y][x]
+-- end
 
 function player_update()
     local dt = love.timer.getDelta()

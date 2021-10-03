@@ -20,9 +20,9 @@ function block_draw()--{{{2
 	for y, line in ipairs(map) do
 		for x, block in ipairs(line) do
 			if block == 1 then
-				love.graphics.draw(bl.sprite, (x-1)* bl.w, (y-1)*bl.h-CameraY, 0, bl.scale_y, bl.scale_y)
+				love.graphics.draw(bl.sprite, (x-1)* bl.w, (y-1)*bl.h-CameraY+DeletedMapBlock*blockh, 0, bl.scale_y, bl.scale_y)
 			elseif block == 0 then
-				love.graphics.draw(bl.bg, (x-1)* bl.w, (y-1)*bl.h-CameraY, 0, bl.scale_y, bl.scale_y)
+				love.graphics.draw(bl.bg, (x-1)* bl.w, (y-1)*bl.h-CameraY+DeletedMapBlock*blockh, 0, bl.scale_y, bl.scale_y)
 			end
 		end
 	end

@@ -69,13 +69,6 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 	
 	-- Map
-	blockw = 30
-	blockh = 30
-	map = make_blank_map(blockw, blockh)
-	set_map(map, 1, 0, 1)
-	set_map(map, 1, 1, 1)
-	set_map(map, 1, 4, 1)
-
 	-- Debug
 end
 
@@ -88,16 +81,30 @@ function love.update(dt) -- UPDATE {{{2
 		player_update()
 		enemy_update(dt)
 		if love.keyboard.isScancodeDown("k") then
-			CameraY = CameraY +1
-			p.y = p.y -1
-			b.y = b.y -1
-			enemy.y = enemy.y -1
+			CameraY = CameraY + 1
+			CameraYAdd = CameraYAdd + 1
+			p.y = p.y - 1
+			b.y = b.y - 1
+			enemy.y = enemy.y - 1
 		elseif love.keyboard.isScancodeDown("l") then
-			CameraY = CameraY +50
-			p.y = p.y -50
-			b.y = b.y -50
-			enemy.y = enemy.y -50
+			CameraY = CameraY + 50
+			CameraYAdd = CameraYAdd + 50
+			p.y = p.y - 50
+			b.y = b.y - 50
+			enemy.y = enemy.y - 50
 		end
+		while CameraYAdd > blockh*2 do
+			CameraYAdd = CameraYAdd - blockh
+			-- Creer un element dans map
+			-- Supprimer le premier element de la map
+			table.remove(map, 1)
+			table.insert(map, {})
+			for _ = 1, nb_block_y do
+				table.insert(map[#map], 0)
+			end
+			DeletedMapBlock = DeletedMapBlock + 1
+		end
+
 	end
 
 	for _,pt in ipairs(particles) do
@@ -245,6 +252,7 @@ function draw_debug()
 		--love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
 		--love.graphics.print(b.catch_cooldown, b.x+50, b.y-20) -- coordonnées bomb
 		--love.graphics.print(coll,16,16)
+		love.graphics.setColor(36, 0, 0, 1.0)
 		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
 		debug_print(2, "player dx:"..math.floor(p.dx).." dy:"..math.floor(p.dy))
 		debug_print(3, "player lx:"..(math.floor((p.x+p.w)/bl.w)+1).." ly:"..math.floor((p.y+p.h+CameraY)/bl.h)+1)
@@ -257,14 +265,19 @@ function draw_debug()
 		debug_print(10, "collision bomb/player: "..tostring(coll_check))
 		debug_print(11, "dif_x : "..math.floor(p.angle))
 		debug_print(12, "CameraY: "..tostring(CameraY))
+		debug_print(13, "CameraYAdd: "..tostring(CameraYAdd))
+		debug_print(14, "DeletedMapBlock: "..tostring(DeletedMapBlock))
 		
+		love.graphics.setColor(255, 255, 255, 1.0)
 		for i,v in ipairs(map) do
-			--lllig= ""
+			lllig= ""
 			for j,u in ipairs(v) do
-				love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraY)
+				--love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraY)
+				lllig = lllig..tostring(u)
 			end
-			--print(lllig)
+			print(lllig)
 		end
+		print("-----")
 
 		love.graphics.setColor(1,0,0)
 		love.graphics.line(screenw2, screenh2, screenw2 + 64, screenh2)
@@ -286,12 +299,18 @@ end
 
 function start_game()
 	CameraY = 0
+	DeletedMapBlock = 0
+	CameraYAdd = 0
 	love.mouse.setVisible(false)
 	player_create()
 	bomb_create()
 	block_create()
 	enemy_create()
 	in_game_timer = 0
+	map = make_blank_map(nb_block_x, nb_block_y)
+	set_map(map, 1, 0, 1)
+	set_map(map, 1, 1, 1)
+	set_map(map, 1, 4, 1)
 	menu = 'in_game'
 	CM.update(0)
 end
