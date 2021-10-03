@@ -37,6 +37,7 @@ function bomb_create()--{{{2
         sprite = love.graphics.newImage("assets/bomb.png"),
         scale_x = 0.1,
 		scale_y = 0.1,
+        redshift = 0,
         r = 0,
         dr = 1,
 
@@ -212,5 +213,7 @@ function update_bomb(dt)
 end
 
 function draw_bomb()
+    --love.graphics.setColor(1,0,0)
     love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), b.r, b.scale_x, b.scale_y)
+    love.graphics.setColor(1,1,1)
 end
