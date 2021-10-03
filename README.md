@@ -37,6 +37,8 @@ It's a game for Ludum dare 49, GameJam.
 - g: start game
 - m: start menu
 - o: pause menu
+- c: credits 
+- t: tuto 
 
 
 ## Game Jam
