@@ -15,7 +15,14 @@ function make_blank_map(w, h)
 	for y = 1, w do
 		table.insert(t, {})
 		for _ = 1, h do
-			table.insert(t[y], 0)
+			rd = love.math.random(9)
+			if rd == 2 or rd == 3 or rd == 4 then
+				table.insert(t[y], 2)
+			elseif rd == 5 or rd == 6 or rd == 7 then
+				table.insert(t[y], 3)
+			else
+				table.insert(t[y], 0)
+			end
 		end
 	end
 	return t
