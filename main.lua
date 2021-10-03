@@ -84,6 +84,7 @@ function love.update(dt) -- UPDATE {{{2
 		end
 	end
 
+	print(collectgarbage('count'))
 end
 
 function love.mousepressed( x, y, button, istouch, presses ) 
@@ -261,7 +262,7 @@ function draw_debug()
 		--love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
 		--love.graphics.print(b.catch_cooldown, b.x+50, b.y-20) -- coordonnées bomb
 		--love.graphics.print(coll,16,16)
-		love.graphics.setColor(36, 0, 0, 1.0)
+		love.graphics.setColor(0, 0, 0, 1.0)
 		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
 		debug_print(2, "player dx:"..math.floor(p.dx).." dy:"..math.floor(p.dy))
 		debug_print(3, "player lx:"..(math.floor((p.x+p.w)/bl.w)+1).." ly:"..math.floor((p.y+p.h+CameraY)/bl.h)+1)

@@ -23,7 +23,7 @@ function player_create() -- {{{2
 		scale_y = 0.2,
 
 		bomb = b,
-		hasBomb = false,
+		hasBomb = true,
 		timer_bomb = 0,
 		vie = 1000,
 		score = 0,
@@ -50,8 +50,8 @@ end
 
 function bomb_create()--{{{2
 	b = {
-		x = 16,
-		y = 16,
+		x = 300,
+		y = 300,
 		dx = 0,
 		dy = 0,
 
@@ -70,8 +70,13 @@ function bomb_create()--{{{2
 		throwspeed = 300,
 		catch_cooldown = 0,
 		max_catch_cooldown = 1,
+		
+		beep_timer = 0,
+		beep_pitch = 1,
+		max_beep_timer = 1,
+		default_max_beep_timer = 1,
 	}
-	b.w, b.h  = b.sprite:getWidth()*b.scale_x, b.sprite:getHeight() * b.scale_y
+	b.w, b.h  = b.sprite:getWidth() * b.scale_x, b.sprite:getHeight() * b.scale_y
 	--b.h =sprite:getHeight() 
 end
 
@@ -187,7 +192,7 @@ function throw_bomb()
 		b.catch_cooldown = b.max_catch_cooldown
 		b.timer = b.max_timer
 
-		snd_woosh:play()
+		play_random_pitch(snd_throw)
 	end
 end
 
@@ -210,9 +215,7 @@ function update_bomb(dt)
 		end
 
 		if bounce then
---			sound:setPitch(love.math.random() + 1)
-			snd_metalbar:play()
---			sound:setPitch(1)
+			play_random_pitch(snd_bombbounce)
 		end
 		-- si plusieurs enemy, faire for i in enemy
 
@@ -232,12 +235,25 @@ function update_bomb(dt)
 		if love.math.random() <= (b.timer%1) / 2 then
 			spawn_smoke(b.x, b.y)
 		end
+
+		-- Beeping 
+		b.beep_timer = b.beep_timer - dt
+		if b.beep_timer < 0 then
+			snd_bombbeep:setPitch(b.beep_pitch)
+			snd_bombbeep:play()
+			b.max_beep_timer = b.max_beep_timer / 2
+			b.beep_timer = b.max_beep_timer
+			b.beep_pitch = b.beep_pitch + 0.01
+		end
 	else
 		if math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
 			b.can_bounce = true
 		end
 		b.x = p.x - p.w/2
 		b.y = p.y - p.h/2
+		
+		b.max_beep_timer = b.default_max_beep_timer
+		b.beep_pitch = 1
 	end
 	
 end
