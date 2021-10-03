@@ -13,3 +13,6 @@ sand1, sand1, sand1, sand2, sand1, sand2, sand3, sand1, sand3,
 sand1, sand1, sand1, sand1, sand1, sand1, sand3, sand1, sand2, 
 sand1, sand1, sand1, sand1, sand2, sand1, sand3, sand2, sand1, 
 sand3, sand1, sand3, sand1, sand1, sand1, sand1, sand1, sand3}
+
+img_heart = love.graphics.newImage("assets/heart.png")
+img_heart_empty = love.graphics.newImage("assets/heart_empty.png")
