@@ -5,6 +5,7 @@ require "scripts/particle"
 require "scripts/utility"
 require "scripts/constants"
 require "scripts/sound"
+require "scripts/textures"
 
 function player_create() -- {{{2
 	local cursor_img = love.graphics.newImage("assets/cursor.png")
