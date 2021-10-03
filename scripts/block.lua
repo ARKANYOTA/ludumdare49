@@ -3,6 +3,7 @@ function block_create() --{{{2
 		x = 500,
 		y = 0,
 		sprite = love.graphics.newImage("assets/stone.jpg"),
+		bg = love.graphics.newImage("assets/bg.png"),
 		scale_x = 0.5,
 		scale_y = 0.5,
 	}
@@ -16,6 +17,8 @@ function block_draw()--{{{2
 		for x, block in ipairs(line) do
 			if block == 1 then
 				love.graphics.draw(bl.sprite, (x-1)* bl.w, (y-1)*bl.h-CameraY, 0, bl.scale_y, bl.scale_y)
+			elseif block == 0 then
+				love.graphics.draw(bl.bg, (x-1)* bl.w, (y-1)*bl.h-CameraY, 0, bl.scale_y, bl.scale_y)
 			end
 		end
 	end

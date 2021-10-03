@@ -3,7 +3,7 @@ function enemy_create()
 		x = 200,
 		y=200,
 		sprite = love.graphics.newImage("assets/enemy_potato_1.png"),
-		speed = 2,
+		speed = 200,
 		scale_x = 0.25,
 		scale_y = 0.25,
 		angle = 0
@@ -15,26 +15,17 @@ function draw_enemy()
 	love.graphics.draw(enemy.sprite,enemy.x,enemy.y,0,enemy.scale_x,enemy.scale_y)
 end
 
-function move_toward_player()
-	local center_enemy_x = enemy.x + enemy.w/3.25
-	local center_enemy_y = enemy.y + enemy.h/3.25
-	
-	if p.x < center_enemy_x - enemy.speed/2 or p.x > center_enemy_x + enemy.speed/2 then
-		if p.x > center_enemy_x  then
-			enemy.x = enemy.x + enemy.speed
-		elseif p.x < center_enemy_x then
-			enemy.x = enemy.x - enemy.speed
-		end
-	end
-	if p.y < center_enemy_y - enemy.speed/2 or p.y > center_enemy_y + enemy.speed/2 then
-		if p.y > center_enemy_y  then
-			enemy.y = enemy.y + enemy.speed
-		elseif p.y < center_enemy_y then
-			enemy.y = enemy.y - enemy.speed
-		end
-	end
+function move_toward_player(dt)
+	local dx,dy = enemy.x - p.x, enemy.y-p.y
+	local distance = math.sqrt(dx^2+dy^2)
+if p.x < enemy.x + enemy.w or p.x > enemy.x + enemy.speed/10 then
+	enemy.x = enemy.x - dx/distance * enemy.speed * dt
+end
+if p.y < enemy.y - enemy.speed/200 or p.y > enemy.y + enemy.speed/10 then
+	enemy.y = enemy.y - dy/distance * enemy.speed * dt 
+end
 end
 
-function enemy_update()
-	move_toward_player()
+function enemy_update(dt)
+	move_toward_player(dt)
 end

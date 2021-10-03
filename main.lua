@@ -85,7 +85,7 @@ function love.update(dt) -- UPDATE {{{2
 	
 	if menu == 'in_game' then
 		player_update()
-		enemy_update()
+		enemy_update(dt)
 		if love.keyboard.isScancodeDown("k") then
 			CameraY = CameraY +1
 			p.y = p.y -1
@@ -152,10 +152,10 @@ function love.draw() -- DRAWING {{{2
 	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'in_game' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
+		block_draw()
 		draw_player()
 		draw_bomb()
 		draw_enemy()
-		block_draw()
 		player_cursor()
 
 		for _,pt in ipairs(particles) do
