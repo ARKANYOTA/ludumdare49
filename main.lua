@@ -3,8 +3,10 @@
 -- vim: fdm=marker
 
 --METTEZ OU IL FAUT LE METTRE SVP
-require "scripts/entities"
 require "scripts/menus"
+require "scripts/player"
+require "scripts/enemy"
+require "scripts/block"
 CM = require "lib.CameraMgr".newManager()
 
 -- Function {{{1

@@ -25,11 +25,11 @@ function load_credits()
 	nb_categories = 4
 	nb_contributors = 7
 	contributors = {
-		{"Developers and Thinkers", "Images", "Sound", "Thinkers"},
+		{"Code and Design", "Art", "Sound", "Special thanks"},
 		{
 			{
-				{"ARKANYOTA", "Maxim-Costa", "Yolwoocle", "Notgoyome"},
-				{"#ARKANYOTA","#Maxim-Costa","#Yolwoocle","#cringecrimson"}
+				{"Arkanyota", "Maxim-Costa", "Yolwoocle", "Notgoyome"},
+				{"#Arkanyota","#Maxim-Costa","#Yolwoocle","#cringecrimson"}
 			},
 			{
 				{"Poulpito_GDL"},
@@ -56,7 +56,7 @@ function credit_print(hx, ps, txt, txt2)
 end
 
 function draw_credits()
-	love.graphics.print({{244, 0, 0, 1}, "Crédits"}, game_over_font_120,250, 0)
+	love.graphics.print({{244, 0, 0, 1}, "Credits"}, game_over_font_120,250, 0)
 	local ligne = 0
 	for i, u in pairs(contributors[1]) do
 		credit_print(1, ligne, u, "")
