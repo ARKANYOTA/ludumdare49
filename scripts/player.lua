@@ -5,6 +5,7 @@ require "scripts/particle"
 require "scripts/utility"
 require "scripts/constants"
 require "scripts/sound"
+require "scripts/textures"
 
 function player_create() -- {{{2
 	local cursor_img = love.graphics.newImage("assets/cursor.png")
@@ -23,9 +24,11 @@ function player_create() -- {{{2
 		scale_y = 0.2,
 
 		bomb = b,
-		hasBomb = false,
+		hasBomb = true,
 		timer_bomb = 0,
-		vie = 1000,
+		life = 3,
+		iframes = 1,
+		max_iframes = 1,
 		score = 0,
 		max_score = 0,
 
@@ -50,13 +53,13 @@ end
 
 function bomb_create()--{{{2
 	b = {
-		x = 16,
-		y = 16,
+		x = 300,
+		y = 300,
 		dx = 0,
 		dy = 0,
 
 		timer = 0, -- In seconds
-		max_timer = 5,
+		max_timer = 6,
 		active = false,
 
 		sprite = love.graphics.newImage("assets/bomb.png"),
@@ -70,8 +73,15 @@ function bomb_create()--{{{2
 		throwspeed = 300,
 		catch_cooldown = 0,
 		max_catch_cooldown = 1,
+		
+		beep_timer = 0,
+		beep_pitch = 1,
+		max_beep_timer = 2,
+		default_max_beep_timer = 1,
+		
+		isred = false,
 	}
-	b.w, b.h  = b.sprite:getWidth()*b.scale_x, b.sprite:getHeight() * b.scale_y
+	b.w, b.h  = b.sprite:getWidth() * b.scale_x, b.sprite:getHeight() * b.scale_y
 	--b.h =sprite:getHeight() 
 end
 
@@ -85,12 +95,15 @@ function player_update()
 	update_bomb(dt)
 	for i, enemy in ipairs(total_enemy) do --vacciné
 		if collision(enemy.x,enemy.y,enemy.w,enemy.h,p.x,p.y,p.w,p.h) then
-			--print(p.vie)
+			p.iframes = p.iframes - dt
+			if p.iframes < 0 then 
+				p.iframes = p.max_iframe
+			end
 			if enemy.hp > 0 then
 			p.vie = p.vie - 1
 			end
 		end
-		if p.vie < 0 then
+		if p.life <= 0 then
 			start_menu("game_over")
 		end
 	end
@@ -153,15 +166,19 @@ end
 
 function player_cursor(dt) -- {{{2
 	local mx, my = love.mouse.getPosition()
-	local click = love.mouse.isDown(1)
 	p.cursor.scrx, p.cursor.scry = mx, my
 	p.cursor.x, p.cursor.y = mx, my
-	p.cursor.active = click
+	p.cursor.active = love.mouse.isDown(1)
 
 	local x = mx - (p.x + p.w/2)
 	local y = my - (p.y + p.h/2)
 	p.angle = math.atan2(y, x)
 end
+
+function love.mousepressed(x, y, button)
+	p.cursor.active = (button == 1)
+end
+
 
 function draw_cursor()
 	local c = p.cursor
@@ -181,6 +198,7 @@ end
 function throw_bomb()
 	if p.cursor.active and p.hasBomb then
 		p.hasBomb = false
+		b.beep_timer = b.max_beep_timer
 
 		b.x = p.x 
 		b.y = p.y 
@@ -190,7 +208,7 @@ function throw_bomb()
 		b.catch_cooldown = b.max_catch_cooldown
 		b.timer = b.max_timer
 
-		snd_woosh:play()
+		play_random_pitch(snd_throw)
 	end
 end
 
@@ -213,9 +231,7 @@ function update_bomb(dt)
 		end
 
 		if bounce then
---			sound:setPitch(love.math.random() + 1)
-			--snd_metalbar:play()
---			sound:setPitch(1)
+			play_random_pitch(snd_bombbounce)
 		end
 		-- si plusieurs enemy, faire for i in enemy
 		-- marque temp
@@ -237,20 +253,47 @@ function update_bomb(dt)
 		if love.math.random() <= (b.timer%1) / 2 then
 			spawn_smoke(b.x, b.y)
 		end
+
+		-- Game over
+		if b.timer <= 0 then
+			play_random_pitch(snd_bombboom)
+			start_menu("game_over")
+		end
+
+		-- Beeping (I'm pretty sure there's a better way to do this)
+		b.beep_timer = b.beep_timer - dt
+		if b.beep_timer < 0 then
+			b.max_beep_timer = b.max_beep_timer * 0.5 -- Make it faster
+			b.beep_timer = b.max_beep_timer -- Reset timer
+			
+			b.beep_pitch = b.beep_pitch + 0.001
+
+			b.isred = not b.isred
+		
+			snd_bombbeep:setPitch(b.beep_pitch)
+			snd_bombbeep:play()
+		end
 	else
 		for i,enemy in ipairs(total_enemy) do --vacciné
 			if math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
 				b.can_bounce = true
 			end
-			b.x = p.x - p.w/2
-			b.y = p.y - p.h/2
+		b.x = p.x - p.w/2
+		b.y = p.y - p.h/2
+		
+		b.max_beep_timer = b.default_max_beep_timer
+		b.beep_pitch = 1
+		b.isred = false
 		end
 	end
 	
 end
 
 function draw_bomb()
-    --love.graphics.setColor(1,0,0)
-    love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), b.r, b.scale_x, b.scale_y)
     love.graphics.setColor(1,1,1)
+	if b.isred then
+		love.graphics.setColor(1,0,0)
+	end
+	love.graphics.draw(b.sprite, b.x - b.w/b.sprite:getWidth(), b.y - b.h/b.sprite:getHeight(), b.r, b.scale_x, b.scale_y)
+	love.graphics.setColor(1,1,1)
 end

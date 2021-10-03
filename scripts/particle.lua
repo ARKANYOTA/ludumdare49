@@ -26,7 +26,7 @@ function update_particle(pt, dt)
 	pt.s = pt.s * pt.ds
 	pt.r = (pt.r + pt.dr) % math.pi
 
-    local epsilon = 0.001
+    local epsilon = 0.01
     if pt.s <= epsilon then
         pt.mustdestroy = true
     end

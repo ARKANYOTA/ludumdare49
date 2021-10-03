@@ -23,7 +23,7 @@ end
 
 function get_map(map, x, y)
 	x = (math.floor(x) + 1)
-	y = (math.floor(y) + 1) - DeletedMapBlock
+	y = (math.floor(y) + 1)
 	if x <= 0 or #map[1] < x or y <= 0 or #map < y then
 		return 0
 	end
@@ -52,6 +52,7 @@ function make_collision_table()
 end--]]
 
 function is_solid(map, x, y)
+	y = y - DeletedMapBlock
     if (x < 0) or (nb_block_x < x) or (y < 0) or (nb_block_y < y) then
         return true
     end 

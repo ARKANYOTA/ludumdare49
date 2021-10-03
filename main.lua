@@ -50,8 +50,7 @@ end
 function love.update(dt) -- UPDATE {{{2
 	CM.update(dt)
 	global_timer = global_timer + dt
-	--temporaire à supprimer
-	---------------
+	
 	if menu == 'in_game' then
 		player_update()
 		enemy_update(dt)
@@ -80,11 +79,26 @@ function love.update(dt) -- UPDATE {{{2
 			table.remove(map, 1)
 			table.insert(map, {})
 			for _ = 1, nb_block_y do
-				table.insert(map[#map], 0)
+				if love.math.random(9)==1 then
+					table.insert(map[#map], 1)
+				else
+					table.insert(map[#map], 0)
+				end
 			end
 			DeletedMapBlock = DeletedMapBlock + 1
 		end
 
+		-- Music
+		if b.active then
+			music_calm:setVolume(0)
+			music_tense:setVolume(0.2)
+		else
+			music_calm:setVolume(0.2)
+			music_tense:setVolume(0)
+		end
+	else
+		music_calm:setVolume(0)
+		music_tense:setVolume(0)
 	end
 
 	for i, pt in ipairs(particles) do
@@ -93,7 +107,6 @@ function love.update(dt) -- UPDATE {{{2
 			table.remove(particles, i)
 		end
 	end
-
 end
 
 function love.mousepressed( x, y, button, istouch, presses ) 
@@ -101,7 +114,6 @@ function love.mousepressed( x, y, button, istouch, presses )
 		update_buttons(button, x, y)
 	end
 end
-
 
 function love.mousemoved( x, y, dx, dy, istouch )
 	if has_value(menus,menu) then
@@ -189,81 +201,34 @@ function newButton(text, fn) -- {{{2
 	}
 end
 
-function print_table(elt)
-	for i,_ in ipairs(elt) do
-		print(unpack(elt[i]))
-	end
+function start_game()
+	CameraY = 0
+	DeletedMapBlock = 0
+	CameraYAdd = 0
+	love.mouse.setVisible(false)
+	player_create()
+	bomb_create()
+	block_create()
+	in_game_timer = 0
+	map = make_blank_map(nb_block_x, nb_block_y)
+	set_map(map, 1, 0, 1)
+	set_map(map, 1, 1, 1)
+	set_map(map, 1, 4, 1)
+	menu = 'in_game'
+	CM.update(0)
+	
+	-- Music
+	music_calm:play()
+	music_tense:play()
 end
 
-function draw_collision(x,y,w,h) -- {{{2
-	love.graphics.rectangle("line",x,y,w,h) -- vertical left
-end
-
-function has_value(tab, val)
-	for _, value in ipairs(tab) do
-		if value == val then
-			return true
-		end
-	end
-	return false
+function continue_game()
+	love.mouse.setVisible(false)
+	menu = 'in_game'
+	CM.update(0)
 end
 
 -- USELESS FUNCTIONS {{{2
-function update_buttons(pressed_btn, mx, my)
-	local total_height = (BUTTON_HEIGHT + margin) * #buttons
-	local cursor_y = 0
-
-	for _, button in ipairs(buttons) do
-		local bx = (ww / 2) - (button_width / 2)
-		local by = (wh / 2) - (total_height / 2) + cursor_y
-		local hot = mx > bx and mx < bx + button_width and my > by and my < by + BUTTON_HEIGHT
-		button.color = {0.4, 0.4, 0.5, 1.0}
-		if hot then
-			button.color = {0.8, 0.8, 0.9, 1.0}
-		end
-		button.now = pressed_btn==1
-		if button.now and not button.last and hot then
-			button.fn()
-		end
-		cursor_y = cursor_y + (BUTTON_HEIGHT + margin)
-	end
-end
-
-function draw_buttons()
-	if menu == "game_over" then
-		love.graphics.print({{244, 0, 0, 1}, "Game_Over"}, game_over_font_120,200, 0)
-		love.graphics.print({{244, 0, 0, 0.7}, "score : "..p.score}, game_over_font_90,200, 100)
-		love.graphics.print({{244, 0, 0, 0.7}, "max score : "..p.max_score}, game_over_font_90,200, 130)
-	end
-	local total_height = (BUTTON_HEIGHT + margin) * #buttons
-	local cursor_y = 0
-
-	for _, button in ipairs(buttons) do
-		button.last = button.now
-		local bx = (ww / 2) - (button_width / 2)
-		local by = (wh / 2) - (total_height / 2) + cursor_y
-		
-		love.graphics.setColor(unpack(button.color))
-		--love.graphics.rectangle("fill", bx, by, button_width, BUTTON_HEIGHT)
-		love.graphics.draw(sprite_btn, bx, by+5)
-		love.graphics.setColor(0, 0, 0, 1)
-		local textW = font:getWidth(button.text)
-		local textH = font:getHeight(button.text)
-		love.graphics.print(button.text, font, (ww * 0.5) - textW * 0.5, by + textH * 0.5)
-		cursor_y = cursor_y + (BUTTON_HEIGHT + margin)
-	end
-end
-
-function draw_menu()
-	if menu == "credits" then
-		draw_credits()
-	elseif menu == "tuto" then
-		draw_tuto()
-	else
-		draw_buttons()
-	end
-end
-
 function debug_print(ps, txt)
 	love.graphics.print(txt, 0, ps*20)
 end
@@ -274,7 +239,7 @@ function draw_debug()
 		--love.graphics.print(math.floor(b.x).."/"..math.floor(b.y), b.x+50, b.y) -- coordonnées bomb
 		--love.graphics.print(b.catch_cooldown, b.x+50, b.y-20) -- coordonnées bomb
 		--love.graphics.print(coll,16,16)
-		love.graphics.setColor(36, 0, 0, 1.0)
+		love.graphics.setColor(0, 0, 0, 1.0)
 		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
 		debug_print(2, "player dx:"..math.floor(p.dx).." dy:"..math.floor(p.dy))
 		debug_print(3, "player lx:"..(math.floor((p.x+p.w)/bl.w)+1).." ly:"..math.floor((p.y+p.h+CameraY)/bl.h)+1)
@@ -289,19 +254,19 @@ function draw_debug()
 		debug_print(12, "CameraY: "..tostring(CameraY))
 		debug_print(13, "CameraYAdd: "..tostring(CameraYAdd))
 		debug_print(14, "DeletedMapBlock: "..tostring(DeletedMapBlock))
-		debug_print(15, "Vie: "..tostring(p.vie))
+		debug_print(15, "Vie: "..tostring(p.life))
 		debug_print(16, "test: "..tostring(test))
 
 		love.graphics.setColor(255, 255, 255, 1.0)
 		for i,v in ipairs(map) do
-			lllig= ""
-			for j,u in ipairs(v) do
-				--love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraY)
-				lllig = lllig..tostring(u)
+		--	lllig= ""
+		  	for j,u in ipairs(v) do
+				love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraYAdd)
+				--lllig = lllig..tostring(u)
 			end
-			print(lllig)
+			--print(lllig)
 		end
-		print("-----")
+		--print("-----")
 
 		love.graphics.setColor(1,0,0)
 		love.graphics.line(screenw2, screenh2, screenw2 + 64, screenh2)
@@ -325,49 +290,3 @@ function draw_debug_unfix()
 	end
 end
 
-function start_game()
-	CameraY = 0
-	DeletedMapBlock = 0
-	CameraYAdd = 0
-	love.mouse.setVisible(false)
-	player_create()
-	bomb_create()
-	block_create()
-	--enemy_create()
-	in_game_timer = 0
-	map = make_blank_map(nb_block_x, nb_block_y)
-	set_map(map, 1, 0, 1)
-	set_map(map, 1, 1, 1)
-	set_map(map, 1, 4, 1)
-	menu = 'in_game'
-	CM.update(0)
-end
-
-function continue_game()
-	love.mouse.setVisible(false)
-	menu = 'in_game'
-	CM.update(0)
-end
-
-function start_menu(m)
-	love.mouse.setVisible(true)
-	for i, _ in ipairs(buttons) do buttons[i] = nil end
-	menu = m
-	if menu =='menu'then
-		table.insert(buttons, newButton("Start Game", start_game))
-		table.insert(buttons, newButton("Help", function() start_menu("tuto") end))
-		table.insert(buttons, newButton("Crédits", function() start_menu("credits") end))
-		table.insert(buttons, newButton("Ragequit", function() love.event.quit(0) end))
-	end
-	if menu =='game_over' then
-		table.insert(buttons, newButton("Restart", start_game))
-		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
-		--table.insert(buttons, newButton("principal", start_game))
-		table.insert(buttons, newButton("Rage quit", function() love.event.quit(0) end))
-	end
-	if menu =='pause' then
-		table.insert(buttons, newButton("Continuer", continue_game))
-		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
-		table.insert(buttons, newButton("Ragequit", function() love.event.quit(0) end))
-	end
-end
