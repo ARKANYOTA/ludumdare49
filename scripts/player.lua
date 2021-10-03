@@ -4,6 +4,7 @@ require "scripts/collision"
 require "scripts/particle"
 require "scripts/utility"
 require "scripts/constants"
+require "scripts/sound"
 
 function player_create() -- {{{2
 	local cursor_img = love.graphics.newImage("assets/cursor.png")
@@ -164,10 +165,16 @@ end
 function throw_bomb()
 	if p.cursor.active and p.hasBomb then
 		p.hasBomb = false
+
+		b.x = p.x 
+		b.y = p.y 
 		b.dx = math.cos(p.angle) * b.throwspeed
 		b.dy = math.sin(p.angle) * b.throwspeed
+		
 		b.catch_cooldown = b.max_catch_cooldown
 		b.timer = b.max_timer
+
+		snd_woosh:play()
 	end
 end
 

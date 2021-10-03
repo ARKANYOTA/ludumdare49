@@ -10,6 +10,8 @@ function make_particle(sprite, pos, speed, size, delta_size, rot, delta_rot)
 		dr = delta_rot,
 
 		sprite = sprite,
+        
+        mustdestroy = false,
 	}
 	pt.w = pt.sprite:getWidth()
 	pt.h = pt.sprite:getHeight()
@@ -23,6 +25,11 @@ function update_particle(pt, dt)
 
 	pt.s = pt.s * pt.ds
 	pt.r = (pt.r + pt.dr) % math.pi
+
+    local epsilon = 0.001
+    if pt.s <= epsilon then
+        pt.mustdestroy = true
+    end
 end
 
 function draw_particle(pt)
