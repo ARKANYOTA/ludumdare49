@@ -281,14 +281,14 @@ function draw_debug()
 		
 		love.graphics.setColor(255, 255, 255, 1.0)
 		for i,v in ipairs(map) do
-			lllig= ""
+		--	lllig= ""
 			for j,u in ipairs(v) do
-				--love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraY)
-				lllig = lllig..tostring(u)
+				love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraY)
+				--lllig = lllig..tostring(u)
 			end
-			print(lllig)
+			--print(lllig)
 		end
-		print("-----")
+		--print("-----")
 
 		love.graphics.setColor(1,0,0)
 		love.graphics.line(screenw2, screenh2, screenw2 + 64, screenh2)
