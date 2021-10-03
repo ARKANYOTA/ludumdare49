@@ -18,7 +18,7 @@ end
 function move_toward_player(dt)
 	local dx,dy = enemy.x - p.x, enemy.y-p.y
 	local distance = math.sqrt(dx^2+dy^2)
-if p.x < enemy.x + enemy.w or p.x > enemy.x + enemy.speed/10 then
+if p.x < enemy.x + enemy.speed/200 or p.x > enemy.x + enemy.speed/10 then
 	enemy.x = enemy.x - dx/distance * enemy.speed * dt
 end
 if p.y < enemy.y - enemy.speed/200 or p.y > enemy.y + enemy.speed/10 then
