@@ -79,8 +79,13 @@ function love.update(dt) -- UPDATE {{{2
 			table.remove(map, 1)
 			table.insert(map, {})
 			for _ = 1, nb_block_y do
-				if love.math.random(9)==1 then
+				rd = love.math.random(9)
+				if rd == 1 then
 					table.insert(map[#map], 1)
+				elseif rd == 2 or rd == 3 or rd == 4 then
+					table.insert(map[#map], 2)
+				elseif rd == 5 or rd == 6 or rd == 7 then
+					table.insert(map[#map], 3)
 				else
 					table.insert(map[#map], 0)
 				end
@@ -259,7 +264,7 @@ function draw_debug()
 
 		love.graphics.setColor(255, 255, 255, 1.0)
 		for i,v in ipairs(map) do
-		--	lllig= ""
+			--lllig= ""
 		  	for j,u in ipairs(v) do
 				love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraYAdd)
 				--lllig = lllig..tostring(u)

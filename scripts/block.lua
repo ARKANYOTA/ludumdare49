@@ -22,8 +22,16 @@ function block_draw()--{{{2
 		for x, block in ipairs(line) do
 			if block == 1 then
 				love.graphics.draw(bl.sprite, (x-1)* bl.w, (y-1)*bl.h-CameraY+DeletedMapBlock*blockh, 0, bl.scale_y, bl.scale_y)
-			elseif block == 0 then
-				local texture = sandmap[(x+y*#map[1]) % #sandmap]
+			else
+				-- 0: sand2
+				-- 1: sand3
+				-- else: sand1
+				local texture = sand1
+				if block == 0 then
+					texture = sand2
+				elseif block == 1 then
+					texture = sand3
+				end
 				love.graphics.draw(texture, (x-1)* bl.w, (y-1)*bl.h-CameraY+DeletedMapBlock*blockh, 0, bl.scale_y, bl.scale_y)
 			end
 		end
