@@ -170,6 +170,9 @@ function love.draw() -- DRAWING {{{2
 			draw_particle(pt)
 		end
 
+		-- life bar
+		draw_gui()
+
 		-- vv KEEP AS THE LAST vv
 		draw_cursor()
 	end
@@ -186,6 +189,16 @@ function love.draw() -- DRAWING {{{2
 	end
 end	
 
+function draw_gui()
+	for i=1, p.max_life do
+		local w = img_heart:getWidth()*0.2 + 10
+		if i <= p.life then
+			love.graphics.draw(img_heart,       i*w, 20, 0, 0.2)
+		else
+			love.graphics.draw(img_heart_empty, i*w, 20, 0, 0.2)
+		end
+	end
+end
 
 -- Function {{{1
 function newButton(text, fn) -- {{{2

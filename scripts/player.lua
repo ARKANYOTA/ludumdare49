@@ -27,6 +27,7 @@ function player_create() -- {{{2
 		hasBomb = true,
 		timer_bomb = 0,
 		life = 3,
+		max_life = 3,
 		iframes = 1,
 		max_iframes = 1,
 		score = 0,
