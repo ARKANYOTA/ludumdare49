@@ -8,7 +8,7 @@ function enemy_create()
 		scale_y = 0.25,
 		angle = 0
 	}
-ends
+end
 
 function draw_enemy()
 	love.graphics.draw(enemy.sprite,enemy.x,enemy.y,0,enemy.scale_x,enemy.scale_y)
@@ -23,7 +23,7 @@ function move_toward_player()
 	if p.y > enemy.y  then
 		enemy.y = enemy.y + enemy.speed
 	elseif p.y < enemy.y then
-		enemy.y = enemy.y- enemy.speed
+		enemy.y = enemy.y - enemy.speed
 	end
 end
 
