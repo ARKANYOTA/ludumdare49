@@ -46,7 +46,7 @@ function love.load() -- LOAD {{{2
 	buttons = {}
 	ww = love.graphics.getWidth()
 	wh = love.graphics.getHeight()
-	CMwh = 0
+	CameraY = 0
 	CM.setCoords(ww/2, wh/2)
 	button_width = ww * (1/3)
 	margin = 16
@@ -88,7 +88,7 @@ function love.update(dt) -- UPDATE {{{2
 		player_update()
 		enemy_update()
 		if love.keyboard.isScancodeDown("k") then
-			CMwh = CMwh +1
+			CameraY = CameraY +1
 			p.y = p.y -1
 			b.y = b.y -1
 			enemy.y = enemy.y -1
@@ -247,11 +247,11 @@ function draw_debug()
 		debug_print(8, "bomb active:"..tostring(b.active))
 		debug_print(9, "collision bomb/player: "..tostring(coll_check))
 		debug_print(10, "dif_x : "..math.floor(p.angle))
-		debug_print(13, "CMwh: "..tostring(CMwh))
+		debug_print(13, "CameraY: "..tostring(CameraY))
 		
 		for i,v in ipairs(map) do
 			for j,u in ipairs(v) do
-				love.graphics.print(tostring(u), (j-1)* bl.w, (i-1)*bl.h-CMwh)
+				love.graphics.print(tostring(u), (j-1)* bl.w, (i-1)*bl.h-CameraY)
 			end
 		end
 	end
@@ -267,7 +267,7 @@ function draw_debug_unfix()
 end
 
 function start_game()
-	CMwh = 0
+	CameraY = 0
 	love.mouse.setVisible(false)
 	player_create()
 	bomb_create()
