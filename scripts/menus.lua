@@ -46,8 +46,8 @@ function load_credits()
 				{"#Arkanyota","#Maxim-Costa","#Yolwoocle","#Yauyau123"}
 			},
 			{
-				{"Poulpito_GDL"},
-				{"#Poulpito_GD"}
+				{"Poulpito_GDL", "Yolwoocle"},
+				{"#Poulpito_GD", "#Yolwoocle"}
 			},
 			{
 				{"Pierre"},

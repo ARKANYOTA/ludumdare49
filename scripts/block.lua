@@ -1,14 +1,17 @@
+require "scripts/constants"
+
 function block_create() --{{{2
 	bl = {
 		x = 500,
 		y = 0,
-		sprite = love.graphics.newImage("assets/stone.jpg"),
-		scale_x = 0.5,
-		scale_y = 0.5,
+		sprite = love.graphics.newImage("assets/stone.jpg"), --200 × 200
+		scale_x = 1/3,
+		scale_y = 1/3,
+        w = blockw,
+        h = blockw,
 	}
-	bl.w, bl.h  = bl.sprite:getWidth()*bl.scale_x, bl.sprite:getHeight()*bl.scale_y
-	bl.x = 2*bl.w
-	bl.y = 1*bl.h
+	bl.scale_x = blockw / bl.sprite:getWidth()
+    bl.scale_y = blockw / bl.sprite:getHeight()
 end
 
 function block_draw()--{{{2

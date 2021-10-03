@@ -73,7 +73,6 @@ function love.load() -- LOAD {{{2
 	set_map(map, 1, 0, 1)
 	set_map(map, 1, 1, 1)
 	set_map(map, 1, 4, 1)
-	blockw = 30
 
 	-- Debug
 end
@@ -253,9 +252,15 @@ function draw_debug()
 		
 		for i,v in ipairs(map) do
 			for j,u in ipairs(v) do
-				love.graphics.print(tostring(u), (j-1)* bl.w, (i-1)*bl.h-CameraY)
+				love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraY)
 			end
 		end
+
+		love.graphics.setColor(1,0,0)
+		love.graphics.line(screenw2, screenh2, screenw2 + 64, screenh2)
+		love.graphics.setColor(0,1,0)
+		love.graphics.line(screenw2, screenh2, screenw2, screenh2 + 64)
+		love.graphics.setColor(0,0,0)
 	end
 	-- debug_print(0, "debug: is_on ; menu: "..menu)
 end
