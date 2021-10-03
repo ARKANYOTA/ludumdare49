@@ -231,8 +231,8 @@ function draw_debug()
 		love.graphics.setColor(255, 255, 255, 1.0)
 		for i,v in ipairs(map) do
 		--	lllig= ""
-			for j,u in ipairs(v) do
-				love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraY)
+		  	for j,u in ipairs(v) do
+				love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraYAdd)
 				--lllig = lllig..tostring(u)
 			end
 			--print(lllig)
