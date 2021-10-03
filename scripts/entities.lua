@@ -158,10 +158,10 @@ function player_movement(dt) --{{{2
     tpy = tpyf+p.h/2
 
     cord = {
-        {math.floor((tpx - p.w/2)/bl.w),math.floor((tpy - p.h/2)/bl.h)},
-        {math.floor((tpx + p.w/2)/bl.w),math.floor((tpy + p.h/2)/bl.h)},
-        {math.floor((tpx + p.w/2)/bl.w),math.floor((tpy - p.h/2)/bl.h)},
-        {math.floor((tpx - p.w/2)/bl.w),math.floor((tpy + p.h/2)/bl.h)}
+        {math.floor((tpx - p.w/2)/bl.w),math.floor(((tpy+CMwh) - p.h/2)/bl.h)},
+        {math.floor((tpx + p.w/2)/bl.w),math.floor(((tpy+CMwh) + p.h/2)/bl.h)},
+        {math.floor((tpx + p.w/2)/bl.w),math.floor(((tpy+CMwh) - p.h/2)/bl.h)},
+        {math.floor((tpx - p.w/2)/bl.w),math.floor(((tpy+CMwh) + p.h/2)/bl.h)}
     }
 
     if map[cord[1][1]+1][cord[1][2]+1] == 1 or map[cord[2][1]+1][cord[2][2]+1] == 1 or map[cord[3][1]+1][cord[3][2]+1] == 1 or map[cord[4][1]+1][cord[4][2]+1] == 1 then
