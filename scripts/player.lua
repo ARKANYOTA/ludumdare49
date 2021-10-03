@@ -116,12 +116,11 @@ function player_movement(dt) --{{{2
 		p.dy = 0
 	end
 
-	if is_solid(map, nextx / bl.w, p.y / bl.h) then 
-	--is_solid(map, cord[1][1]+1, cord[1][2]+1) or is_solid(map, cord[2][1]+1, cord[2][2]+1) then
+	local bw = bl.w
+	if is_solid_rect(map, nextx/bw, p.y/bw,   p.w/bw, p.h/bw) then 
 		p.dx = 0
 	end
-	if is_solid(map, p.x / bl.w, nexty / bl.h) then
-	--is_solid(map, cord[3][1]+1, cord[3][2]+1) or is_solid(map, cord[4][1]+1, cord[4][2]+1) then
+	if is_solid_rect(map, p.x/bw,   nexty/bw, p.w/bw, p.h/bw) then
 		p.dy = 0
 	end
 

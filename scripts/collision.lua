@@ -20,9 +20,9 @@ function make_blank_map(w, h)
 	return t
 end
 
-function get_map(map, x, y)
-	x = math.floor(x) + 1
-	y = math.floor(y) + 1
+function get_map(map, x, y, blockw)
+	x = (math.floor(x) + 1)
+	y = (math.floor(y) + 1)
 	if x <= 0 or #map[1] < x or y <= 0 or #map < y then
 		return 0
 	end
@@ -30,8 +30,8 @@ function get_map(map, x, y)
 end
 
 function set_map(map, x, y, val)
-	x = math.floor(x) + 1
-	y = math.floor(y) + 1
+	x = (math.floor(x) + 1)
+	y = (math.floor(y) + 1)
 	if x <= 0 or #map[1] < x or y <= 0 or #map < y then
 		return false
 	end
@@ -52,4 +52,8 @@ end--]]
 
 function is_solid(map, x, y)
 	return get_map(map, x, y) == 1
+end
+
+function is_solid_rect(map, x, y, w, h)
+    return is_solid(map, x, y) or is_solid(map, x+w, y) or is_solid(map, x,   y+h) or is_solid(map, x+w, y+h) 
 end

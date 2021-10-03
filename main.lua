@@ -74,6 +74,8 @@ function love.load() -- LOAD {{{2
 	set_map(map, 1, 0, 1)
 	set_map(map, 1, 1, 1)
 	set_map(map, 1, 4, 1)
+	blockw = 30
+
 	-- Debug
 end
 
@@ -139,12 +141,13 @@ function love.draw() -- DRAWING {{{2
 		draw_player()
 		draw_bomb()
 		draw_enemy()
-		--block_draw()
+		block_draw()
 		player_cursor()
 
 		for _,pt in ipairs(particles) do
 			draw_particle(pt)
 		end
+
 		-- vv KEEP AS THE LAST vv
 		draw_cursor()
 	end
