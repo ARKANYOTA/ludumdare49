@@ -117,10 +117,10 @@ function player_movement(dt) --{{{2
 	end
 
 	local bw = bl.w
-	if is_solid_rect(map, nextx/bw, (p.y + CMwh)/bw,   p.w/bw, p.h/bw) then 
+	if is_solid_rect(map, nextx/bw, (p.y + CameraY)/bw,   p.w/bw, p.h/bw) then 
 		p.dx = 0
 	end
-	if is_solid_rect(map, p.x/bw,   (nexty + CMwh)/bw, p.w/bw, p.h/bw) then
+	if is_solid_rect(map, p.x/bw,   (nexty + CameraY)/bw, p.w/bw, p.h/bw) then
 		p.dy = 0
 	end
 

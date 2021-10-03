@@ -3,13 +3,27 @@
 -- Crédits {{{2
 --[[
 |-----------------------------------------------------------|
-|            --- ---  ---  --  - ---                        |
-|            -   ---  --   - - -  -                         |
-|            --- - -- ---  --  -  -                         |
+|            ███ ███  ███  ██  █ ███                        |
+|            █   ███  ██   █ █ █  █                         |
+|            ███ █ ██ ███  ██  █  █                         |
 |  Developers:                                              |
 |    - ARKANYOTA    @ARKANYOTA                              |
 |    - Yolwoocle    @Yolwoocle                              |
 |    -                                                      |
+|                                                           |
+|                                                           |
+|                                                           |
+|                                                           |
+|                                                           |
+|-----------------------------------------------------------|
+|-----------------------------------------------------------|
+|               ███ █ █ ███ ███                             |
+|                █  █ █  █  █ █                             |
+|                █  ███  █  ███                             |
+| - wasd and arrow       move player                        |
+| - escape               pause or exit pause                |
+|                                                           |
+|                                                           |
 |                                                           |
 |                                                           |
 |                                                           |
@@ -29,7 +43,7 @@ function load_credits()
 		{
 			{
 				{"Arkanyota", "Maxim-Costa", "Yolwoocle", "Notgoyome"},
-				{"#Arkanyota","#Maxim-Costa","#Yolwoocle","#cringecrimson"}
+				{"#Arkanyota","#Maxim-Costa","#Yolwoocle","#Yauyau123"}
 			},
 			{
 				{"Poulpito_GDL"},
@@ -44,6 +58,12 @@ function load_credits()
 				{"#..."}
 			}
 		}
+	}
+	controls = {
+		move_player = "wasd_en and zqsd_fr or arrow",
+		pause = "escape",
+		shoot = "mouse left click",
+		aim = "mouse",
 	}
 end
 
@@ -67,5 +87,14 @@ function draw_credits()
 			credit_print(2, ligne, w, soci[k])
 			ligne = ligne + 1
 		end
+	end
+end
+function draw_tuto()
+	love.graphics.print({{244, 0, 0, 1}, "Tuto"}, game_over_font_120,250, 0)
+	local ligne = 0
+	for i, u in pairs(controls) do
+		love.graphics.print({{244, 0, 0, 1}, i}, game_over_font_90,100, 30*ligne+100)
+		love.graphics.print({{244, 0, 0, 0.5}, u}, game_over_font_70,350, 30*ligne+120)
+		ligne = ligne + 1
 	end
 end
