@@ -26,7 +26,7 @@ function player_create() -- {{{2
 		bomb = b,
 		hasBomb = true,
 		timer_bomb = 0,
-		life = 1000,
+		life = 3,
 		max_life = 3,
 		iframes = 1,
 		max_iframes = 1,
@@ -175,17 +175,16 @@ function player_cursor(dt) -- {{{2
 	local mx, my = love.mouse.getPosition()
 	p.cursor.scrx, p.cursor.scry = mx, my
 	p.cursor.x, p.cursor.y = mx, my
-	p.cursor.active = love.mouse.isDown(1)
+	if menu == "in_game" and in_game_timer > 0.3 then
+		p.cursor.active = love.mouse.isDown(1)
+	else
+		p.cursor.active = false
+	end
 
 	local x = mx - (p.x + p.w/2)
 	local y = my - (p.y + p.h/2)
 	p.angle = math.atan2(y, x)
 end
-
-function love.mousepressed(x, y, button)
-	p.cursor.active = (button == 1)
-end
-
 
 function draw_cursor()
 	local c = p.cursor

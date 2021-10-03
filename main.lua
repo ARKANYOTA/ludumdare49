@@ -49,6 +49,7 @@ function love.update(dt) -- UPDATE {{{2
 	global_timer = global_timer + dt
 	
 	if menu == 'in_game' then
+		in_game_timer = in_game_timer + dt
 		player_update()
 		enemy_update(dt)
 
