@@ -96,13 +96,14 @@ function player_update()
 	update_bomb(dt)
 	for i, enemy in ipairs(total_enemy) do --vacciné
 		if collision(enemy.x,enemy.y,enemy.w,enemy.h,p.x,p.y,p.w,p.h) then
-			p.iframes = p.iframes - dt
-			if p.iframes < 0 then 
-				p.iframes = p.max_iframe
-			end
 			if enemy.hp > 0 then
-			p.life = p.life - 1
+				if p.iframes < 0 then
+					p.life = p.life - 1
+					p.iframes = p.max_iframes
+				end
+				p.iframes = p.iframes - dt
 			end
+		
 		end
 		if p.life <= 0 then
 			start_menu("game_over")
