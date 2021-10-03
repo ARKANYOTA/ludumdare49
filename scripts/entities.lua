@@ -33,8 +33,8 @@ end
 
 function bomb_create()--{{{2
     b = {
-		x = 16,
-		y = 16,
+		x = p.x,
+		y = p.y,
 		dx = 0,
 		dy = 0,
 

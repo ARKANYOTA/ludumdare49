@@ -40,6 +40,7 @@ function love.load() -- LOAD {{{2
 	
 	-- Map
 	-- Debug
+	enemy_wont_move = true
 end
 
 function love.update(dt) -- UPDATE {{{2
@@ -128,7 +129,7 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 		if key=="o" then start_menu("game_over") end
 		if key=="c" then start_menu("credits") end
 		if key=="t" then start_menu("tuto") end
-
+		if key=="p" then enemy_wont_move = not(enemy_wont_move) end
 		if key=="b" then b.x = p.x; b.y = p.y; end
 	end
 end

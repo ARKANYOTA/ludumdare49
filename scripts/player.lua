@@ -216,7 +216,7 @@ function update_bomb(dt)
 
 		if bounce then
 --			sound:setPitch(love.math.random() + 1)
-			snd_metalbar:play()
+			--snd_metalbar:play()
 --			sound:setPitch(1)
 		end
 		-- si plusieurs enemy, faire for i in enemy
