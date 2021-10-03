@@ -39,6 +39,10 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 	
 	-- Map
+	total_enemy = {}
+
+	spawn_enemy(100,100)
+	spawn_enemy(200,100)
 	-- Debug
 	enemy_wont_move = true
 end
@@ -46,23 +50,28 @@ end
 function love.update(dt) -- UPDATE {{{2
 	CM.update(dt)
 	global_timer = global_timer + dt
-	
-	
+	--temporaire à supprimer
+	---------------
 	if menu == 'in_game' then
 		player_update()
 		enemy_update(dt)
+
 		if love.keyboard.isScancodeDown("k") then
 			CameraY = CameraY + 1
 			CameraYAdd = CameraYAdd + 1
 			p.y = p.y - 1
 			b.y = b.y - 1
-			enemy.y = enemy.y - 1
+			for i,enemy in ipairs(total_enemy) do --vacciné
+				enemy.y = enemy.y - 1
+			end
 		elseif love.keyboard.isScancodeDown("l") then
 			CameraY = CameraY + 50
 			CameraYAdd = CameraYAdd + 50
 			p.y = p.y - 50
 			b.y = b.y - 50
-			enemy.y = enemy.y - 50
+			for i,enemy in ipairs(total_enemy) do --vacciné
+				enemy.y = enemy.y - 50
+			end
 		end
 		while CameraYAdd > blockh*2 do
 			CameraYAdd = CameraYAdd - blockh
@@ -142,7 +151,10 @@ function love.draw() -- DRAWING {{{2
 		block_draw()
 		draw_player()
 		draw_bomb()
-		draw_enemy()
+		for _,enemy in ipairs(total_enemy) do  --vacciné
+			draw_enemy(enemy)
+			test = enemy.x
+		end
 		player_cursor()
 
 		for _,pt in ipairs(particles) do
@@ -278,7 +290,8 @@ function draw_debug()
 		debug_print(13, "CameraYAdd: "..tostring(CameraYAdd))
 		debug_print(14, "DeletedMapBlock: "..tostring(DeletedMapBlock))
 		debug_print(15, "Vie: "..tostring(p.vie))
-		
+		debug_print(16, "test: "..tostring(test))
+
 		love.graphics.setColor(255, 255, 255, 1.0)
 		for i,v in ipairs(map) do
 			lllig= ""
@@ -304,7 +317,11 @@ function draw_debug_unfix()
 	if menu == 'in_game' then
 		draw_collision(b.x,b.y,b.w,b.h)
 		draw_collision(p.x,p.y,p.w,p.h)
-		draw_collision(enemy.x,enemy.y,enemy.w,enemy.h)
+		for i,enemy in ipairs(total_enemy) do --vacciné
+			if enemy.hp > 0 then
+				draw_collision(enemy.x,enemy.y,enemy.w,enemy.h)
+			end
+		end
 	end
 end
 
@@ -316,7 +333,7 @@ function start_game()
 	player_create()
 	bomb_create()
 	block_create()
-	enemy_create()
+	--enemy_create()
 	in_game_timer = 0
 	map = make_blank_map(nb_block_x, nb_block_y)
 	set_map(map, 1, 0, 1)

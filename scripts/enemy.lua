@@ -1,33 +1,58 @@
-function enemy_create()
-	enemy = {
-		x = 200,
-		y=200,
+function enemy_create(sprite,pos,speed,size)-- vacciné
+	local enemy = {
+		hp = 3,
+		x = pos.x,
+		y= pos.y,
 		sprite = love.graphics.newImage("assets/enemy_potato_1.png"),
-		speed = 200,
+		speed = speed,
 		scale_x = 0.25,
 		scale_y = 0.25,
 		angle = 0
 	}
 	enemy.w, enemy.h  = enemy.sprite:getWidth()*enemy.scale_x, enemy.sprite:getHeight() * enemy.scale_y
+	return enemy
 end
 
-function draw_enemy()
-	love.graphics.draw(enemy.sprite,enemy.x,enemy.y,0,enemy.scale_x,enemy.scale_y)
-end
-
-function move_toward_player(dt)
-	local dx,dy = enemy.x - p.x, enemy.y-p.y
-	local distance = math.sqrt(dx^2+dy^2)
-if p.x < enemy.x + enemy.speed/200 or p.x > enemy.x + enemy.speed/10 then
-	enemy.x = enemy.x - dx/distance * enemy.speed * dt
-end
-if p.y < enemy.y - enemy.speed/200 or p.y > enemy.y + enemy.speed/10 then
-	enemy.y = enemy.y - dy/distance * enemy.speed * dt 
-end
-end
-
-function enemy_update(dt)
-	if enemy_wont_move == true then
-		move_toward_player(dt)
+function draw_enemy(enemy)-- vacciné
+	if enemy.hp > 0 then
+		love.graphics.draw(enemy.sprite,enemy.x,enemy.y,0,enemy.scale_x,enemy.scale_y)
 	end
+end
+
+function move_toward_player(x,y,speed,dt)-- vacciné
+		local dx,dy = x - p.x, y-p.y
+		local distance = math.sqrt(dx^2+dy^2)
+	if p.x < x + y/200 or p.x > x + y/10 then
+		x = x - dx/distance * y * dt
+	end
+	if p.y < y - y/200 or p.y > y + y/10 then
+		y = y - dy/distance * y * dt 
+	end
+	return x,y
+end
+
+function enemy_update(dt) -- vacciné
+	for i, enemy in ipairs(total_enemy) do 
+		--enemy.hp = 3
+		if enemy.hp > 0 then
+			if enemy_wont_move == true then
+				enemy.x,enemy.y = move_toward_player(enemy.x,enemy.y,enemy.speed,dt)
+
+
+			end
+		else 
+			enemy.x = 0
+			enemy.y = 0
+
+		end
+	end
+end
+
+function spawn_enemy(x,y)-- vacciné
+	table.insert(total_enemy, enemy_create(
+		love.graphics.newImage("assets/enemy_potato_1.png"),
+		{x=x,y=y},
+		200,
+		0.25
+	))
 end

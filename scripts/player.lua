@@ -83,13 +83,16 @@ function player_update()
 	player_cursor()
 	throw_bomb()
 	update_bomb(dt)
-
-	if collision(enemy.x,enemy.y,enemy.w,enemy.h,p.x,p.y,p.w,p.h) then
-		--print(p.vie)
-		p.vie = p.vie - 1
-	end
-	if p.vie < 0 then
-		start_menu("game_over")
+	for i, enemy in ipairs(total_enemy) do --vacciné
+		if collision(enemy.x,enemy.y,enemy.w,enemy.h,p.x,p.y,p.w,p.h) then
+			--print(p.vie)
+			if enemy.hp > 0 then
+			p.vie = p.vie - 1
+			end
+		end
+		if p.vie < 0 then
+			start_menu("game_over")
+		end
 	end
 end
 
@@ -215,16 +218,18 @@ function update_bomb(dt)
 --			sound:setPitch(1)
 		end
 		-- si plusieurs enemy, faire for i in enemy
-
-		if collision(enemy.x,enemy.y,enemy.w,enemy.h,b.x,b.y,b.w,b.h) == true and b.can_bounce == true
-		then
-			b.dx = -b.dx
-			b.dy = -b.dy
-			b.can_bounce = false
-		elseif math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
-			b.can_bounce = true
+		-- marque temp
+		for i , enemy in ipairs(total_enemy) do 
+			if collision(enemy.x,enemy.y,enemy.w,enemy.h,b.x,b.y,b.w,b.h) == true and b.can_bounce == true
+			then
+				b.dx = -b.dx
+				b.dy = -b.dy
+				b.can_bounce = false
+				enemy.hp = enemy.hp - 1
+			elseif math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
+				b.can_bounce = true
+			end
 		end
-
 		-- Apply movement 
 		b.x = b.x + b.dx * dt
 		b.y = b.y + b.dy * dt
@@ -233,11 +238,13 @@ function update_bomb(dt)
 			spawn_smoke(b.x, b.y)
 		end
 	else
-		if math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
-			b.can_bounce = true
+		for i,enemy in ipairs(total_enemy) do --vacciné
+			if math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
+				b.can_bounce = true
+			end
+			b.x = p.x - p.w/2
+			b.y = p.y - p.h/2
 		end
-		b.x = p.x - p.w/2
-		b.y = p.y - p.h/2
 	end
 	
 end
