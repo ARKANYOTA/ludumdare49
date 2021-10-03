@@ -39,10 +39,7 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 	
 	-- Map
-	total_enemy = {}
 
-	spawn_enemy(100,100)
-	spawn_enemy(200,100)
 	-- Debug
 	enemy_wont_move = true
 end
@@ -178,6 +175,9 @@ function love.draw() -- DRAWING {{{2
 			draw_particle(pt)
 		end
 
+		-- life bar
+		draw_gui()
+
 		-- vv KEEP AS THE LAST vv
 		draw_cursor()
 	end
@@ -194,6 +194,16 @@ function love.draw() -- DRAWING {{{2
 	end
 end	
 
+function draw_gui()
+	for i=1, p.max_life do
+		local w = img_heart:getWidth()*0.2 + 10
+		if i <= p.life then
+			love.graphics.draw(img_heart,       i*w, 20, 0, 0.2)
+		else
+			love.graphics.draw(img_heart_empty, i*w, 20, 0, 0.2)
+		end
+	end
+end
 
 -- Function {{{1
 function newButton(text, fn) -- {{{2
@@ -207,6 +217,12 @@ function newButton(text, fn) -- {{{2
 end
 
 function start_game()
+	color = 1
+	total_enemy = {}
+
+	--spawn_enemy(100,100)
+	--spawn_enemy(200,100)
+	spawn_enemy(100,1000)
 	CameraY = 0
 	DeletedMapBlock = 0
 	CameraYAdd = 0

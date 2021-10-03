@@ -26,7 +26,8 @@ function player_create() -- {{{2
 		bomb = b,
 		hasBomb = true,
 		timer_bomb = 0,
-		life = 3,
+		life = 1000,
+		max_life = 3,
 		iframes = 1,
 		max_iframes = 1,
 		score = 0,
@@ -97,9 +98,11 @@ function player_update()
 		if collision(enemy.x,enemy.y,enemy.w,enemy.h,p.x,p.y,p.w,p.h) then
 			if enemy.hp > 0 then
 				if p.iframes < 0 then
+					--color = 0
 					p.life = p.life - 1
 					p.iframes = p.max_iframes
 				end
+
 				p.iframes = p.iframes - dt
 			end
 		
@@ -162,7 +165,10 @@ function player_movement(dt) --{{{2
 end
 
 function draw_player()--{{{2
+
+	love.graphics.setColor(color,color,color)
 	love.graphics.draw(p.sprite, p.x, p.y, 0, p.scale_x, p.scale_y)
+	love.graphics.setColor(0,0,0)
 end
 
 function player_cursor(dt) -- {{{2
@@ -220,11 +226,11 @@ function update_bomb(dt)
 		local nextx = b.x + b.dx * dt
 		local nexty = b.y + b.dy * dt
 		local bounce = false 
-		if is_solid_rect(map, nextx/bw, b.y/bw,   b.w/bw, b.h/bw) then
+		if is_solid_rect(map, nextx/bw, (b.y + CameraY)/bw,   b.w/bw, b.h/bw) then
 			b.dx = -b.dx
 			bounce = true
 		end
-		if is_solid_rect(map, b.x/bw,   nexty/bw, b.w/bw, b.h/bw) then
+		if is_solid_rect(map, b.x/bw,   (nexty + CameraY)/bw, b.w/bw, b.h/bw) then
 			b.dy = -b.dy
 			bounce = true
 		end
@@ -236,14 +242,14 @@ function update_bomb(dt)
 		-- marque temp
 		--Damage enemy
 		for i , enemy in ipairs(total_enemy) do 
-			if collision(enemy.x,enemy.y,enemy.w,enemy.h,b.x,b.y,b.w,b.h) == true and b.can_bounce == true
+			if collision(enemy.x,enemy.y,enemy.w,enemy.h,b.x,(b.y),b.w,b.h) == true and b.can_bounce == true
 			then
 				b.dx = -b.dx
 				b.dy = -b.dy
 				b.can_bounce = false
 				enemy.hp = enemy.hp - 1
 				play_random_pitch(snd_enemydamage)
-			elseif math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
+			elseif math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - (b.y)) > enemy.h+40 then
 				b.can_bounce = true
 			end
 		end
@@ -276,7 +282,7 @@ function update_bomb(dt)
 		end
 	else
 		for i,enemy in ipairs(total_enemy) do --vacciné
-			if math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - b.y) > enemy.h+40 then
+			if math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - (b.y)) > enemy.h+40 then
 				b.can_bounce = true
 			end
 		b.x = p.x  + math.cos(p.angle) * 30
