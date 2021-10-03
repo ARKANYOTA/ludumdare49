@@ -71,7 +71,12 @@ function love.update(dt) -- UPDATE {{{2
 			table.remove(map, 1)
 			table.insert(map, {})
 			for _ = 1, nb_block_y do
-				table.insert(map[#map], 0)
+				if love.math.random(9)==1 then
+					table.insert(map[#map], 1)
+				else
+					table.insert(map[#map], 0)
+				end
+
 			end
 			DeletedMapBlock = DeletedMapBlock + 1
 		end
