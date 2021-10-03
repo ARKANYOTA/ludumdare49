@@ -86,7 +86,7 @@ function love.update(dt) -- UPDATE {{{2
 	
 	if menu == 'in_game' then
 		player_update()
-		enemy_update()
+		enemy_update(dt)
 		if love.keyboard.isScancodeDown("k") then
 			CameraY = CameraY +1
 			p.y = p.y -1
