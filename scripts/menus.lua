@@ -72,7 +72,6 @@ function credit_print(hx, ps, txt, txt2)
 	-- local nb_lignes = nb_categories + nb_contributors -- pour center
 	love.graphics.print({{244, 0, 0, 1}, txt}, game_over_font_90,hx*50+10, ps*40+100)
 	love.graphics.print({{244, 0, 0, 0.5}, txt2}, game_over_font_70,400, ps*40+110)
-
 end
 
 function draw_credits()

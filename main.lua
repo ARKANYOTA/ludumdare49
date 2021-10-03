@@ -38,7 +38,6 @@ function love.load() -- LOAD {{{2
 	particles = {}
 	coll_check = false
 	
-	-- Map
 	-- Debug
 	enemy_wont_move = true
 end
@@ -46,7 +45,6 @@ end
 function love.update(dt) -- UPDATE {{{2
 	CM.update(dt)
 	global_timer = global_timer + dt
-	
 	
 	if menu == 'in_game' then
 		player_update()
@@ -76,11 +74,21 @@ function love.update(dt) -- UPDATE {{{2
 				else
 					table.insert(map[#map], 0)
 				end
-
 			end
 			DeletedMapBlock = DeletedMapBlock + 1
 		end
 
+		-- Music
+		if b.active then
+			music_calm:setVolume(0)
+			music_tense:setVolume(0.2)
+		else
+			music_calm:setVolume(0.2)
+			music_tense:setVolume(0)
+		end
+	else
+		music_calm:setVolume(0)
+		music_tense:setVolume(0)
 	end
 
 	for i, pt in ipairs(particles) do
@@ -196,6 +204,10 @@ function start_game()
 	set_map(map, 1, 4, 1)
 	menu = 'in_game'
 	CM.update(0)
+	
+	-- Music
+	music_calm:play()
+	music_tense:play()
 end
 
 function continue_game()

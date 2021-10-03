@@ -8,3 +8,12 @@ snd_bombbounce = love.audio.newSource("assets/sound/bomb_bounce.mp3", "static") 
 -- metal_bar : https://freesound.org/people/jorickhoofd/sounds/160045/
 snd_bombbeep = love.audio.newSource("assets/sound/bomb_beep.mp3", "static") --https://freesound.org/people/SpliceSound/sounds/369880/
 snd_bombboom = love.audio.newSource("assets/sound/explosion.mp3", "static") --https://freesound.org/people/Iwiploppenisse/sounds/156031/
+
+music_calm = love.audio.newSource("assets/sound/music_calm.wav", "stream")
+music_tense = love.audio.newSource("assets/sound/music_tense.wav", "stream")
+
+music_calm:setVolume(0.2)
+music_calm:setLooping(true)
+
+music_tense:setVolume(0.2)
+music_tense:setLooping(true)
