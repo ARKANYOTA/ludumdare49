@@ -24,6 +24,10 @@ function player_create() -- {{{2
 
 		bomb = b,
 		hasBomb = false,
+		timer_bomb = 0,
+		vie = 1000,
+		score = 0,
+		max_score = 0,
 
 		cursor = {
 			x = 0,
@@ -79,6 +83,14 @@ function player_update()
 	player_cursor()
 	throw_bomb()
 	update_bomb(dt)
+
+	if collision(enemy.x,enemy.y,enemy.w,enemy.h,p.x,p.y,p.w,p.h) then
+		--print(p.vie)
+		p.vie = p.vie - 1
+	end
+	if p.vie < 0 then
+		start_menu("game_over")
+	end
 end
 
 function player_movement(dt) --{{{2
