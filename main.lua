@@ -326,7 +326,7 @@ function start_game()
 	bomb_create()
 	block_create()
 	in_game_timer = 0
-	map = make_blank_map(nb_block_y+5, nb_block_x)
+	map = make_blank_map(nb_block_y, nb_block_x)
 	set_map(map, 1, 0, 1)
 	set_map(map, 1, 1, 1)
 	set_map(map, 1, 4, 1)
