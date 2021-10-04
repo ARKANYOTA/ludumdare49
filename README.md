@@ -11,8 +11,8 @@ It's a game for Ludum dare 49, GameJam.
 | Yolwoocle | Dev & Idea | [Yolwoocle](https://github.com/Yolwoocle) | |
 | Maxim-Costa | Dev & Idea | [Maxim-Costa](https://github.com/Maxim-Costa) | |
 | Notgoyome | Dev & Idea | [Yauyau123](https://github.com/Yauyau123) | |
-| Poulpito\_GDL | Images | ... | |
-| Pierre | Music | ... | |
+| Poulpito\_GDL | Images | [PoulpitoGDL](https://github.com/PoulipitoGDL) | |
+| Pierre | Music | [PierreAndries](https://github.com/PIerreAndries) | |
 | Antoine | Idea | ... | |
 
 ## Todo list/Features(Bugs)
