@@ -107,9 +107,9 @@ function player_update()
 			end
 		
 		end
-		if p.life <= 0 then
-			start_menu("game_over")
-		end
+	end
+	if p.life <= 0 or p.y < 10 then
+		start_menu("game_over")
 	end
 end
 

@@ -37,7 +37,12 @@ function draw_particle(pt)
 end
 
 
-function spawn_smoke(x, y)
+function spawn_smoke(x, y, color)
+	if color ~= nil then
+		if color == "green" then
+			love.graphics.setColor(0,1,0)
+		end
+	end
 	table.insert(particles, make_particle(
 		love.graphics.newImage("assets/smoke.png"),
 		{x=x, y=y},
@@ -46,4 +51,5 @@ function spawn_smoke(x, y)
 		love.math.random() * 2*math.pi,
 		(love.math.random()*2 - 1) / 3
 	))
+	love.graphics.setColor(1,1,1)
 end
