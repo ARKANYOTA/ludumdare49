@@ -75,21 +75,23 @@ function love.update(dt) -- UPDATE {{{2
 		enemy_update(dt)
 
 		-- TODO
-		if love.keyboard.isScancodeDown("k") then
-			CameraY = CameraY + 1
-			CameraYAdd = CameraYAdd + 1
-			p.y = p.y - 1
-			b.y = b.y - 1
-			for i,enemy in ipairs(total_enemy) do --vacciné
-				enemy.y = enemy.y - 1
-			end
-		elseif love.keyboard.isScancodeDown("l") then
-			CameraY = CameraY + 50
-			CameraYAdd = CameraYAdd + 50
-			p.y = p.y - 50
-			b.y = b.y - 50
-			for i,enemy in ipairs(total_enemy) do --vacciné
-				enemy.y = enemy.y - 50
+		if debug then
+			if love.keyboard.isScancodeDown("k") then
+				CameraY = CameraY + 1
+				CameraYAdd = CameraYAdd + 1
+				p.y = p.y - 1
+				b.y = b.y - 1
+				for i,enemy in ipairs(total_enemy) do --vacciné
+					enemy.y = enemy.y - 1
+				end
+			elseif love.keyboard.isScancodeDown("l") then
+				CameraY = CameraY + 50
+				CameraYAdd = CameraYAdd + 50
+				p.y = p.y - 50
+				b.y = b.y - 50
+				for i,enemy in ipairs(total_enemy) do --vacciné
+					enemy.y = enemy.y - 50
+				end
 			end
 		end
 		-- Evit bomb quit map
