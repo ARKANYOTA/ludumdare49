@@ -68,9 +68,6 @@ function love.update(dt) -- UPDATE {{{2
 	global_timer = global_timer + dt
 	
 	if menu == 'in_game' then
-		for i,enemy in ipairs(total_enemy) do --vacciné
-			print(enemy.x)
-		end
 		smoke_dt = smoke_dt - dt
 		down_screen_dt = down_screen_dt + 0.3
 		in_game_timer = in_game_timer + dt
@@ -235,6 +232,16 @@ function love.draw() -- DRAWING {{{2
 			end
 		end
 
+		--zombie life bar
+		for i,enemy in ipairs(total_enemy) do --vacciné
+			love.graphics.setColor(0,0,0,1)
+			love.graphics.setLineWidth(5)
+			love.graphics.line(enemy.x,enemy.y-10, enemy.x+80, enemy.y-10)
+			love.graphics.setColor(1,0,0,1)
+			love.graphics.setLineWidth(2)
+			love.graphics.line(enemy.x+2,enemy.y-10, enemy.x+(26*enemy.hp), enemy.y-10)
+			love.graphics.setColor(1,1,1,1)
+		end
 		-- life bar
 		draw_gui()
 

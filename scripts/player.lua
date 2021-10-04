@@ -313,6 +313,7 @@ function update_bomb(dt)
 			if math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - (b.y)) > enemy.h+40 then
 				b.can_bounce = true
 			end
+		end
 		b.x = p.x  + math.cos(p.angle) * 30
 		b.y = p.y  + math.sin(p.angle) * 30
 		
@@ -320,7 +321,6 @@ function update_bomb(dt)
 		b.beep_pitch = 1
 		b.isred = false
 		b.throwspeed = throwspeed_save
-		end
 	end
 	
 end
