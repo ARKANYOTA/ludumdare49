@@ -189,7 +189,7 @@ function love.draw() -- DRAWING {{{2
 		if smoke_dt < 0 or true then
 			smoke_dt = 1
 			for i=0, screenw ,30 do
-				love.graphics.draw(toxik_gaz, i-10, 30, (in_game_timer%(2*math.pi)) - math.pi, 0.2, 0.2, (toxik_gaz:getWidth()/2)*0.2, (toxik_gaz:getHeight()/2)*0.2)
+				love.graphics.draw(toxik_gaz, i, 5, (in_game_timer%(2*math.pi)) - math.pi, 0.2, 0.2, toxik_gaz:getWidth()*0.5, toxik_gaz:getHeight()*0.5)
 				--spawn_smoke(i, 10, "green")
 			end
 		end
