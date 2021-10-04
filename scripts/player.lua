@@ -64,7 +64,7 @@ function bomb_create()--{{{2
 		dy = 0,
 
 		timer = 0, -- In seconds
-		max_timer = 4,
+		max_timer = 6,
 		active = false,
 
 		sprite = love.graphics.newImage("assets/bomb.png"),
@@ -75,7 +75,7 @@ function bomb_create()--{{{2
         dr = 1,
 		can_bounce = true,
 
-		throwspeed = 300,
+		throwspeed = 600,
 		catch_cooldown = 0,
 		max_catch_cooldown = 0.5,
 		
@@ -115,7 +115,7 @@ function player_update()
 	p.vignette_alpha = p.vignette_alpha - dt*1
 
 	p.iframes = p.iframes - dt
-	if p.life <= 0 or p.y < 10 then
+	if p.life <= 0 or p.y < 1 then
 		start_menu("game_over")
 	end
 end

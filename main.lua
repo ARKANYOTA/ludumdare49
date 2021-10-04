@@ -44,6 +44,8 @@ function love.load() -- LOAD {{{2
 	-- Particles
 	particles = {}
 	coll_check = false
+
+	gas_puffs = {}
 	
 	-- Debug
 	enemy_wont_move = true
@@ -201,11 +203,11 @@ function love.draw() -- DRAWING {{{2
 		end
 		
 		
-		-- Draw déchiquteuise en haut de l'ecran
+		-- Draw toxic gas
 		if smoke_dt < 0 or true then
 			smoke_dt = 1
 			for i=0, screenw ,30 do
-				love.graphics.draw(toxik_gaz, i, 5, (in_game_timer%(2*math.pi)) - math.pi, 0.2, 0.2, toxik_gaz:getWidth()*0.5, toxik_gaz:getHeight()*0.5)
+				love.graphics.draw(toxic_gas, i, 5, (in_game_timer%(2*math.pi)) - math.pi, 0.2, 0.2, toxic_gas:getWidth()*0.5, toxic_gas:getHeight()*0.5)
 				--spawn_smoke(i, 10, "green")
 			end
 		end
