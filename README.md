@@ -13,7 +13,7 @@ It's a game for Ludum dare 49, GameJam.
 | Notgoyome | Dev & Idea | [Yauyau123](https://github.com/Yauyau123) | |
 | Poulpito\_GDL | Images | [PoulpitoGDL](https://github.com/PoulipitoGDL) | |
 | Pierre | Music | [PierreAndries](https://github.com/PIerreAndries) | |
-| Antoine | Idea | ... | |
+| Antoine | Idea | [Antoine-Rouvau](https://github.com/Antoine-Roucau) | |
 
 ## Todo list/Features(Bugs)
 - [ ] ...

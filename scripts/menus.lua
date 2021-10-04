@@ -70,11 +70,11 @@ function load_credits()
 			},
 			{
 				{"Pierre"},
-				{"@..."}
+				{"@PIerreAndries"}
 			},
 			{
 				{"Antoine"},
-				{"@..."}
+				{"@Antoine-Roucau"}
 			}
 		}
 	}
