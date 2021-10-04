@@ -52,7 +52,7 @@ function love.load() -- LOAD {{{2
 			y = 0, 
 			s = (love.math.random() + 1) * 0.2, 
 			r = love.math.random() * 2*math.pi, 
-			dr= (love.math.random() - 0.5) * 0.1
+			dr= (love.math.random() - 0.5) * 0.2
 	})
 	end
 	
@@ -227,7 +227,8 @@ function love.draw() -- DRAWING {{{2
 		if smoke_dt < 0 or true then
 			smoke_dt = 1
 			for i,v in ipairs(gas_puffs) do
-				love.graphics.draw(toxic_gas, v.x, v.y, v.r, v.s, v.s, toxic_gas:getWidth()*v.s, toxic_gas:getHeight()*v.s)
+				love.graphics.draw(toxic_gas, v.x, v.y, v.r, v.s, v.s, 
+				toxic_gas:getWidth()*v.s, toxic_gas:getHeight()*v.s)
 				--spawn_smoke(i, 10, "green")
 			end
 		end

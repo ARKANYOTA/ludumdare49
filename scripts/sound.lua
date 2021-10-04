@@ -8,7 +8,8 @@ snd_throw = love.audio.newSource("assets/sound/throw.mp3", "static") -- https://
 snd_bombbounce = love.audio.newSource("assets/sound/bomb_bounce.mp3", "static") --https://freesound.org/people/taylorevanmcalister/sounds/223530/
 -- metal_bar : https://freesound.org/people/jorickhoofd/sounds/160045/
 snd_bombbeep = love.audio.newSource("assets/sound/bomb_beep.mp3", "static") --https://freesound.org/people/SpliceSound/sounds/369880/
-snd_bombboom = love.audio.newSource("assets/sound/explosion.mp3", "static") --https://freesound.org/people/Iwiploppenisse/sounds/156031/
+snd_bombboom = love.audio.newSource("assets/sound/explosion_LOUD.mp3", "static") --https://freesound.org/people/Iwiploppenisse/sounds/156031/
+snd_bombboom:setVolume(0.15)
 snd_enemydamage = love.audio.newSource("assets/sound/enemy_damage.wav", "static") --https://freesound.org/people/Deathscyp/sounds/404109/
 snd_enemydamage:setVolume(0.5)
 snd_playerdamage = love.audio.newSource("assets/sound/player_hurt.mp3", "static") --https://freesound.org/people/nettoi/sounds/553285/

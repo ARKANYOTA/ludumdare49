@@ -12,7 +12,9 @@ function enemy_create(sprite,pos,speed,size)-- vacciné
 		scale_x = 0.25,
 		scale_y = 0.25,
 		angle = 0,
-		knockback = 4,
+		knockback_x = 0,
+		knockback_y = 0,
+		knockback = 400,
 		flashtimer = 0,
 		max_flashtimer = 0.1
 	}
@@ -36,7 +38,7 @@ function move_toward_player(x,y,speed,dt) -- vacciné
 	local dx = p.x - x
 	local dy = p.y - y
 	local angle = math.atan2(dy, dx)
-	return math.cos(angle), math.sin(angle)
+	return math.cos(angle)*speed, math.sin(angle)*speed
 
 	-- Désolé guillaume!
 	--[[local distance = math.sqrt(dx^2+dy^2)
@@ -54,11 +56,15 @@ function enemy_update(dt) -- vacciné
 		--enemy.hp = 3
 		if enemy.hp > 0 then
 			if enemy_wont_move == true then
-				enemy.dx,enemy.dy = move_toward_player(enemy.x,enemy.y,enemy.speed,dt)
-				enemy.dx = enemy.dx --* enemy.speed
-				enemy.dy = enemy.dy --* enemy.speed
+				local dx, dy = move_toward_player(enemy.x, enemy.y, enemy.speed, dt)
+				enemy.dx = enemy.dx * enemy.speed
+				enemy.dy = enemy.dy * enemy.speed
+				-- Apply movement
 				enemy.x = enemy.x + enemy.dx
 				enemy.y = enemy.y + enemy.dy
+			else
+				enemy.dx = 0
+				enemy.dy = 0
 			end
 		else 
 			table.remove(total_enemy, i)
