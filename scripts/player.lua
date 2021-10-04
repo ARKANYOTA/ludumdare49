@@ -65,7 +65,7 @@ function bomb_create()--{{{2
 		i = 1,
 
 		timer = 0, -- In seconds
-		max_timer = 60,
+		max_timer = 6,
 		active = false,
 
 		sprite = love.graphics.newImage("assets/bomb.png"),
@@ -127,9 +127,9 @@ function player_update()
 	p.iframes = p.iframes - dt
 	if p.life <= 0 or p.y < 1 then
 		if p.life <= 0 then
-			dead_way = "La vie c'est bien"
+			dead_way = "Your last words : \"Why are there zombie potatoes outside?\""
 		else
-			dead_way = "Vous avez respirer la mauvaise fumée"
+			dead_way = "Your last words : \"This gas smells better than the canteen's food\""
 		end
 		start_menu("game_over")
 	end
@@ -177,6 +177,7 @@ function player_movement(dt) --{{{2
 	--FIXME: stuck in walls
 	local coll_x = is_solid_rect(map, nextx/bw, (p.y + CameraY)/bw,   p.w/bw, p.h/bw)
 	local coll_y = is_solid_rect(map, p.x/bw,   (nexty + CameraY)/bw, p.w/bw, p.h/bw)
+	
 	if coll_x then 
 		p.dx = 0
 	end
@@ -314,7 +315,7 @@ function update_bomb(dt)
 		-- Game over
 		if b.timer <= 0 then
 			play_random_pitch(snd_bombboom)
-			dead_way = "La bombe à exploser, il faut la recuperer"
+			dead_way = "Your last words : \"I need to practice volleyball!\""
 			start_menu("game_over")
 		end
 
