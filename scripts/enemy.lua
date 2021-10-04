@@ -57,13 +57,13 @@ function enemy_update(dt) -- vacciné
 				enemy.dx,enemy.dy = move_toward_player(enemy.x,enemy.y,enemy.speed,dt)
 				enemy.dx = enemy.dx --* enemy.speed
 				enemy.dy = enemy.dy --* enemy.speed
+				enemy.x = enemy.x + enemy.dx
+				enemy.y = enemy.y + enemy.dy
 			end
 		else 
 			enemy.x = 0
 			enemy.y = 0
 		end
-		enemy.x = enemy.x + enemy.dx
-		enemy.y = enemy.y + enemy.dy
 
 		enemy.flashtimer = enemy.flashtimer - dt
 	end

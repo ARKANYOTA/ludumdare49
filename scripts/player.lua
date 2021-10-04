@@ -32,6 +32,7 @@ function player_create() -- {{{2
 		max_iframes = 1,
 		score = 0,
 		max_score = 0,
+		coeff_score = 1,
 
 		cursor = {
 			x = 0,
@@ -195,6 +196,7 @@ end
 function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
 	if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true and b.catch_cooldown <= 0 then
 		p.hasBomb = true
+		p.coeff_score = 1 --reset le combo
 	end
 end
 
@@ -208,6 +210,7 @@ function throw_bomb()
 		b.dx = math.cos(p.angle) * b.throwspeed
 		b.dy = math.sin(p.angle) * b.throwspeed
 		
+		
 		b.catch_cooldown = b.max_catch_cooldown
 		b.timer = b.max_timer
 
@@ -216,6 +219,7 @@ function throw_bomb()
 end
 
 function update_bomb(dt)
+	local throwspeed_save = b.throwspeed
 	b.catch_cooldown = math.max(b.catch_cooldown - dt, 0)
 	b.timer = math.max(b.timer - dt, 0)
 	b.active = not p.hasBomb
@@ -227,17 +231,22 @@ function update_bomb(dt)
 		if is_solid_rect(map, nextx/bw, (b.y + CameraY)/bw,   b.w/bw, b.h/bw) then
 			b.dx = -b.dx
 			bounce = true
+			b.throwspeed = b.throwspeed + 20
+			p.coeff_score = p.coeff_score + 0.5
+			test = b.dy
 		end
 		if is_solid_rect(map, b.x/bw,   (nexty + CameraY)/bw, b.w/bw, b.h/bw) then
 			b.dy = -b.dy
 			bounce = true
+			b.throwspeed = b.throwspeed + 20
+
+			p.coeff_score = p.coeff_score + 0.5
+			test = p.dy
 		end
 
 		if bounce then
 			play_random_pitch(snd_bombbounce)
 		end
-		-- si plusieurs enemy, faire for i in enemy
-		-- marque temp
 		--Damage enemies with bomb
 		for i , enemy in ipairs(total_enemy) do 
 			if collision(enemy.x,enemy.y,enemy.w,enemy.h,b.x,(b.y),b.w,b.h) == true and b.can_bounce == true then
@@ -245,6 +254,11 @@ function update_bomb(dt)
 				b.dy = -b.dy
 				b.can_bounce = false
 				enemy.hp = enemy.hp - 1
+				p.score = p.score + 50*p.coeff_score
+				p.coeff_score = p.coeff_score + 1
+				test = p.dy
+				b.throwspeed = b.throwspeed + 20
+			
 				
 				-- Knockback
 				local direction = math.atan2(b.dy, b.dx)
@@ -260,6 +274,9 @@ function update_bomb(dt)
 		-- Apply movement 
 		b.x = b.x + b.dx * dt
 		b.y = b.y + b.dy * dt
+
+	
+
 
 		if love.math.random() <= (b.timer%1) / 2 then
 			spawn_smoke(b.x + b.w/2, b.y + b.h/2 )
@@ -295,6 +312,7 @@ function update_bomb(dt)
 		b.max_beep_timer = b.default_max_beep_timer
 		b.beep_pitch = 1
 		b.isred = false
+		b.throwspeed = throwspeed_save
 		end
 	end
 	
