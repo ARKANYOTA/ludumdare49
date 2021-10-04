@@ -5,7 +5,9 @@ It's a game for Ludum dare 49, GameJam.
 
 ## Download
 
-- https://github.com/ARKANYOTA/ludumdare49/releases/tag/Download
+[REALEASE/DOWNLOAD](https://github.com/ARKANYOTA/ludumdare49/releases/tag/Download)
+---
+
 - linux, windows, love : works
 - macos : not test, not have mac
 - lovejs : dosent works on devs computers
@@ -16,6 +18,7 @@ MacOS: (MacOS version may not work as we have not tested it)
 
 Linux: download the .AppImage, then run: `chmod 755 ./OctoBoom.AppImage`, then run `./OctoBoom.AppImage`
 
+Löve: Install it, then execute `love OctoBoom.love` or drop it on love executable.
 
 ## Developers
 
