@@ -1,7 +1,7 @@
 # Ludum Dare 49: Theme is "Unstable"
 
 ## Introduction
-It's a game for Ludum dare 49, GameJam.
+It's a game for Ludum dare 49, GameJam. [link](https://ldjam.com/events/ludum-dare/49/octoboom)
 
 ## Download
 
