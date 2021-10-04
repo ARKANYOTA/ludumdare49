@@ -79,8 +79,8 @@ function bomb_create()--{{{2
 		throwspeed = 600,
 		catch_cooldown = 0,
 		max_catch_cooldown = 0.5,
-		coeff_augmentation = 1.01, --1.1,
-		coeff_augmentationtime = 0.005,
+		coeff_augmentation = 1, --1.1,
+		coeff_augmentationtime = 0.009,
 		
 		beep_timer = 0,
 		beep_pitch = 1,
@@ -284,9 +284,9 @@ function update_bomb(dt)
 				b.can_bounce = false
 				enemy.hp = enemy.hp - 1
 				p.score = p.score + 50*p.coeff_score
+				table.insert(all_hit, {x = b.x + love.math.random(8)-4, y = b.y+ love.math.random(8)-4, dt = 4, txt = 50*p.coeff_score})
 				p.coeff_score = p.coeff_score + 1
-				table.insert(all_hit, {x = b.x + love.math.random(8)-4, y = b.y+ love.math.random(8)-4, dt = 4, txt = "HIT"})
-
+				
 				test = p.dy
 			
 				-- Knockback
