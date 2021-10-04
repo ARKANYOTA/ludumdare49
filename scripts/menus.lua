@@ -211,6 +211,8 @@ function draw_menu()
 
 		if menu == "game_over" then --TODO
 			love.graphics.print(dead_way, 200, 70)
+		elseif menu == "menu" then
+			love.graphics.draw(logo, 0, 0)
 		end
 		draw_buttons()
 	end
