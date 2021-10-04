@@ -3,6 +3,12 @@
 ## Introduction
 It's a game for Ludum dare 49, GameJam.
 
+## Download
+
+- linux, windows, love : works
+- macos : not test, not have mac
+- lovejs : dosent works on devs computers
+
 ## Developers
 
 | User | Role | Github | Discord |
@@ -14,10 +20,6 @@ It's a game for Ludum dare 49, GameJam.
 | Poulpito\_GDL | Images | [PoulpitoGDL](https://github.com/PoulipitoGDL) | |
 | Pierre | Music | [PierreAndries](https://github.com/PIerreAndries) | |
 | Antoine | Idea | [Antoine-Rouvau](https://github.com/Antoine-Roucau) | |
-
-## Todo list/Features(Bugs)
-- [ ] ...
-- [x] ...
 
 ## Controls
 
@@ -33,14 +35,6 @@ It's a game for Ludum dare 49, GameJam.
 
 ### In pause mode
 - escape: exit pause menu
-
-### In Debug (Delete at final version)
-- g: start game
-- m: start menu
-- o: pause menu
-- c: credits 
-- t: tuto 
-
 
 ## Game Jam
 

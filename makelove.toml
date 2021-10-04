@@ -1,0 +1,9 @@
+name = "OctoBoom"
+default_targets = ["win32", "win64", "appimage", "lovejs", "macos"]
+build_directory = "makelove-build"
+
+love_files = [
+    "+*",
+    "-*/.*",
+    "-./makelove-build/*",
+]
