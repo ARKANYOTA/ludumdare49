@@ -74,7 +74,7 @@ function load_credits()
 			},
 			{
 				{"Antoine"},
-				{"@..."}
+				{"@Antoine-Roucau"}
 			}
 		}
 	}

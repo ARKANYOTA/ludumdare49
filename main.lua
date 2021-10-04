@@ -68,6 +68,9 @@ function love.update(dt) -- UPDATE {{{2
 	global_timer = global_timer + dt
 	
 	if menu == 'in_game' then
+		for i,enemy in ipairs(total_enemy) do --vacciné
+			print(enemy.x)
+		end
 		smoke_dt = smoke_dt - dt
 		down_screen_dt = down_screen_dt + 0.3
 		in_game_timer = in_game_timer + dt
@@ -75,22 +78,28 @@ function love.update(dt) -- UPDATE {{{2
 		enemy_update(dt)
 
 		-- TODO
-		if love.keyboard.isScancodeDown("k") then
-			CameraY = CameraY + 1
-			CameraYAdd = CameraYAdd + 1
-			p.y = p.y - 1
-			b.y = b.y - 1
-			for i,enemy in ipairs(total_enemy) do --vacciné
-				enemy.y = enemy.y - 1
+		if debug then
+			if love.keyboard.isScancodeDown("k") then
+				CameraY = CameraY + 1
+				CameraYAdd = CameraYAdd + 1
+				p.y = p.y - 1
+				b.y = b.y - 1
+				for i,enemy in ipairs(total_enemy) do --vacciné
+					enemy.y = enemy.y - 1
+				end
+			elseif love.keyboard.isScancodeDown("l") then
+				CameraY = CameraY + 50
+				CameraYAdd = CameraYAdd + 50
+				p.y = p.y - 50
+				b.y = b.y - 50
+				for i,enemy in ipairs(total_enemy) do --vacciné
+					enemy.y = enemy.y - 50
+				end
 			end
-		elseif love.keyboard.isScancodeDown("l") then
-			CameraY = CameraY + 50
-			CameraYAdd = CameraYAdd + 50
-			p.y = p.y - 50
-			b.y = b.y - 50
-			for i,enemy in ipairs(total_enemy) do --vacciné
-				enemy.y = enemy.y - 50
-			end
+		end
+		-- Evit bomb quit map
+		if b.y < 0-blockh-1 or b.x < 0-blockw-1 or b.x > 800+blockw+1 then
+			p.hasBomb = true
 		end
 		while down_screen_dt >= 0 do
 			down_screen_dt = down_screen_dt - 0.3

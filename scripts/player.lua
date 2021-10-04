@@ -20,8 +20,8 @@ function player_create() -- {{{2
 		bounce = 0.6,
 
 		sprite = love.graphics.newImage("assets/player01.png"),
-		scale_x = 0.15,
-		scale_y = 0.15,
+		scale_x = 0.12,
+		scale_y = 0.12,
 
 		bomb = b,
 		hasBomb = true,
