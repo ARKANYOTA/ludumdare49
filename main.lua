@@ -68,6 +68,9 @@ function love.update(dt) -- UPDATE {{{2
 	global_timer = global_timer + dt
 	
 	if menu == 'in_game' then
+		for i,enemy in ipairs(total_enemy) do --vacciné
+			print(enemy.x)
+		end
 		smoke_dt = smoke_dt - dt
 		down_screen_dt = down_screen_dt + 0.3
 		in_game_timer = in_game_timer + dt

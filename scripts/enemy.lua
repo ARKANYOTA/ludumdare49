@@ -61,6 +61,7 @@ function enemy_update(dt) -- vacciné
 				enemy.y = enemy.y + enemy.dy
 			end
 		else 
+			table.remove(total_enemy, i)
 			enemy.x = 0
 			enemy.y = 0
 		end
