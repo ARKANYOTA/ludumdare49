@@ -8,7 +8,7 @@ function enemy_create(sprite,pos,speed,size)-- vacciné
 		speed = 30,
 		sprite = love.graphics.newImage("assets/enemy_potato_1.png"),
 		sprite_flash = love.graphics.newImage("assets/enemy_potato_1_white.png"),
-		speed = 30,
+		speed = 100,
 		scale_x = 0.25,
 		scale_y = 0.25,
 		angle = 0,
