@@ -108,7 +108,7 @@ function love.update(dt) -- UPDATE {{{2
 			end
 			DeletedMapBlock = DeletedMapBlock + 1
 			-- Spawn enemies
-			if love.math.random(10)==1 then
+			if love.math.random(10) < DeletedMapBlock*0.05+1 then
 				spawn_enemy(love.math.random(800),1000)
 			end
 		end
