@@ -102,12 +102,10 @@ function player_update()
 					p.life = p.life - 1
 					p.iframes = p.max_iframes
 				end
-
-				p.iframes = p.iframes - dt
 			end
-		
 		end
 	end
+	p.iframes = p.iframes - dt
 	if p.life <= 0 or p.y < 10 then
 		start_menu("game_over")
 	end
