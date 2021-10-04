@@ -118,10 +118,10 @@ function draw_tuto()
 		ligne = ligne + 1
 	end
 	local text = {
-		"An accident has occured in the mine and gas is escaping! Flee!",
+		"An accident has occurred in the mine and gas is escaping! Flee!",
 		"Your bomb is your weapon. Throw it on enemies, and catch it ",
-		"before it explodes. The longer you let it fly, the more damage",
-		"it'll cause, but this is at your own risk.",
+		"before it explodes. The longer you let it fly, the more points",
+		"it'll give you, but this is at your own risk.",
 	}
 	for i,v in ipairs(text) do
 		love.graphics.print({col_brown, v}, 50, 40*i+85)
