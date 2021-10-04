@@ -83,6 +83,10 @@ function love.update(dt) -- UPDATE {{{2
 				enemy.y = enemy.y - 50
 			end
 		end
+		-- Evit bomb quit map
+		if b.y < 0-blockh-1 or b.x < 0-blockw-1 or b.x > 800+blockw+1 then
+			p.hasBomb = true
+		end
 		while down_screen_dt >= 0 do
 			down_screen_dt = down_screen_dt - 0.3
 			CameraY = CameraY + 1
