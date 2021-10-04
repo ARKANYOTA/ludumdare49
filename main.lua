@@ -29,6 +29,7 @@ function love.load() -- LOAD {{{2
 	font = love.graphics.newFont(15, "none", 3)
 	love.graphics.setFont(font)
 	font = love.graphics.newFont(32)
+	font = game_font_small_light
 
 	-- Menu {{{3
 	sprite_btn = love.graphics.newImage("assets/button.png"),
@@ -209,7 +210,9 @@ function draw_gui()
 		end
 	end
 
+	love.graphics.setFont(game_font_medium)
 	love.graphics.print(p.score, screenw - 50, 20)
+	love.graphics.setFont(game_font_medium)
 end
 
 -- Function {{{1

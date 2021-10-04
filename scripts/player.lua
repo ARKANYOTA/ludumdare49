@@ -64,8 +64,8 @@ function bomb_create()--{{{2
 		active = false,
 
 		sprite = love.graphics.newImage("assets/bomb.png"),
-		scale_x = 0.1,
-		scale_y = 0.1,
+		scale_x = 0.08,
+		scale_y = 0.08,
         redshift = 0,
         r = 0,
         dr = 1,
