@@ -74,26 +74,6 @@ function love.update(dt) -- UPDATE {{{2
 		player_update()
 		enemy_update(dt)
 
-		-- TODO
-		if debug then
-			if love.keyboard.isScancodeDown("k") then
-				CameraY = CameraY + 1
-				CameraYAdd = CameraYAdd + 1
-				p.y = p.y - 1
-				b.y = b.y - 1
-				for i,enemy in ipairs(total_enemy) do --vacciné
-					enemy.y = enemy.y - 1
-				end
-			elseif love.keyboard.isScancodeDown("l") then
-				CameraY = CameraY + 50
-				CameraYAdd = CameraYAdd + 50
-				p.y = p.y - 50
-				b.y = b.y - 50
-				for i,enemy in ipairs(total_enemy) do --vacciné
-					enemy.y = enemy.y - 50
-				end
-			end
-		end
 		-- Evit bomb quit map
 		if b.y < 0-blockh-1 or b.x < 0-blockw-1 or b.x > 800+blockw+1 then
 			p.hasBomb = true
@@ -191,18 +171,6 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 			start_menu("menu")
 		end
 	end
-	if has_value(menus,menu) then -- menu {{{3
-
-	end
-	if debug then
-		if key=="g" then start_game() end
-		if key=="m" then start_menu("menu") end
-		if key=="o" then start_menu("game_over") end
-		if key=="c" then start_menu("credits") end
-		if key=="t" then start_menu("tuto") end
-		if key=="p" then enemy_wont_move = not(enemy_wont_move) end
-		if key=="b" then b.x = p.x; b.y = p.y; end
-	end
 end
 
 function love.draw() -- DRAWING {{{2
@@ -262,7 +230,6 @@ function love.draw() -- DRAWING {{{2
 	end
 	--CM.detach() -- CE QUI EST FIX DANS L ÉCRAN
 	if debug then -- {{{3
-		----CM.debug()
 		draw_debug()			
 	end
 	if has_value(menus,menu) then -- menu {{{3
@@ -347,7 +314,7 @@ end
 
 -- USELESS FUNCTIONS {{{2
 function debug_print(ps, txt)
-	love.graphics.print(txt, default_font,0, ps*20)
+	love.graphics.print(txt, default_font,10, ps*20+100)
 end
 
 function draw_debug()
@@ -360,21 +327,16 @@ function draw_debug()
 		debug_print(1, "player x:"..math.floor(p.x).." y:"..math.floor(p.y))
 		debug_print(2, "player dx:"..math.floor(p.dx).." dy:"..math.floor(p.dy))
 		debug_print(3, "player lx:"..(math.floor((p.x+p.w)/bl.w)+1).." ly:"..math.floor((p.y+p.h+CameraY)/bl.h)+1)
-		debug_print(4, "screenw, h: "..screenw..";"..screenh)
-		debug_print(5, "FPS: "..love.timer.getFPS())
-		debug_print(6, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
-		debug_print(7, "bomb timer:"..math.floor(b.timer * 1000)/1000)
-		debug_print(8, "bomb cooldown:"..math.floor(b.max_catch_cooldown * 1000)/1000)
-		debug_print(9, "bomb active:"..tostring(b.active))
-		debug_print(10, "collision bomb/player: "..tostring(coll_check))
-		debug_print(11, "bond : "..tostring(b.can_bounce))
-		debug_print(12, "CameraY: "..tostring(CameraY))
-		debug_print(13, "CameraYAdd: "..tostring(CameraYAdd))
-		debug_print(14, "DeletedMapBlock: "..tostring(DeletedMapBlock))
-		debug_print(15, "Vie: "..tostring(p.life))
-		debug_print(16, "test: "..tostring(test))
-		debug_print(18, "p.iframe: "..tostring(p.iframes))
-		--debug_print(19, "bomb cooldown:"..b.catch_cooldown)
+		debug_print(4, "FPS: "..love.timer.getFPS())
+		debug_print(5, "bomb x:"..math.floor(b.x).." y:"..math.floor(b.y))
+		debug_print(6, "bomb timer:"..math.floor(b.timer * 1000)/1000)
+		debug_print(7, "bomb active:"..tostring(b.active))
+		debug_print(8, "has bomb: "..tostring(p.hasBomb))
+		debug_print(9, "CameraY: "..tostring(CameraY))
+		debug_print(10, "CameraYAdd: "..tostring(CameraYAdd))
+		debug_print(11, "DeletedMapBlock: "..tostring(DeletedMapBlock))
+		debug_print(12, "Vie: "..tostring(p.life))
+		debug_print(13, "p.iframe: "..tostring(p.iframes))
 
 
 		love.graphics.setColor(255, 255, 255, 1.0)
