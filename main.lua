@@ -58,6 +58,7 @@ function love.update(dt) -- UPDATE {{{2
 	
 	if menu == 'in_game' then
 		smoke_dt = smoke_dt - dt
+		down_screen_dt = down_screen_dt + 0.3
 		in_game_timer = in_game_timer + dt
 		player_update()
 		enemy_update(dt)
@@ -80,6 +81,16 @@ function love.update(dt) -- UPDATE {{{2
 				enemy.y = enemy.y - 50
 			end
 		end
+		while down_screen_dt >= 0 do
+			down_screen_dt = down_screen_dt - 0.3
+			CameraY = CameraY + 1
+			CameraYAdd = CameraYAdd + 1
+			p.y = p.y - 1
+			b.y = b.y - 1
+			for i,enemy in ipairs(total_enemy) do --vacciné
+				enemy.y = enemy.y - 1
+			end
+		end
 		while CameraYAdd > blockh+10 do
 			CameraYAdd = CameraYAdd - blockh
 			-- Creer un element dans map
@@ -99,6 +110,10 @@ function love.update(dt) -- UPDATE {{{2
 				end
 			end
 			DeletedMapBlock = DeletedMapBlock + 1
+			-- Spawn enemies
+			if love.math.random(10)==1 then
+				spawn_enemy(love.math.random(800),1000)
+			end
 		end
 
 		-- Music
@@ -243,6 +258,12 @@ end
 function start_game()
 	color = 1
 	total_enemy = {}
+
+	-- flou a la fin
+	alcohol_level = 0
+
+	--map
+	down_screen_dt = 0.3
 
 	spawn_enemy(100,100)
 	spawn_enemy(200,100)
