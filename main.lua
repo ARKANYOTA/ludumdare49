@@ -84,7 +84,7 @@ function love.update(dt) -- UPDATE {{{2
 			-- Supprimer le premier element de la map
 			table.remove(map, 1)
 			table.insert(map, {})
-			for _ = 1, nb_block_y do
+			for _ = 1, nb_block_x do
 				rd = love.math.random(9)
 				if rd == 1 then
 					table.insert(map[#map], 1)
@@ -186,10 +186,11 @@ function love.draw() -- DRAWING {{{2
 		
 		
 		-- Draw déchiquteuise en haut de l'ecran
-		if smoke_dt < 0 then
+		if smoke_dt < 0 or true then
 			smoke_dt = 1
-			for i=1, screenw ,30 do
-				spawn_smoke(i, 10, "green")
+			for i=0, screenw ,30 do
+				love.graphics.draw(toxik_gaz, i-10, 30, (in_game_timer%(2*math.pi)) - math.pi, 0.2, 0.2, (toxik_gaz:getWidth()/2)*0.2, (toxik_gaz:getHeight()/2)*0.2)
+				--spawn_smoke(i, 10, "green")
 			end
 		end
 
@@ -251,7 +252,7 @@ function start_game()
 	bomb_create()
 	block_create()
 	in_game_timer = 0
-	map = make_blank_map(nb_block_x, nb_block_y)
+	map = make_blank_map(nb_block_y+5, nb_block_x)
 	set_map(map, 1, 0, 1)
 	set_map(map, 1, 1, 1)
 	set_map(map, 1, 4, 1)
