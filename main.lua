@@ -34,6 +34,7 @@ function love.load() -- LOAD {{{2
 	-- Menu {{{3
 	sprite_btn = love.graphics.newImage("assets/button.png"),
 	start_menu('menu') -- valeurs possibles menu,in_game, pause, game_over
+
 	in_game_timer = 0
 	global_timer = 0
 	load_credits()
@@ -127,7 +128,7 @@ function love.mousepressed( x, y, button, istouch, presses )
 	end
 end
 
-function love.mousemoved( x, y, dx, dy, istouch )
+function love.mousemoved(x, y, dx, dy, istouch)
 	if has_value(menus,menu) then
 		update_buttons(0, x, y)
 	end
@@ -177,7 +178,6 @@ function love.draw() -- DRAWING {{{2
 		draw_bomb()
 		for _,enemy in ipairs(total_enemy) do  --vacciné
 			draw_enemy(enemy)
-			test = enemy.x
 		end
 		player_cursor()
 
@@ -301,6 +301,8 @@ function draw_debug()
 		debug_print(14, "DeletedMapBlock: "..tostring(DeletedMapBlock))
 		debug_print(15, "Vie: "..tostring(p.life))
 		debug_print(16, "test: "..tostring(test))
+		debug_print(18, "p.iframe: "..tostring(p.iframes))
+
 
 		love.graphics.setColor(255, 255, 255, 1.0)
 		for i,v in ipairs(map) do
