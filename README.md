@@ -12,11 +12,11 @@ It's a game for Ludum dare 49, GameJam.
 - macos : not test, not have mac
 - lovejs : dosent works on devs computers
 
+Linux: download the .AppImage, then run: `chmod 755 ./OctoBoom.AppImage`, then run `./OctoBoom.AppImage`
+
 Windows: unzip “OctoBoom-win32.zip” or “OctoBoom-win64.zip” and run “Octoboom.exe”
 
 MacOS: (MacOS version may not work as we have not tested it)
-
-Linux: download the .AppImage, then run: `chmod 755 ./OctoBoom.AppImage`, then run `./OctoBoom.AppImage`
 
 Löve: Install it, then execute `love OctoBoom.love` or drop it on love executable.
 
