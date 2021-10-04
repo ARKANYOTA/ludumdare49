@@ -332,6 +332,7 @@ function start_game()
 	set_map(map, 1, 4, 1)
 	menu = 'in_game'
 	--CM.update(0)
+	dead_way = nil
 	
 	-- Music
 	music_calm:play()
