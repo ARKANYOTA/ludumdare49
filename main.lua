@@ -21,6 +21,9 @@ function love.load() -- LOAD {{{2
 	--CM.setCoords(ww/2, wh/2)
 	button_width = ww * (1/3)
 	margin = 16
+	
+	-- Window
+	love.window.setTitle("Ludum Dare 49") --TODO: PLEASE CHANGE
 
 	-- Proper font scaling
 	font = love.graphics.newFont(15, "none", 3)
@@ -44,7 +47,6 @@ function love.load() -- LOAD {{{2
 	enemy_wont_move = true
 
 	-- Smoke
-	--
 	smoke_dt = 1
 end
 
@@ -219,6 +221,8 @@ function draw_gui()
 			love.graphics.draw(img_heart_empty, i*w, 20, 0, 0.2)
 		end
 	end
+
+	love.graphics.print(p.score, screenw - 50, 20)
 end
 
 -- Function {{{1

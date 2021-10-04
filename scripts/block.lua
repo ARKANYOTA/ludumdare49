@@ -29,7 +29,7 @@ function block_draw()--{{{2
 				local texture = sand1
 				if block == 0 then
 					texture = sand2
-				elseif block == 1 then
+				elseif block == 2 then
 					texture = sand3
 				end
 				love.graphics.draw(texture, (x-1)* bl.w, (y-1)*bl.h-CameraY+DeletedMapBlock*blockh, 0, bl.scale_y, bl.scale_y)
