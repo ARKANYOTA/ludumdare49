@@ -223,6 +223,7 @@ function love.draw() -- DRAWING {{{2
 		end
 		
 		
+
 		-- Draw toxic gas
 		if smoke_dt < 0 or true then
 			smoke_dt = 1
@@ -275,6 +276,8 @@ function draw_gui()
 	love.graphics.setFont(game_font_medium)
 	love.graphics.print(p.score, screenw + 50, 20)
 	love.graphics.setFont(game_font_medium)
+	-- afficher lescore
+	love.graphics.print("Score : "..p.score, 10,0)
 end
 
 -- Function {{{1
