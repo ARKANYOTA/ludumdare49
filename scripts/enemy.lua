@@ -5,10 +5,10 @@ function enemy_create(sprite,pos,speed,size)-- vacciné
 		y= pos.y,
 		dx = 0,
 		dy = 0,
-		speed = 3,
+		speed = 30,
 		sprite = love.graphics.newImage("assets/enemy_potato_1.png"),
 		sprite_flash = love.graphics.newImage("assets/enemy_potato_1_white.png"),
-		speed = speed,
+		speed = 30,
 		scale_x = 0.25,
 		scale_y = 0.25,
 		angle = 0,
@@ -57,14 +57,14 @@ function enemy_update(dt) -- vacciné
 		if enemy.hp > 0 then
 			if enemy_wont_move == true then
 				local dx, dy = move_toward_player(enemy.x, enemy.y, enemy.speed, dt)
-				enemy.dx = enemy.dx * enemy.speed
-				enemy.dy = enemy.dy * enemy.speed
+				enemy.dx = dx
+				enemy.dy = dy
 				-- Apply movement
-				enemy.x = enemy.x + enemy.dx
-				enemy.y = enemy.y + enemy.dy
+				enemy.x = enemy.x + enemy.dx * dt
+				enemy.y = enemy.y + enemy.dy * dt
 			else
-				enemy.dx = 0
-				enemy.dy = 0
+				--enemy.dx = 0
+				--enemy.dy = 0
 			end
 		else 
 			table.remove(total_enemy, i)
