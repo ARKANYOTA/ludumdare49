@@ -275,7 +275,7 @@ end
 
 -- USELESS FUNCTIONS {{{2
 function debug_print(ps, txt)
-	love.graphics.print(txt, 0, ps*20)
+	love.graphics.print(txt, default_font,0, ps*20)
 end
 
 function draw_debug()
@@ -308,7 +308,7 @@ function draw_debug()
 		for i,v in ipairs(map) do
 			--lllig= ""
 		  	for j,u in ipairs(v) do
-				love.graphics.print(tostring(u), (j-1)* blockw, (i-1)*blockw-CameraYAdd)
+				love.graphics.print(tostring(u),default_font,(j-1)* blockw, (i-1)*blockw-CameraYAdd)
 				--lllig = lllig..tostring(u)
 			end
 			--print(lllig)
