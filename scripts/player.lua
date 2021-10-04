@@ -62,9 +62,10 @@ function bomb_create()--{{{2
 		y = 300,
 		dx = 0,
 		dy = 0,
+		i = 1,
 
 		timer = 0, -- In seconds
-		max_timer = 6,
+		max_timer = 60,
 		active = false,
 
 		sprite = love.graphics.newImage("assets/bomb.png"),
@@ -78,6 +79,8 @@ function bomb_create()--{{{2
 		throwspeed = 600,
 		catch_cooldown = 0,
 		max_catch_cooldown = 0.5,
+		coeff_augmentation = 1.01, --1.1,
+		coeff_augmentationtime = 0.005,
 		
 		beep_timer = 0,
 		beep_pitch = 1,
@@ -217,7 +220,8 @@ end
 function player_get_bomb() -- si collision, bomb s'accroche au mec --{{{2
 	if collision(p.x, p.y, p.w, p.h, b.x, b.y, b.w, b.h) == true and b.catch_cooldown <= 0 then
 		p.hasBomb = true
-		p.coeff_score = 1 --reset le combo
+		p.coeff_score = 1
+		b.i = 1 --reset le combo
 	end
 end
 
@@ -249,14 +253,14 @@ function update_bomb(dt)
 		local nexty = b.y + b.dy * dt
 		local bounce = false 
 		if is_solid_rect(map, nextx/bw, (b.y + CameraY)/bw,   b.w/bw, b.h/bw) then
-			b.dx = -b.dx
+			b.dx = -b.dx*b.coeff_augmentation
 			bounce = true
 
 			p.coeff_score = p.coeff_score + 0.5
 			test = b.dy
 		end
 		if is_solid_rect(map, b.x/bw,   (nexty + CameraY)/bw, b.w/bw, b.h/bw) then
-			b.dy = -b.dy
+			b.dy = -b.dy*b.coeff_augmentation
 			bounce = true
 
 			p.coeff_score = p.coeff_score + 0.5
@@ -269,8 +273,8 @@ function update_bomb(dt)
 		--Damage enemies with bomb
 		for i , enemy in ipairs(total_enemy) do 
 			if collision(enemy.x,enemy.y,enemy.w,enemy.h,b.x,(b.y),b.w,b.h) == true and b.can_bounce == true then
-				b.dx = -b.dx
-				b.dy = -b.dy
+				b.dx = -b.dx*b.coeff_augmentation
+				b.dy = -b.dy*b.coeff_augmentation
 				b.can_bounce = false
 				enemy.hp = enemy.hp - 1
 				p.score = p.score + 50*p.coeff_score
@@ -291,8 +295,9 @@ function update_bomb(dt)
 			end
 		end
 		-- Apply movement 
-		b.x = b.x + b.dx * dt
-		b.y = b.y + b.dy * dt
+		b.i = b.i + b.coeff_augmentationtime
+		b.x = b.x + b.dx * dt * b.i
+		b.y = b.y + b.dy * dt * b.i
 
 	
 
