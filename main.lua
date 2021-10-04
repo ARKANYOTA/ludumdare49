@@ -46,6 +46,15 @@ function love.load() -- LOAD {{{2
 	coll_check = false
 
 	gas_puffs = {}
+	for i=0, screenw ,30 do
+		table.insert(gas_puffs, {
+			x = i, 
+			y = 0, 
+			s = (love.math.random() + 1) * 0.2, 
+			r = love.math.random() * 2*math.pi, 
+			dr= (love.math.random() - 0.5) * 0.1
+	})
+	end
 	
 	-- Debug
 	enemy_wont_move = true
@@ -125,6 +134,11 @@ function love.update(dt) -- UPDATE {{{2
 		else
 			music_calm:setVolume(0.2)
 			music_tense:setVolume(0)
+		end
+
+		-- Gas puffs
+		for i,v in ipairs(gas_puffs) do
+			v.r = v.r + v.dr
 		end
 	else
 		music_calm:setVolume(0)
@@ -206,8 +220,8 @@ function love.draw() -- DRAWING {{{2
 		-- Draw toxic gas
 		if smoke_dt < 0 or true then
 			smoke_dt = 1
-			for i=0, screenw ,30 do
-				love.graphics.draw(toxic_gas, i, 5, (in_game_timer%(2*math.pi)) - math.pi, 0.2, 0.2, toxic_gas:getWidth()*0.5, toxic_gas:getHeight()*0.5)
+			for i,v in ipairs(gas_puffs) do
+				love.graphics.draw(toxic_gas, v.x, v.y, v.r, v.s, v.s, toxic_gas:getWidth()*v.s, toxic_gas:getHeight()*v.s)
 				--spawn_smoke(i, 10, "green")
 			end
 		end
