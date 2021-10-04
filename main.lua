@@ -21,6 +21,8 @@ function love.load() -- LOAD {{{2
 	--CM.setCoords(ww/2, wh/2)
 	button_width = ww * (1/3)
 	margin = 16
+	flashalpha = 0
+	flashalpha_speed = 2
 	
 	-- Window
 	love.window.setTitle("Ludum Dare 49") --TODO: PLEASE CHANGE
@@ -43,8 +45,6 @@ function love.load() -- LOAD {{{2
 	particles = {}
 	coll_check = false
 	
-	-- Map
-
 	-- Debug
 	enemy_wont_move = true
 
@@ -218,14 +218,14 @@ function draw_gui()
 	for i=1, p.max_life do
 		local w = img_heart:getWidth()*0.2 + 10
 		if i <= p.life then
-			love.graphics.draw(img_heart,       i*w, 20, 0, 0.2)
+			love.graphics.draw(img_heart,       screenw-i*w, 20, 0, 0.2)
 		else
-			love.graphics.draw(img_heart_empty, i*w, 20, 0, 0.2)
+			love.graphics.draw(img_heart_empty, screenw-i*w, 20, 0, 0.2)
 		end
 	end
 
 	love.graphics.setFont(game_font_medium)
-	love.graphics.print(p.score, screenw - 50, 20)
+	love.graphics.print(p.score, screenw + 50, 20)
 	love.graphics.setFont(game_font_medium)
 end
 

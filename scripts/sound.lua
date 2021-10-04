@@ -1,5 +1,6 @@
-function play_random_pitch(snd)
-    snd:setPitch(love.math.random() + 1)
+function play_random_pitch(snd, delta)
+    delta = delta or 0.5
+    snd:setPitch(1 + (love.math.random()-0.5)*delta)
     snd:play()
 end
 
@@ -10,6 +11,7 @@ snd_bombbeep = love.audio.newSource("assets/sound/bomb_beep.mp3", "static") --ht
 snd_bombboom = love.audio.newSource("assets/sound/explosion.mp3", "static") --https://freesound.org/people/Iwiploppenisse/sounds/156031/
 snd_enemydamage = love.audio.newSource("assets/sound/enemy_damage.wav", "static") --https://freesound.org/people/Deathscyp/sounds/404109/
 snd_enemydamage:setVolume(0.5)
+snd_playerdamage = love.audio.newSource("assets/sound/player_hurt.mp3", "static") --https://freesound.org/people/nettoi/sounds/553285/
 
 music_calm = love.audio.newSource("assets/sound/music_calm.wav", "stream")
 music_tense = love.audio.newSource("assets/sound/music_tense.wav", "stream")

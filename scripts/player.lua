@@ -48,6 +48,9 @@ function player_create() -- {{{2
 
 			active = false,
 		},
+
+		vignette_sprite = love.graphics.newImage("assets/damage_vignette.png"),
+		vignette_alpha = 0,
 	}
 	p.w = p.sprite:getWidth() * p.scale_x
 	p.h = p.sprite:getHeight() * p.scale_y
@@ -74,7 +77,7 @@ function bomb_create()--{{{2
 
 		throwspeed = 300,
 		catch_cooldown = 0,
-		max_catch_cooldown = 1,
+		max_catch_cooldown = 0.5,
 		
 		beep_timer = 0,
 		beep_pitch = 1,
@@ -102,10 +105,15 @@ function player_update()
 					--color = 0
 					p.life = p.life - 1
 					p.iframes = p.max_iframes
+
+					p.vignette_alpha = 1
+					play_random_pitch(snd_playerdamage, 0.5)
 				end
 			end
 		end
 	end
+	p.vignette_alpha = p.vignette_alpha - dt*1
+
 	p.iframes = p.iframes - dt
 	if p.life <= 0 or p.y < 10 then
 		start_menu("game_over")
@@ -164,9 +172,10 @@ function player_movement(dt) --{{{2
 end
 
 function draw_player()--{{{2
-	love.graphics.setColor(color,color,color)
 	love.graphics.draw(p.sprite, p.x, p.y, 0, p.scale_x, p.scale_y)
-	love.graphics.setColor(0,0,0)
+	love.graphics.setColor(1,1,1, p.vignette_alpha)
+	love.graphics.draw(p.vignette_sprite, 0, 0)
+	love.graphics.setColor(1,1,1,1)
 end
 
 function player_cursor(dt) -- {{{2
