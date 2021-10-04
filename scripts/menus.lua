@@ -208,6 +208,10 @@ function draw_menu()
 	elseif menu == "tuto" then
 		draw_tuto()
 	else
+
+		if menu == "game_over" then --TODO
+			love.graphics.print(dead_way, 200, 70)
+		end
 		draw_buttons()
 	end
 end
