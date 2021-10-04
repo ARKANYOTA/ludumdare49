@@ -87,6 +87,13 @@ function bomb_create()--{{{2
 		isred = false,
 	}
 	b.w, b.h  = b.sprite:getWidth() * b.scale_x, b.sprite:getHeight() * b.scale_y
+	b.coll = {
+		x = 0,
+		y = 0,
+		w = 0,
+		h = 0,
+	}
+	
 	--b.h =sprite:getHeight() 
 end
 
@@ -159,16 +166,23 @@ function player_movement(dt) --{{{2
 	end
 
 	local bw = blockw
-	if is_solid_rect(map, nextx/bw, (p.y + CameraY)/bw,   p.w/bw, p.h/bw) then 
+	--FIXME: stuck in walls
+	local coll_x = is_solid_rect(map, nextx/bw, (p.y + CameraY)/bw,   p.w/bw, p.h/bw)
+	local coll_y = is_solid_rect(map, p.x/bw,   (nexty + CameraY)/bw, p.w/bw, p.h/bw)
+	if coll_x then 
 		p.dx = 0
 	end
-	if is_solid_rect(map, p.x/bw,   (nexty + CameraY)/bw, p.w/bw, p.h/bw) then
+	if coll_y then
 		p.dy = 0
 	end
 
 	-- Apply movement
 	p.x = p.x + p.dx * dt
 	p.y = p.y + p.dy * dt
+
+	if math.abs(p.x) > 0 or math.abs(p.y) > 0 then
+
+	end
 end
 
 function draw_player()--{{{2
@@ -266,7 +280,6 @@ function update_bomb(dt)
 				test = p.dy
 				b.throwspeed = b.throwspeed + 20
 			
-				
 				-- Knockback
 				local direction = math.atan2(b.dy, b.dx)
 				enemy.dx = math.cos(direction) * enemy.knockback
