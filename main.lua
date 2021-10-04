@@ -21,6 +21,9 @@ function love.load() -- LOAD {{{2
 	CM.setCoords(ww/2, wh/2)
 	button_width = ww * (1/3)
 	margin = 16
+	
+	-- Window
+	love.window.setTitle("Ludum Dare 49") --TODO: PLEASE CHANGE
 
 	-- Proper font scaling
 	font = love.graphics.newFont(15, "none", 3)
@@ -42,6 +45,7 @@ function love.load() -- LOAD {{{2
 
 	-- Debug
 	enemy_wont_move = true
+
 end
 
 function love.update(dt) -- UPDATE {{{2

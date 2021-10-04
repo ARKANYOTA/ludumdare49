@@ -241,12 +241,15 @@ function update_bomb(dt)
 		-- marque temp
 		--Damage enemy
 		for i , enemy in ipairs(total_enemy) do 
-			if collision(enemy.x,enemy.y,enemy.w,enemy.h,b.x,(b.y),b.w,b.h) == true and b.can_bounce == true
-			then
+			if collision(enemy.x,enemy.y,enemy.w,enemy.h,b.x,(b.y),b.w,b.h) == true and b.can_bounce == true then
 				b.dx = -b.dx
 				b.dy = -b.dy
 				b.can_bounce = false
 				enemy.hp = enemy.hp - 1
+				
+				local direction = math.atan2(b.dy, b.dx)
+				enemy.dx = math.cos(direction) * enemy.knockback
+				enemy.dy = math.sin(direction) * enemy.knockback
 				play_random_pitch(snd_enemydamage)
 			elseif math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - (b.y)) > enemy.h+40 then
 				b.can_bounce = true

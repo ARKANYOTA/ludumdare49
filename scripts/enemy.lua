@@ -3,11 +3,14 @@ function enemy_create(sprite,pos,speed,size)-- vacciné
 		hp = 3,
 		x = pos.x,
 		y= pos.y,
+		dx = 0,
+		dy = 0,
 		sprite = love.graphics.newImage("assets/enemy_potato_1.png"),
 		speed = speed,
 		scale_x = 0.25,
 		scale_y = 0.25,
-		angle = 0
+		angle = 0,
+		knockback = 4,
 	}
 	enemy.w, enemy.h  = enemy.sprite:getWidth()*enemy.scale_x, enemy.sprite:getHeight() * enemy.scale_y
 	return enemy
@@ -19,16 +22,18 @@ function draw_enemy(enemy)-- vacciné
 	end
 end
 
-function move_toward_player(x,y,speed,dt)-- vacciné
-	local dx,dy = x - p.x, y-p.y
-	local distance = math.sqrt(dx^2+dy^2)
+function move_toward_player(x,y,speed,dt) -- vacciné
+	local dx, dy = x - p.x, y - p.y
+	
+	-- Désolé guillaume!
+	--[[local distance = math.sqrt(dx^2+dy^2)
 	if p.x < x + y/200 or p.x > x + y/10 then
 		x = x - dx/distance * y * dt
 	end
 	if p.y < y - y/200 or p.y > y + y/10 then
 		y = y - dy/distance * y * dt 
 	end
-	return x,y
+	return x,y]]
 end
 
 function enemy_update(dt) -- vacciné
@@ -36,13 +41,14 @@ function enemy_update(dt) -- vacciné
 		--enemy.hp = 3
 		if enemy.hp > 0 then
 			if enemy_wont_move == true then
-				enemy.x,enemy.y = move_toward_player(enemy.x,enemy.y,enemy.speed,dt)
+				enemy.dx,enemy.dy = move_toward_player(enemy.x,enemy.y,enemy.speed,dt)
 			end
 		else 
 			enemy.x = 0
 			enemy.y = 0
-
 		end
+		enemy.x = enemy.x + enemy.dx
+		enemy.y = enemy.y + enemy.dy
 	end
 end
 
