@@ -34,7 +34,7 @@ function love.load() -- LOAD {{{2
 	font = game_font_small_light
 
 	-- Menu {{{3
-	sprite_btn = love.graphics.newImage("assets/button.png"),
+	sprite_btn = love.graphics.newImage("assets/button2.png"),
 	start_menu('menu') -- valeurs possibles menu,in_game, pause, game_over
 
 	in_game_timer = 0

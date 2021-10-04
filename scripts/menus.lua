@@ -210,7 +210,7 @@ function draw_menu()
 	else
 
 		if menu == "game_over" then --TODO
-			love.graphics.print(dead_way, 200, 70)
+			love.graphics.print(dead_way, 20, 70)
 		elseif menu == "menu" then
 			love.graphics.draw(logo, 0, 0)
 		end
