@@ -61,7 +61,7 @@ function bomb_create()--{{{2
 		dy = 0,
 
 		timer = 0, -- In seconds
-		max_timer = 6,
+		max_timer = 4,
 		active = false,
 
 		sprite = love.graphics.newImage("assets/bomb.png"),
