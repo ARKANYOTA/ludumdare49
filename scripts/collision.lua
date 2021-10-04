@@ -62,7 +62,7 @@ function is_solid(map, x, y)
 	y = y - DeletedMapBlock
     if (x < 0) or (nb_block_x < x) or (y < 0) or (nb_block_y < y) then
         return true
-    end 
+    end
 	return get_map(map, x, y) == 1
 end
 

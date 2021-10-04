@@ -1,6 +1,6 @@
 debug = false
 BUTTON_HEIGHT = 64
-blockw = 80
+blockw = 50
 blockh = blockw
 nb_block_x = 800/blockw
 nb_block_y = 30 

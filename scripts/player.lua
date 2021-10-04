@@ -20,8 +20,8 @@ function player_create() -- {{{2
 		bounce = 0.6,
 
 		sprite = love.graphics.newImage("assets/player01.png"),
-		scale_x = 0.2,
-		scale_y = 0.2,
+		scale_x = 0.15,
+		scale_y = 0.15,
 
 		bomb = b,
 		hasBomb = true,
@@ -165,7 +165,6 @@ function player_movement(dt) --{{{2
 end
 
 function draw_player()--{{{2
-
 	love.graphics.setColor(color,color,color)
 	love.graphics.draw(p.sprite, p.x, p.y, 0, p.scale_x, p.scale_y)
 	love.graphics.setColor(0,0,0)
@@ -239,7 +238,7 @@ function update_bomb(dt)
 		end
 		-- si plusieurs enemy, faire for i in enemy
 		-- marque temp
-		--Damage enemy
+		--Damage enemies with bomb
 		for i , enemy in ipairs(total_enemy) do 
 			if collision(enemy.x,enemy.y,enemy.w,enemy.h,b.x,(b.y),b.w,b.h) == true and b.can_bounce == true then
 				b.dx = -b.dx
@@ -247,10 +246,13 @@ function update_bomb(dt)
 				b.can_bounce = false
 				enemy.hp = enemy.hp - 1
 				
+				-- Knockback
 				local direction = math.atan2(b.dy, b.dx)
 				enemy.dx = math.cos(direction) * enemy.knockback
 				enemy.dy = math.sin(direction) * enemy.knockback
 				play_random_pitch(snd_enemydamage)
+				
+				enemy.flashtimer = enemy.max_flashtimer
 			elseif math.abs(enemy.x - b.x) > enemy.w+40 or math.abs(enemy.y - (b.y)) > enemy.h+40 then
 				b.can_bounce = true
 			end

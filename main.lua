@@ -208,6 +208,8 @@ function draw_gui()
 			love.graphics.draw(img_heart_empty, i*w, 20, 0, 0.2)
 		end
 	end
+
+	love.graphics.print(p.score, screenw - 50, 20)
 end
 
 -- Function {{{1
