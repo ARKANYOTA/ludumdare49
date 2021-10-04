@@ -233,7 +233,14 @@ function love.draw() -- DRAWING {{{2
 				--spawn_smoke(i, 10, "green")
 			end
 		end
-
+		--all_hit
+		for i,hit in ipairs(all_hit) do
+			love.graphics.print(hit.txt, hit.x, hit.y)
+			hit.dt = hit.dt - 0.16
+			if hit.dt < 0 then
+				table.remove(all_hit, i)
+			end
+		end
 		--zombie life bar
 		for i,enemy in ipairs(total_enemy) do --vacciné
 			love.graphics.setColor(0,0,0,1)
@@ -298,6 +305,13 @@ function start_game()
 	-- flou a la fin
 	alcohol_level = 0
 
+	--hit
+	all_hit = {
+		--x: b.x + random
+		--y: b.y + random
+		--dt: 3
+	}
+
 	--map
 	down_screen_dt = 0.3
 
@@ -359,6 +373,7 @@ function draw_debug()
 		debug_print(15, "Vie: "..tostring(p.life))
 		debug_print(16, "test: "..tostring(test))
 		debug_print(18, "p.iframe: "..tostring(p.iframes))
+		--debug_print(19, "bomb cooldown:"..b.catch_cooldown)
 
 
 		love.graphics.setColor(255, 255, 255, 1.0)

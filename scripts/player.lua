@@ -277,6 +277,8 @@ function update_bomb(dt)
 				enemy.hp = enemy.hp - 1
 				p.score = p.score + 50*p.coeff_score
 				p.coeff_score = p.coeff_score + 1
+				table.insert(all_hit, {x = b.x + love.math.random(8)-4, y = b.y+ love.math.random(8)-4, dt = 4, txt = "HIT"})
+
 				test = p.dy
 				b.throwspeed = b.throwspeed + 20
 			
