@@ -65,8 +65,8 @@ function bomb_create()--{{{2
 		active = false,
 
 		sprite = love.graphics.newImage("assets/bomb.png"),
-		scale_x = 0.1,
-		scale_y = 0.1,
+		scale_x = 0.08,
+		scale_y = 0.08,
         redshift = 0,
         r = 0,
         dr = 1,
@@ -103,12 +103,10 @@ function player_update()
 					p.life = p.life - 1
 					p.iframes = p.max_iframes
 				end
-
-				p.iframes = p.iframes - dt
 			end
-		
 		end
 	end
+	p.iframes = p.iframes - dt
 	if p.life <= 0 or p.y < 10 then
 		start_menu("game_over")
 	end

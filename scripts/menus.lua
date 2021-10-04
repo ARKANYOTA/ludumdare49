@@ -32,10 +32,29 @@
 |-----------------------------------------------------------|
 --]]
 
+require "scripts/font"
+
+function hexcol(hex)
+    local r = bit.rshift(hex, 16)
+    local g = bit.rshift(hex, 8) % 256
+    local b =            hex     % 256 
+    return {r/255, g/255, b/255}
+end
+
+col_beige = hexcol(0xeec39a)
+col_dbeige = hexcol(0xd9a066)
+col_lbrown = hexcol(0x8f563b)
+col_brown = hexcol(0x663931)
+col_dark_purple = hexcol(0x45283c)
+col_dblue = hexcol(0x222034)
+
 function load_credits()
-	game_over_font_70 = love.graphics.newFont("fonts/game_over.ttf", 70)
-	game_over_font_90 = love.graphics.newFont("fonts/game_over.ttf", 90)
-	game_over_font_120 = love.graphics.newFont("fonts/game_over.ttf", 200)
+	--[[
+	game_over_font_small = love.graphics.newFont("fonts/game_over.ttf", 70)
+	game_over_font_medium = love.graphics.newFont("fonts/game_over.ttf", 90)
+	game_over_font_big = love.graphics.newFont("fonts/game_over.ttf", 200)
+]]
+
 	nb_categories = 4
 	nb_contributors = 7
 	contributors = {
@@ -43,39 +62,40 @@ function load_credits()
 		{
 			{
 				{"Arkanyota", "Maxim-Costa", "Yolwoocle", "Notgoyome"},
-				{"#Arkanyota","#Maxim-Costa","#Yolwoocle","#Yauyau123"}
+				{"@Arkanyota","@Maxim-Costa","@Yolwoocle","@Yauyau123"}
 			},
 			{
 				{"Poulpito_GDL", "Yolwoocle"},
-				{"#Poulpito_GD", "#Yolwoocle"}
+				{"@PoulpitoGDL", "@Yolwoocle"}
 			},
 			{
 				{"Pierre"},
-				{"#..."}
+				{"@..."}
 			},
 			{
 				{"Antoine"},
-				{"#..."}
+				{"@..."}
 			}
 		}
 	}
 	controls = {
-		move_player = "wasd_en and zqsd_fr or arrow",
-		pause = "escape",
-		shoot = "mouse left click",
-		aim = "mouse",
+		Move = "WASD or arrow keys",
+		Pause = "escape",
+		Shoot = "mouse left click",
+		Aim = "mouse",
 	}
 end
 
 function credit_print(hx, ps, txt, txt2)
 	-- hx for h1-6 and is a int
 	-- local nb_lignes = nb_categories + nb_contributors -- pour center
-	love.graphics.print({{244, 0, 0, 1}, txt}, game_over_font_90,hx*50+10, ps*40+100)
-	love.graphics.print({{244, 0, 0, 0.5}, txt2}, game_over_font_70,400, ps*40+110)
+	love.graphics.print({hexcol(0x663931), txt}, game_font_medium,hx*50+10, ps*40+100) --brown
+	love.graphics.print({hexcol(0x8f563b), txt2}, game_font_medium_light,400, ps*40+100) --lbrown
 end
 
 function draw_credits()
-	love.graphics.print({{244, 0, 0, 1}, "Credits"}, game_over_font_120,250, 0)
+	love.graphics.setBackgroundColor(hexcol(0xeec39a)) -- beige
+	love.graphics.print({hexcol(0x45283c), "Credits"}, game_font_big,250, 0) -- dark purple
 	local ligne = 0
 	for i, u in pairs(contributors[1]) do
 		credit_print(1, ligne, u, "")
@@ -89,33 +109,46 @@ function draw_credits()
 	end
 end
 function draw_tuto()
-	love.graphics.print({{244, 0, 0, 1}, "Tuto"}, game_over_font_120,250, 0)
+	love.graphics.setBackgroundColor(hexcol(0xeec39a)) -- beige
+	love.graphics.print({col_dark_purple, "Help"}, game_font_big,320, 20)
 	local ligne = 0
 	for i, u in pairs(controls) do
-		love.graphics.print({{244, 0, 0, 1}, i}, game_over_font_90,100, 30*ligne+100)
-		love.graphics.print({{244, 0, 0, 0.5}, u}, game_over_font_70,350, 30*ligne+120)
+		love.graphics.print({col_brown, i}, game_font_medium,100, 40*ligne+250)
+		love.graphics.print({col_lbrown, u}, game_font_small,350, 40*ligne+265)
 		ligne = ligne + 1
+	end
+	local text = {
+		"Your bomb is your weapon. Throw it on enemies, and catch it ",
+		"before it explodes. The longer you let it fly, the more damage",
+		"it'll cause, but this is at your own risk.",
+	}
+	for i,v in ipairs(text) do
+		love.graphics.print({col_brown, v}, 50, 40*i+85)
 	end
 end
 
 
 function start_menu(m)
-	love.mouse.setVisible(true)
+	love.graphics.setBackgroundColor(hexcol(0xeec39a)) --beige
+	love.mouse.setVisible(true) 
 	for i, _ in ipairs(buttons) do buttons[i] = nil end
 	menu = m
 	if menu =='menu'then
+		love.graphics.setBackgroundColor(hexcol(0xeec39a)) --beige
 		table.insert(buttons, newButton("Start Game", start_game))
 		table.insert(buttons, newButton("Help", function() start_menu("tuto") end))
 		table.insert(buttons, newButton("Credits", function() start_menu("credits") end))
 		table.insert(buttons, newButton("Ragequit", function() love.event.quit(0) end))
 	end
 	if menu =='game_over' then
+		love.graphics.setBackgroundColor(col_dbeige) --lbrown
 		table.insert(buttons, newButton("Restart", start_game))
 		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
 		--table.insert(buttons, newButton("principal", start_game))
-		table.insert(buttons, newButton("Rage quit", function() love.event.quit(0) end))
+		table.insert(buttons, newButton("Ragequit", function() love.event.quit(0) end))
 	end
 	if menu =='pause' then
+		love.graphics.setBackgroundColor(col_dbeige) --lbrown
 		table.insert(buttons, newButton("Continuer", continue_game))
 		table.insert(buttons, newButton("Home", function() start_menu("menu") end))
 		table.insert(buttons, newButton("Ragequit", function() love.event.quit(0) end))
@@ -144,9 +177,9 @@ end
 
 function draw_buttons()
 	if menu == "game_over" then
-		love.graphics.print({{244, 0, 0, 1}, "Game Over!"}, game_over_font_120,200, 0)
-		love.graphics.print({{244, 0, 0, 0.7}, "score : "..p.score}, game_over_font_90,200, 100)
-		love.graphics.print({{244, 0, 0, 0.7}, "highscore : "..p.max_score}, game_over_font_90,200, 130)
+		love.graphics.print({col_dark_purple, "Game Over!"}, game_font_big, 230, 0)
+		love.graphics.print({col_brown, "Score : "..p.score}, game_font_medium,200, 90)
+		love.graphics.print({col_brown, "Highscore : "..p.max_score}, game_font_medium,200, 130)
 	end
 	local total_height = (BUTTON_HEIGHT + margin) * #buttons
 	local cursor_y = 0
@@ -156,10 +189,11 @@ function draw_buttons()
 		local bx = (ww / 2) - (button_width / 2)
 		local by = (wh / 2) - (total_height / 2) + cursor_y
 		
+		love.graphics.setFont(game_font_small)
 		love.graphics.setColor(unpack(button.color))
 		--love.graphics.rectangle("fill", bx, by, button_width, BUTTON_HEIGHT)
 		love.graphics.draw(sprite_btn, bx, by+5)
-		love.graphics.setColor(0, 0, 0, 1)
+		love.graphics.setColor(1, 1, 1, 1)
 		local textW = font:getWidth(button.text)
 		local textH = font:getHeight(button.text)
 		love.graphics.print(button.text, font, (ww * 0.5) - textW * 0.5, by + textH * 0.5)
