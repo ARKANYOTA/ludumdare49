@@ -240,7 +240,6 @@ function throw_bomb()
 end
 
 function update_bomb(dt)
-	local throwspeed_save = b.throwspeed
 	b.catch_cooldown = math.max(b.catch_cooldown - dt, 0)
 	b.timer = math.max(b.timer - dt, 0)
 	b.active = not p.hasBomb
@@ -252,14 +251,13 @@ function update_bomb(dt)
 		if is_solid_rect(map, nextx/bw, (b.y + CameraY)/bw,   b.w/bw, b.h/bw) then
 			b.dx = -b.dx
 			bounce = true
-			b.throwspeed = b.throwspeed + 20
+
 			p.coeff_score = p.coeff_score + 0.5
 			test = b.dy
 		end
 		if is_solid_rect(map, b.x/bw,   (nexty + CameraY)/bw, b.w/bw, b.h/bw) then
 			b.dy = -b.dy
 			bounce = true
-			b.throwspeed = b.throwspeed + 20
 
 			p.coeff_score = p.coeff_score + 0.5
 			test = p.dy
@@ -280,7 +278,6 @@ function update_bomb(dt)
 				table.insert(all_hit, {x = b.x + love.math.random(8)-4, y = b.y+ love.math.random(8)-4, dt = 4, txt = "HIT"})
 
 				test = p.dy
-				b.throwspeed = b.throwspeed + 20
 			
 				-- Knockback
 				local direction = math.atan2(b.dy, b.dx)
@@ -335,7 +332,6 @@ function update_bomb(dt)
 		b.max_beep_timer = b.default_max_beep_timer
 		b.beep_pitch = 1
 		b.isred = false
-		b.throwspeed = throwspeed_save
 	end
 	
 end
