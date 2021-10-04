@@ -5,6 +5,7 @@ It's a game for Ludum dare 49, GameJam.
 
 ## Download
 
+- https://github.com/ARKANYOTA/ludumdare49/releases/tag/Download
 - linux, windows, love : works
 - macos : not test, not have mac
 - lovejs : dosent works on devs computers
