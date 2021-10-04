@@ -8,7 +8,7 @@ require "scripts/player"
 require "scripts/enemy"
 require "scripts/block"
 require "scripts/constants"
-CM = require "lib.CameraMgr".newManager()
+--CM = require "lib.CameraMgr".newManager()
 
 -- EVENTS{{{1
 function love.load() -- LOAD {{{2
@@ -18,7 +18,7 @@ function love.load() -- LOAD {{{2
 	ww = love.graphics.getWidth()
 	wh = love.graphics.getHeight()
 	CameraY = 0
-	CM.setCoords(ww/2, wh/2)
+	--CM.setCoords(ww/2, wh/2)
 	button_width = ww * (1/3)
 	margin = 16
 	
@@ -47,17 +47,21 @@ function love.load() -- LOAD {{{2
 	-- Debug
 	enemy_wont_move = true
 
+	-- Smoke
+	smoke_dt = 1
 end
 
 function love.update(dt) -- UPDATE {{{2
-	CM.update(dt)
+	--CM.update(dt)
 	global_timer = global_timer + dt
 	
 	if menu == 'in_game' then
+		smoke_dt = smoke_dt - dt
 		in_game_timer = in_game_timer + dt
 		player_update()
 		enemy_update(dt)
 
+		-- TODO
 		if love.keyboard.isScancodeDown("k") then
 			CameraY = CameraY + 1
 			CameraYAdd = CameraYAdd + 1
@@ -75,13 +79,13 @@ function love.update(dt) -- UPDATE {{{2
 				enemy.y = enemy.y - 50
 			end
 		end
-		while CameraYAdd > blockh*2 do
+		while CameraYAdd > blockh+10 do
 			CameraYAdd = CameraYAdd - blockh
 			-- Creer un element dans map
 			-- Supprimer le premier element de la map
 			table.remove(map, 1)
 			table.insert(map, {})
-			for _ = 1, nb_block_y do
+			for _ = 1, nb_block_x do
 				rd = love.math.random(9)
 				if rd == 1 then
 					table.insert(map[#map], 1)
@@ -164,7 +168,7 @@ function love.keypressed(key, scancode, isrepeat) -- KEYPRESSED {{{2
 end
 
 function love.draw() -- DRAWING {{{2
-	CM.attach() -- CE QUI EST RELATIF A LA CAMERA
+	--CM.attach() -- CE QUI EST RELATIF A LA CAMERA
 	love.graphics.setColor(255, 255, 255, 1.0)
 	if menu == 'in_game' then -- {{{3
 		--love.graphics.rectangle("fill",600, 100,100,20,40,1)
@@ -180,6 +184,16 @@ function love.draw() -- DRAWING {{{2
 		for _,pt in ipairs(particles) do
 			draw_particle(pt)
 		end
+		
+		
+		-- Draw déchiquteuise en haut de l'ecran
+		if smoke_dt < 0 or true then
+			smoke_dt = 1
+			for i=0, screenw ,30 do
+				love.graphics.draw(toxik_gaz, i, 5, (in_game_timer%(2*math.pi)) - math.pi, 0.2, 0.2, toxik_gaz:getWidth()*0.5, toxik_gaz:getHeight()*0.5)
+				--spawn_smoke(i, 10, "green")
+			end
+		end
 
 		-- life bar
 		draw_gui()
@@ -190,9 +204,9 @@ function love.draw() -- DRAWING {{{2
 	if debug then -- {{{3
 		draw_debug_unfix()
 	end
-	CM.detach() -- CE QUI EST FIX DANS L ÉCRAN
+	--CM.detach() -- CE QUI EST FIX DANS L ÉCRAN
 	if debug then -- {{{3
-		--CM.debug()
+		----CM.debug()
 		draw_debug()			
 	end
 	if has_value(menus,menu) then -- menu {{{3
@@ -241,12 +255,12 @@ function start_game()
 	bomb_create()
 	block_create()
 	in_game_timer = 0
-	map = make_blank_map(nb_block_x, nb_block_y)
+	map = make_blank_map(nb_block_y+5, nb_block_x)
 	set_map(map, 1, 0, 1)
 	set_map(map, 1, 1, 1)
 	set_map(map, 1, 4, 1)
 	menu = 'in_game'
-	CM.update(0)
+	--CM.update(0)
 	
 	-- Music
 	music_calm:play()
@@ -256,7 +270,7 @@ end
 function continue_game()
 	love.mouse.setVisible(false)
 	menu = 'in_game'
-	CM.update(0)
+	--CM.update(0)
 end
 
 -- USELESS FUNCTIONS {{{2
