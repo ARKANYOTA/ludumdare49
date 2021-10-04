@@ -123,6 +123,11 @@ function player_update()
 
 	p.iframes = p.iframes - dt
 	if p.life <= 0 or p.y < 1 then
+		if p.life <= 0 then
+			dead_way = "La vie c'est bien"
+		else
+			dead_way = "Vous avez respirer la mauvaise fumée"
+		end
 		start_menu("game_over")
 	end
 end
@@ -307,6 +312,7 @@ function update_bomb(dt)
 		-- Game over
 		if b.timer <= 0 then
 			play_random_pitch(snd_bombboom)
+			dead_way = "La bombe à exploser, il faut la recuperer"
 			start_menu("game_over")
 		end
 
