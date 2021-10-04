@@ -110,14 +110,15 @@ function draw_credits()
 end
 function draw_tuto()
 	love.graphics.setBackgroundColor(hexcol(0xeec39a)) -- beige
-	love.graphics.print({col_dark_purple, "Help"}, game_font_big,320, 20)
+	love.graphics.print({col_dark_purple, "How to play"}, game_font_big,230, 20)
 	local ligne = 0
 	for i, u in pairs(controls) do
-		love.graphics.print({col_brown, i}, game_font_medium,100, 40*ligne+250)
-		love.graphics.print({col_lbrown, u}, game_font_small,350, 40*ligne+265)
+		love.graphics.print({col_brown, i}, game_font_medium,100, 40*ligne+350)
+		love.graphics.print({col_lbrown, u}, game_font_small,350, 40*ligne+365)
 		ligne = ligne + 1
 	end
 	local text = {
+		"An accident has occured in the mine and gas is escaping! Flee!",
 		"Your bomb is your weapon. Throw it on enemies, and catch it ",
 		"before it explodes. The longer you let it fly, the more damage",
 		"it'll cause, but this is at your own risk.",
