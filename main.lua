@@ -69,7 +69,7 @@ function love.update(dt) -- UPDATE {{{2
 	
 	if menu == 'in_game' then
 		smoke_dt = smoke_dt - dt
-		down_screen_dt = down_screen_dt + 0.3
+		down_screen_dt = down_screen_dt + dt*20
 		in_game_timer = in_game_timer + dt
 		player_update()
 		enemy_update(dt)
