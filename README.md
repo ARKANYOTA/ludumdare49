@@ -22,13 +22,13 @@ This game was made for the Ludum Dare 49 game jam. Here's the entry page: [link]
 
 | User | Role | Github | Discord |
 |------|------|--------|---------|
-| ARKANYOTA | Dev & Idea | @ARKANYOTA | arkanyota#3321 |
-| Yolwoocle | Dev & Idea | @Yolwoocle | |
-| Maxim-Costa | Dev & Idea | @Maxim-Costa | |
-| Notgoyome | Dev & Idea | [Yauyau123](https://github.com/Yauyau123) | |
-| Poulpito\_GDL | Images | [PoulpitoGDL](https://github.com/PoulipitoGDL) | |
+| ARKANYOTA | Code | [ARKANYOTA](https://github.com/ARKANYOTA) | arkanyota#3321 |
+| Yolwoocle | Code & Art | [Yolwoocle](https://github.com/Yolwoocle) | |
+| Maxim-Costa | Code | [Maxim-Costa](https://github.com/Maxim-Costa) | |
+| Notgoyome | Code | [Yauyau123](https://github.com/Yauyau123) | |
+| Poulpito\_GDL | Art | [PoulpitoGDL](https://github.com/PoulipitoGDL) | |
 | Pierre | Music | [PierreAndries](https://github.com/PIerreAndries) | |
-| Antoine | Idea | [Antoine-Roucau](https://github.com/Antoine-Roucau) | |
+| Antoine | Being cool | [Antoine-Roucau](https://github.com/Antoine-Roucau) | |
 
 ## Game
 ![Screenshot_2](assets/Screenshot_2.png)
